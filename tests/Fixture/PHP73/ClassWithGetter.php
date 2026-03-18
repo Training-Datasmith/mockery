@@ -18,4 +18,3 @@ class ClassWithGetter
         return $this->dep->doBar('bar', $this);
     }
 }
-

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,12 +12,13 @@
 
 namespace Mockery;
 
-use Mockery;
-use Mockery\Exception\NoMatchingExpectationException;
-
 use function array_pop;
 use function array_unshift;
+
 use function end;
+
+use Mockery;
+use Mockery\Exception\NoMatchingExpectationException;
 
 use const PHP_EOL;
 

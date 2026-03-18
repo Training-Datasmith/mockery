@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHP73;
 
 class ClassWithAllowsMethod
@@ -9,4 +11,3 @@ class ClassWithAllowsMethod
         return 123;
     }
 }
-

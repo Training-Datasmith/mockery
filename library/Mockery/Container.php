@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,19 +12,6 @@
 
 namespace Mockery;
 
-use Closure;
-use Exception as PHPException;
-use Mockery;
-use Mockery\Exception\InvalidOrderException;
-use Mockery\Exception\RuntimeException;
-use Mockery\Generator\Generator;
-use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\MockConfigurationBuilder;
-use Mockery\Loader\Loader as LoaderInterface;
-use ReflectionClass;
-use stdClass;
-use Throwable;
-
 use function array_filter;
 use function array_key_exists;
 use function array_keys;
@@ -30,27 +19,51 @@ use function array_pop;
 use function array_shift;
 use function array_values;
 use function class_exists;
+
+use Closure;
+
 use function count;
+
+use Exception as PHPException;
+
 use function explode;
 use function get_class;
+
 use function interface_exists;
 use function is_array;
 use function is_object;
 use function is_string;
 use function md5;
+
+use Mockery;
+use Mockery\Exception\InvalidOrderException;
+use Mockery\Exception\RuntimeException;
+use Mockery\Generator\Generator;
+use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\MockConfigurationBuilder;
+use Mockery\Loader\Loader as LoaderInterface;
+
 use function preg_grep;
 use function preg_match;
 use function range;
+
+use ReflectionClass;
+
 use function reset;
 use function rtrim;
 use function sprintf;
+
+use stdClass;
+
 use function str_contains;
 use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
-use function strlen;
 use function strtolower;
 use function substr;
+
+use Throwable;
+
 use function trait_exists;
 use function trim;
 
@@ -204,11 +217,11 @@ class Container
 
         // all the namespaces and class name should match the regex
         return array_filter(
-                explode('\\', $className),
-                static function ($name): bool {
-                    return ! preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
-                }
-            ) === [];
+            explode('\\', $className),
+            static function ($name): bool {
+                return ! preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
+            }
+        ) === [];
     }
 
     /**

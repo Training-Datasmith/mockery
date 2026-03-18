@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHP83;
 
-class Classes implements Interfaces {
+class Classes implements Interfaces
+{
     use Traits;
 }

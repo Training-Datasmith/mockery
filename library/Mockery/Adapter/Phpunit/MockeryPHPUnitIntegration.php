@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,11 +12,12 @@
 
 namespace Mockery\Adapter\Phpunit;
 
+use function method_exists;
+
 use Mockery;
 use PHPUnit\Framework\Attributes\After;
-use PHPUnit\Framework\Attributes\Before;
 
-use function method_exists;
+use PHPUnit\Framework\Attributes\Before;
 
 /**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified

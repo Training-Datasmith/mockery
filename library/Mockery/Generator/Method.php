@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,11 +12,12 @@
 
 namespace Mockery\Generator;
 
+use function array_map;
+
 use Mockery\Reflector;
 use ReflectionMethod;
-use ReflectionParameter;
 
-use function array_map;
+use ReflectionParameter;
 
 /**
  * @mixin ReflectionMethod

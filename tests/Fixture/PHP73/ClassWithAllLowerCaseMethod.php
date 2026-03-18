@@ -11,4 +11,3 @@ class ClassWithAllLowerCaseMethod
         return 'real';
     }
 }
-

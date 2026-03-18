@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,17 +12,20 @@
 
 namespace Mockery;
 
+use function class_exists;
+
 use Closure;
 use Exception;
 use InvalidArgumentException;
 use ReflectionClass;
-use UnexpectedValueException;
 
-use function class_exists;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
 use function strlen;
+
+use UnexpectedValueException;
+
 use function unserialize;
 
 /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace PHP73;
+declare(strict_types=1);
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+namespace PHP73;
 
 class ClassChildOfWithCustomFormatter extends ClassWithCustomFormatter
 {

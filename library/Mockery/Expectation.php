@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,13 +12,35 @@
 
 namespace Mockery;
 
-use ReflectionException;
-use ReflectionMethod;
+use function array_key_exists;
+use function array_search;
+use function array_shift;
+use function array_slice;
+
 use Closure;
+
+use function count;
+use function current;
+
+use const E_USER_DEPRECATED;
+
+use function func_get_args;
+use function get_class;
+
 use Hamcrest\Matcher;
 use Hamcrest_Matcher;
+
+use function in_array;
+
 use InvalidArgumentException;
+
+use function is_array;
+use function is_int;
+use function is_object;
+use function is_string;
+
 use Mockery;
+
 use Mockery\CountValidator\AtLeast;
 use Mockery\CountValidator\AtMost;
 use Mockery\CountValidator\Exact;
@@ -28,25 +52,14 @@ use Mockery\Matcher\MultiArgumentClosure;
 use Mockery\Matcher\NoArgs;
 use OutOfBoundsException;
 use PHPUnit\Framework\Constraint\Constraint;
+use ReflectionException;
+use ReflectionMethod;
+
+use function sprintf;
+
 use Throwable;
 
-use function array_key_exists;
-use function array_search;
-use function array_shift;
-use function array_slice;
-use function count;
-use function current;
-use function func_get_args;
-use function get_class;
-use function in_array;
-use function is_array;
-use function is_int;
-use function is_object;
-use function is_string;
-use function sprintf;
 use function trigger_error;
-
-use const E_USER_DEPRECATED;
 
 class Expectation implements ExpectationInterface
 {
@@ -1024,7 +1037,8 @@ class Expectation implements ExpectationInterface
         $reflectionMethod = null;
         try {
             $reflectionMethod = new ReflectionMethod($this->getMock(), $this->getName());
-        } catch (ReflectionException $_) {}
+        } catch (ReflectionException $_) {
+        }
 
         if ($reflectionMethod instanceof ReflectionMethod && !array_is_list($arguments)) {
             $_arguments = [];

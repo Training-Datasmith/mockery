@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,11 +12,13 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery;
-use Mockery\Generator\MockConfiguration;
 use function array_reduce;
 use function interface_exists;
 use function ltrim;
+
+use Mockery;
+use Mockery\Generator\MockConfiguration;
+
 use function str_replace;
 
 class InterfacePass implements Pass

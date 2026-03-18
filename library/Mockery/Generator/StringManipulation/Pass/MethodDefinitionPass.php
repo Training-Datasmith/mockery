@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,9 +12,6 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\Method;
-use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\Parameter;
 use function array_values;
 use function count;
 use function enum_exists;
@@ -20,6 +19,13 @@ use function get_class;
 use function implode;
 use function in_array;
 use function is_object;
+
+use Mockery\Generator\Method;
+use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\Parameter;
+
+use const PHP_VERSION_ID;
+
 use function preg_match;
 use function sprintf;
 use function strpos;
@@ -27,7 +33,6 @@ use function strrpos;
 use function strtolower;
 use function substr;
 use function var_export;
-use const PHP_VERSION_ID;
 
 class MethodDefinitionPass implements Pass
 {

@@ -9,9 +9,10 @@ use Mockery\Reflector;
 use PHP73\ChildClass;
 use PHP73\NullableObject;
 use PHP73\ParentClass;
-use ReflectionClass;
 
 use const PHP_VERSION_ID;
+
+use ReflectionClass;
 
 /**
  * @coversDefaultClass \Mockery\Reflector

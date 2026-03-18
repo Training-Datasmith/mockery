@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-namespace
-{
+namespace {
     abstract class Gardener
     {
         abstract public function water(Nature\Plant $plant);

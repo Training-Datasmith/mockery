@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,10 +12,11 @@
 
 namespace Mockery\Generator;
 
+use function class_exists;
+
 use Mockery\Reflector;
 use ReflectionClass;
 use ReflectionParameter;
-use function class_exists;
 
 /**
  * @mixin ReflectionParameter

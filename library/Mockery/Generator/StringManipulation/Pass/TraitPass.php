@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,10 +12,12 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\MockConfiguration;
 use function array_map;
 use function implode;
 use function ltrim;
+
+use Mockery\Generator\MockConfiguration;
+
 use function preg_replace;
 
 class TraitPass implements Pass

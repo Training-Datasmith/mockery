@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,9 +12,10 @@
 
 namespace Mockery\Matcher;
 
+use function array_key_exists;
+
 use ArrayAccess;
 
-use function array_key_exists;
 use function is_array;
 use function sprintf;
 

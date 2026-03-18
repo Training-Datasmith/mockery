@@ -6,68 +6,196 @@ namespace PHP73;
 
 class SemiReservedWordsAsMethods
 {
-    function callable() {}
-    function class() {}
-    function trait() {}
-    function extends() {}
-    function implements() {}
-    function static() {}
-    function abstract() {}
-    function final() {}
-    function public() {}
-    function protected() {}
-    function private() {}
-    function const() {}
-    function enddeclare() {}
-    function endfor() {}
-    function endforeach() {}
-    function endif() {}
-    function endwhile() {}
-    function and() {}
-    function global() {}
-    function goto() {}
-    function instanceof() {}
-    function insteadof() {}
-    function interface() {}
-    function namespace() {}
-    function new() {}
-    function or() {}
-    function xor() {}
-    function try() {}
-    function use() {}
-    function var() {}
-    function exit() {}
-    function list() {}
-    function clone() {}
-    function include() {}
-    function include_once() {}
-    function throw() {}
-    function array() {}
-    function print() {}
-    function echo() {}
-    function require() {}
-    function require_once() {}
-    function return() {}
-    function else() {}
-    function elseif() {}
-    function default() {}
-    function break() {}
-    function continue() {}
-    function switch() {}
-    function yield() {}
-    function function() {}
-    function if() {}
-    function endswitch() {}
-    function finally() {}
-    function for() {}
-    function foreach() {}
-    function declare() {}
-    function case() {}
-    function do() {}
-    function while() {}
-    function as() {}
-    function catch() {}
-    function die() {}
-    function self() {}
-    function parent() {}
+    public function callable()
+    {
+    }
+    public function class()
+    {
+    }
+    public function trait()
+    {
+    }
+    public function extends()
+    {
+    }
+    public function implements()
+    {
+    }
+    public function static()
+    {
+    }
+    public function abstract()
+    {
+    }
+    public function final()
+    {
+    }
+    public function public()
+    {
+    }
+    public function protected()
+    {
+    }
+    public function private()
+    {
+    }
+    public function const()
+    {
+    }
+    public function enddeclare()
+    {
+    }
+    public function endfor()
+    {
+    }
+    public function endforeach()
+    {
+    }
+    public function endif()
+    {
+    }
+    public function endwhile()
+    {
+    }
+    public function and()
+    {
+    }
+    public function global()
+    {
+    }
+    public function goto()
+    {
+    }
+    public function instanceof()
+    {
+    }
+    public function insteadof()
+    {
+    }
+    public function interface()
+    {
+    }
+    public function namespace()
+    {
+    }
+    public function new()
+    {
+    }
+    public function or()
+    {
+    }
+    public function xor()
+    {
+    }
+    public function try()
+    {
+    }
+    public function use()
+    {
+    }
+    public function var()
+    {
+    }
+    public function exit()
+    {
+    }
+    public function list()
+    {
+    }
+    public function clone()
+    {
+    }
+    public function include()
+    {
+    }
+    public function include_once()
+    {
+    }
+    public function throw()
+    {
+    }
+    public function array()
+    {
+    }
+    public function print()
+    {
+    }
+    public function echo()
+    {
+    }
+    public function require()
+    {
+    }
+    public function require_once()
+    {
+    }
+    public function return()
+    {
+    }
+    public function else()
+    {
+    }
+    public function elseif()
+    {
+    }
+    public function default()
+    {
+    }
+    public function break()
+    {
+    }
+    public function continue()
+    {
+    }
+    public function switch()
+    {
+    }
+    public function yield()
+    {
+    }
+    public function function()
+    {
+    }
+    public function if()
+    {
+    }
+    public function endswitch()
+    {
+    }
+    public function finally()
+    {
+    }
+    public function for()
+    {
+    }
+    public function foreach()
+    {
+    }
+    public function declare()
+    {
+    }
+    public function case()
+    {
+    }
+    public function do()
+    {
+    }
+    public function while()
+    {
+    }
+    public function as()
+    {
+    }
+    public function catch()
+    {
+    }
+    public function die()
+    {
+    }
+    public function self()
+    {
+    }
+    public function parent()
+    {
+    }
 }

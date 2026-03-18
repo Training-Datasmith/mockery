@@ -15,6 +15,9 @@ use InvalidArgumentException;
 use Iterator;
 use IteratorAggregate;
 use LogicException;
+
+use function mock;
+
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Container;
@@ -86,18 +89,19 @@ use PHP73\MockeryTestIsset_Bar;
 use PHP73\MockeryTestIsset_Foo;
 use PHP73\MockeryTestRef1;
 use PHP81\MockeryTest_ClassThatImplementsSerializable;
+
+use const PHP_MAJOR_VERSION;
+
 use Redis;
 use ReflectionClass;
 use Serializable;
 use Some\Thing\That\Doesnt\Exist;
 use SplFileInfo;
 use SplFixedArray;
+
 use stdClass;
+
 use Traversable;
-
-use const PHP_MAJOR_VERSION;
-
-use function mock;
 
 /**
  * @coversDefaultClass \Mockery
@@ -711,7 +715,8 @@ final class ContainerTest extends MockeryTestCase
     {
         $testArray = [];
         $testArray['a_scalar'] = 2;
-        $testArray['a_closure'] = static function (): void {};
+        $testArray['a_closure'] = static function (): void {
+        };
 
         $mock = \mock('MyTestClass');
         $mock->shouldReceive('foo')

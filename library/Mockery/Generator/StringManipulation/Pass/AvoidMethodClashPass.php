@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,9 +12,11 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\MockConfiguration;
 use function array_map;
 use function in_array;
+
+use Mockery\Generator\MockConfiguration;
+
 use function preg_replace;
 use function sprintf;
 use function str_replace;

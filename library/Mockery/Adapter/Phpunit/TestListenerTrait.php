@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,17 +12,21 @@
 
 namespace Mockery\Adapter\Phpunit;
 
+use function dirname;
+
 use LogicException;
+
+use function method_exists;
+
 use Mockery;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\BaseTestRunner;
+
 use PHPUnit\Util\Blacklist;
 use ReflectionClass;
 
-use function dirname;
-use function method_exists;
 use function sprintf;
 
 class TestListenerTrait

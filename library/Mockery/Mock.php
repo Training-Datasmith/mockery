@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,23 +12,10 @@
 
 namespace Mockery;
 
-use Mockery\Container;
 use Mockery\CountValidator\Exception;
 use Mockery\Exception\BadMethodCallException;
 use Mockery\Exception\InvalidOrderException;
 use Mockery\Exception\NoMatchingExpectationException;
-use Mockery\Expectation;
-use Mockery\ExpectationDirector;
-use Mockery\ExpectsHigherOrderMessage;
-use Mockery\HigherOrderMessage;
-use Mockery\LegacyMockInterface;
-use Mockery\MethodCall;
-use Mockery\MockInterface;
-use Mockery\ReceivedMethodCalls;
-use Mockery\Reflector;
-use Mockery\Undefined;
-use Mockery\VerificationDirector;
-use Mockery\VerificationExpectation;
 
 #[\AllowDynamicProperties]
 class Mock implements MockInterface
@@ -360,7 +349,6 @@ class Mock implements MockInterface
         $this->_mockery_allowMockingProtectedMethods = true;
         return $this;
     }
-
 
     /**
      * Set mock to defer unexpected methods to it's parent
@@ -754,7 +742,7 @@ class Mock implements MockInterface
 
             case 'callable':
             case '\Closure':
-                return static function () : void {
+                return static function (): void {
                 };
 
             case '\Traversable':

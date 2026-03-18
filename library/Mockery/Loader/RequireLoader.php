@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,20 +12,24 @@
 
 namespace Mockery\Loader;
 
-use Mockery\Generator\MockDefinition;
-
 use function array_diff;
+
 use function class_exists;
+
+use const DIRECTORY_SEPARATOR;
+
 use function file_exists;
 use function file_put_contents;
 use function glob;
+
+use Mockery\Generator\MockDefinition;
+
 use function realpath;
 use function sprintf;
 use function sys_get_temp_dir;
 use function uniqid;
-use function unlink;
 
-use const DIRECTORY_SEPARATOR;
+use function unlink;
 
 class RequireLoader implements Loader
 {

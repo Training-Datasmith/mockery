@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,6 +11,8 @@
  */
 
 namespace Mockery\Generator;
+
+use function file_get_contents;
 
 use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
@@ -25,7 +29,6 @@ use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPa
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
 use Mockery\Generator\StringManipulation\Pass\TraitPass;
-use function file_get_contents;
 
 class StringManipulationGenerator implements Generator
 {

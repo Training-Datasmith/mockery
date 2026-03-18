@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,9 +12,9 @@
 
 namespace Mockery\Loader;
 
-use Mockery\Generator\MockDefinition;
-
 use function class_exists;
+
+use Mockery\Generator\MockDefinition;
 
 class EvalLoader implements Loader
 {

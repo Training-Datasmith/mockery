@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHP81;
 
 class IntersectionTypeHelperClass implements IntersectionTypeHelper1Interface, IntersectionTypeHelper2Interface

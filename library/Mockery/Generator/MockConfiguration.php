@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,8 +12,6 @@
 
 namespace Mockery\Generator;
 
-use Mockery\Exception;
-use Serializable;
 use function array_filter;
 use function array_keys;
 use function array_map;
@@ -28,7 +28,13 @@ use function in_array;
 use function interface_exists;
 use function is_object;
 use function md5;
+
+use Mockery\Exception;
+
 use function preg_match;
+
+use Serializable;
+
 use function serialize;
 use function strpos;
 use function strtolower;

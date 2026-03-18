@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
+use function mock;
+
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\TestIncreasedVisibilityChild;
-use PHP73\TestWithProtectedMethods;
 
-use function mock;
+use PHP73\TestWithProtectedMethods;
 
 /**
  * @coversDefaultClass \Mockery

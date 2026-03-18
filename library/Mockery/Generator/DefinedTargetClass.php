@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,15 +12,16 @@
 
 namespace Mockery\Generator;
 
-use ReflectionAttribute;
-use ReflectionClass;
-use ReflectionMethod;
-
 use function array_map;
 use function array_merge;
 use function array_unique;
 
 use const PHP_VERSION_ID;
+
+use ReflectionAttribute;
+use ReflectionClass;
+
+use ReflectionMethod;
 
 class DefinedTargetClass implements TargetClassInterface
 {

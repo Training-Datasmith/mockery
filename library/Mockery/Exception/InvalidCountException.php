@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,10 +12,11 @@
 
 namespace Mockery\Exception;
 
-use Mockery\CountValidator\Exception;
-use Mockery\LegacyMockInterface;
-
 use function in_array;
+
+use Mockery\CountValidator\Exception;
+
+use Mockery\LegacyMockInterface;
 
 class InvalidCountException extends Exception
 {

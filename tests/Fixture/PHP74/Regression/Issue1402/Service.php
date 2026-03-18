@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace PHP74\Regression\Issue1402;
 
-class Service {
-
+class Service
+{
     use InitTrait;
 
     private int $arg;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Mockery
  *
@@ -23,11 +25,11 @@ namespace PHP73;
 
 class ClassWithConstants
 {
-    const FOO = 'bar';
+    public const FOO = 'bar';
 
-    const X = 1;
+    public const X = 1;
 
-    const BAZ = [
-        'qux' => 'quux'
+    public const BAZ = [
+        'qux' => 'quux',
     ];
 }

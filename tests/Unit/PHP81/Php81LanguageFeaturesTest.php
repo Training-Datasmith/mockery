@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP81;
 
 use DateTime;
+
+use function mock;
+
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PDO;
@@ -22,9 +25,8 @@ use PHP81\SimpleEnum;
 use PHP81\UsesEnums;
 use RuntimeException;
 use Serializable;
-use TypeError;
 
-use function mock;
+use TypeError;
 
 /**
  * @requires PHP 8.1.0-dev

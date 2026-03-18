@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,15 +12,17 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\Method;
-use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\Parameter;
-use Mockery\Generator\TargetClassInterface;
 use function array_filter;
 use function array_merge;
 use function end;
 use function in_array;
 use function is_array;
+
+use Mockery\Generator\Method;
+use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\Parameter;
+use Mockery\Generator\TargetClassInterface;
+
 use function preg_match;
 use function preg_match_all;
 use function preg_replace;

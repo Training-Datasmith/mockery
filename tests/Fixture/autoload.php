@@ -8,7 +8,7 @@ $rootDir = dirname(__DIR__, 2);
 
 $loader = require $rootDir . '/vendor/autoload.php';
 
-if (! $loader instanceof ClassLoader){
+if (! $loader instanceof ClassLoader) {
     throw new \RuntimeException('Unable to load ' . ClassLoader::class);
 }
 

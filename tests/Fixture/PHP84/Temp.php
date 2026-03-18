@@ -6,5 +6,4 @@ namespace PHP84;
 
 readonly class Temp
 {
-
 }

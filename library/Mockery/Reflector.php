@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,7 +12,20 @@
 
 namespace Mockery;
 
+use function array_diff;
+use function array_intersect;
+use function array_map;
+use function array_merge;
+use function get_debug_type;
+use function implode;
+use function in_array;
+
 use InvalidArgumentException;
+
+use function method_exists;
+
+use const PHP_VERSION_ID;
+
 use ReflectionClass;
 use ReflectionIntersectionType;
 use ReflectionMethod;
@@ -19,18 +34,9 @@ use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
 
-use function array_diff;
-use function array_intersect;
-use function array_map;
-use function array_merge;
-use function get_debug_type;
-use function implode;
-use function in_array;
-use function method_exists;
 use function sprintf;
-use function strpos;
 
-use const PHP_VERSION_ID;
+use function strpos;
 
 /**
  * @internal

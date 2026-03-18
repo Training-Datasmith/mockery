@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,13 +12,16 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\MockConfiguration;
 use function array_key_exists;
+
+use Mockery\Generator\MockConfiguration;
+
+use const PHP_EOL;
+
 use function sprintf;
 use function strrpos;
 use function substr_replace;
 use function var_export;
-use const PHP_EOL;
 
 class ConstantsPass implements Pass
 {

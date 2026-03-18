@@ -11,4 +11,3 @@ class TestWithNonFinalWakeup
         return __METHOD__;
     }
 }
-

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,24 +12,31 @@
 
 namespace Mockery;
 
-use Closure;
-use Hamcrest\Matcher;
-use Hamcrest_Matcher;
-use InvalidArgumentException;
-use LogicException;
-use Mockery\Matcher\MatcherInterface;
-
 use function array_key_exists;
 use function array_merge;
 use function class_implements;
-use function get_parent_class;
-use function is_a;
-use function sprintf;
-use function strtolower;
-use function trigger_error;
+
+use Closure;
 
 use const E_USER_DEPRECATED;
+
+use function get_parent_class;
+
+use Hamcrest\Matcher;
+use Hamcrest_Matcher;
+use InvalidArgumentException;
+
+use function is_a;
+
+use LogicException;
+use Mockery\Matcher\MatcherInterface;
+
 use const PHP_MAJOR_VERSION;
+
+use function sprintf;
+
+use function strtolower;
+use function trigger_error;
 
 class Configuration
 {
