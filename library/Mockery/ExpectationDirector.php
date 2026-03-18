@@ -40,21 +40,21 @@ class ExpectationDirector
      *
      * @var int
      */
-    protected $_expectedOrder = null;
+    protected $_expectedOrder;
 
     /**
      * Mock object the director is attached to
      *
      * @var LegacyMockInterface|MockInterface
      */
-    protected $_mock = null;
+    protected $_mock;
 
     /**
      * Method name the director is directing
      *
      * @var string
      */
-    protected $_name = null;
+    protected $_name;
 
     /**
      * Constructor
@@ -70,7 +70,7 @@ class ExpectationDirector
     /**
      * Add a new expectation to the director
      */
-    public function addExpectation(Expectation $expectation)
+    public function addExpectation(Expectation $expectation): void
     {
         $this->_expectations[] = $expectation;
     }
@@ -136,10 +136,8 @@ class ExpectationDirector
 
     /**
      * Return the number of expectations assigned to this director.
-     *
-     * @return int
      */
-    public function getExpectationCount()
+    public function getExpectationCount(): int
     {
         $count = 0;
 
@@ -172,10 +170,8 @@ class ExpectationDirector
      * Make the given expectation a default for all others assuming it was correctly created last
      *
      * @throws Exception
-     *
-     * @return void
      */
-    public function makeExpectationDefault(Expectation $expectation)
+    public function makeExpectationDefault(Expectation $expectation): void
     {
         if (end($this->_expectations) === $expectation) {
             array_pop($this->_expectations);
@@ -192,10 +188,8 @@ class ExpectationDirector
      * Verify all expectations of the director
      *
      * @throws Exception
-     *
-     * @return void
      */
-    public function verify()
+    public function verify(): void
     {
         if ($this->_expectations !== []) {
             foreach ($this->_expectations as $expectation) {

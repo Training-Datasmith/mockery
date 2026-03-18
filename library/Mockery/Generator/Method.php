@@ -35,12 +35,10 @@ class Method
      * @template TArgs
      * @template TMixed
      *
-     * @param string       $method
      * @param array<TArgs> $args
-     *
      * @return TMixed
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         /** @var TMixed */
         return $this->method->{$method}(...$args);
@@ -49,9 +47,9 @@ class Method
     /**
      * @return list<Parameter>
      */
-    public function getParameters()
+    public function getParameters(): array
     {
-        return array_map(static function (ReflectionParameter $parameter) {
+        return array_map(static function (ReflectionParameter $parameter): \Mockery\Generator\Parameter {
             return new Parameter($parameter);
         }, $this->method->getParameters());
     }

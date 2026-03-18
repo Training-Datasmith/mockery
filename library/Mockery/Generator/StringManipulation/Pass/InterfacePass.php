@@ -21,9 +21,8 @@ class InterfacePass implements Pass
 {
     /**
      * @param  string $code
-     * @return string
      */
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, MockConfiguration $config): string
     {
         foreach ($config->getTargetInterfaces() as $i) {
             $name = ltrim($i->getName(), '\\');
@@ -32,7 +31,7 @@ class InterfacePass implements Pass
             }
         }
 
-        $interfaces = array_reduce($config->getTargetInterfaces(), static function ($code, $i) {
+        $interfaces = array_reduce($config->getTargetInterfaces(), static function (string $code, \Mockery\Generator\TargetClassInterface $i): string {
             return $code . ', \\' . ltrim($i->getName(), '\\');
         }, '');
 

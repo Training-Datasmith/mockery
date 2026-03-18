@@ -27,11 +27,10 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Intercept any expectation calls and direct against all expectations
      *
-     * @param string $method
      *
      * @return self
      */
-    public function __call($method, array $args)
+    public function __call(string $method, array $args)
     {
         foreach ($this->_expectations as $expectation) {
             $expectation->{$method}(...$args);
@@ -42,10 +41,8 @@ class CompositeExpectation implements ExpectationInterface
 
     /**
      * Return the string summary of this composite expectation
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $parts = array_map(static function (ExpectationInterface $expectation): string {
             return (string) $expectation;
@@ -58,10 +55,8 @@ class CompositeExpectation implements ExpectationInterface
      * Add an expectation to the composite
      *
      * @param ExpectationInterface|HigherOrderMessage $expectation
-     *
-     * @return void
      */
-    public function add($expectation)
+    public function add($expectation): void
     {
         $this->_expectations[] = $expectation;
     }

@@ -25,7 +25,7 @@ class AvoidMethodClashPass implements Pass
      */
     public function apply($code, MockConfiguration $config)
     {
-        $names = array_map(static function ($method) {
+        $names = array_map(static function (\Mockery\Generator\Method $method) {
             return $method->getName();
         }, $config->getMethodsToMock());
 

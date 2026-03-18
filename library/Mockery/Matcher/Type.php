@@ -21,10 +21,8 @@ class Type extends MatcherAbstract
 {
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '<' . ucfirst($this->_expected) . '>';
     }

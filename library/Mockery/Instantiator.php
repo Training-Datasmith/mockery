@@ -38,7 +38,7 @@ final class Instantiator
      *
      * @return TClass
      */
-    public function instantiate($className): object
+    public function instantiate(string $className): object
     {
         return $this->buildFactory($className)();
     }
@@ -91,7 +91,7 @@ final class Instantiator
         $reflectionClass = $this->getReflectionClass($className);
 
         if ($this->isInstantiableViaReflection($reflectionClass)) {
-            return static function () use ($reflectionClass) {
+            return static function () use ($reflectionClass): object {
                 return $reflectionClass->newInstanceWithoutConstructor();
             };
         }
@@ -121,20 +121,6 @@ final class Instantiator
         }
 
         return $reflection;
-    }
-
-    /**
-     * Verifies whether the given class is to be considered internal
-     */
-    private function hasInternalAncestors(ReflectionClass $reflectionClass): bool
-    {
-        do {
-            if ($reflectionClass->isInternal()) {
-                return true;
-            }
-        } while ($reflectionClass = $reflectionClass->getParentClass());
-
-        return false;
     }
 
     /**

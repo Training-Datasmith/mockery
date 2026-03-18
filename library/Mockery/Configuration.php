@@ -108,11 +108,10 @@ class Configuration
      *
      * @param bool $flag
      *
-     * @return void
      *
      * @deprecated since 1.4.0
      */
-    public function allowMockingMethodsUnnecessarily($flag = true)
+    public function allowMockingMethodsUnnecessarily($flag = true): void
     {
         @trigger_error(
             sprintf('The %s method is deprecated and will be removed in a future version of Mockery', __METHOD__),
@@ -126,10 +125,8 @@ class Configuration
      * Set boolean to allow/prevent mocking of non-existent methods
      *
      * @param bool $flag
-     *
-     * @return void
      */
-    public function allowMockingNonExistentMethods($flag = true)
+    public function allowMockingNonExistentMethods($flag = true): void
     {
         $this->_allowMockingNonExistentMethod = (bool) $flag;
     }
@@ -141,10 +138,8 @@ class Configuration
      * PHPUnit's --static-backup option.
      *
      * @see https://github.com/mockery/mockery/issues/268
-     *
-     * @return void
      */
-    public function disableReflectionCache()
+    public function disableReflectionCache(): void
     {
         $this->_reflectionCacheEnabled = false;
     }
@@ -156,10 +151,8 @@ class Configuration
      * PHPUnit's --static-backup option.
      *
      * @see https://github.com/mockery/mockery/issues/268
-     *
-     * @return void
      */
-    public function enableReflectionCache()
+    public function enableReflectionCache(): void
     {
         $this->_reflectionCacheEnabled = true;
     }
@@ -181,7 +174,7 @@ class Configuration
      *
      * @return null|class-string
      */
-    public function getDefaultMatcher($class)
+    public function getDefaultMatcher($class): ?string
     {
         $classes = [];
 
@@ -209,10 +202,8 @@ class Configuration
      *
      * @param class-string $class
      * @param string       $method
-     *
-     * @return null|array
      */
-    public function getInternalClassMethodParamMap($class, $method)
+    public function getInternalClassMethodParamMap($class, $method): ?array
     {
         $class = strtolower($class);
         $method = strtolower($method);
@@ -313,10 +304,8 @@ class Configuration
 
     /**
      * Remove all overridden parameter maps from internal PHP classes.
-     *
-     * @return void
      */
-    public function resetInternalClassMethodParamMaps()
+    public function resetInternalClassMethodParamMaps(): void
     {
         $this->_internalClassParamMap = [];
     }
@@ -327,10 +316,8 @@ class Configuration
      * e.g. ['MyClass' => ['MY_CONST' => 123, 'ARRAY_CONST' => ['foo', 'bar']]]
      *
      * @param array<class-string,array<string,array<scalar>|scalar>> $map
-     *
-     * @return void
      */
-    public function setConstantsMap(array $map)
+    public function setConstantsMap(array $map): void
     {
         $this->_constantsMap = $map;
     }
@@ -340,10 +327,8 @@ class Configuration
      * @param class-string $matcherClass
      *
      * @throws InvalidArgumentException
-     *
-     * @return void
      */
-    public function setDefaultMatcher($class, $matcherClass)
+    public function setDefaultMatcher(string $class, $matcherClass): void
     {
         $isHamcrest = is_a($matcherClass, Matcher::class, true)
             || is_a($matcherClass, Hamcrest_Matcher::class, true);
@@ -371,10 +356,8 @@ class Configuration
      * @param list<string> $map
      *
      * @throws LogicException
-     *
-     * @return void
      */
-    public function setInternalClassMethodParamMap($class, $method, array $map)
+    public function setInternalClassMethodParamMap($class, $method, array $map): void
     {
         if (PHP_MAJOR_VERSION > 7) {
             throw new LogicException(
@@ -396,10 +379,8 @@ class Configuration
      *
      * @param class-string $class
      * @param Closure      $formatterCallback
-     *
-     * @return void
      */
-    public function setObjectFormatter($class, $formatterCallback)
+    public function setObjectFormatter(string $class, $formatterCallback): void
     {
         $this->_objectFormatters[$class] = $formatterCallback;
     }

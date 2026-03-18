@@ -63,13 +63,13 @@ class MethodDefinitionPass implements Pass
         return $code;
     }
 
-    protected function appendToClass($class, $code)
+    protected function appendToClass($class, string $code): string
     {
         $lastBrace = strrpos($class, '}');
         return substr($class, 0, $lastBrace) . $code . "\n    }\n";
     }
 
-    protected function renderParams(Method $method, $config)
+    protected function renderParams(Method $method, $config): string
     {
         $class = $method->getDeclaringClass();
         if ($class->isInternal()) {
@@ -126,21 +126,21 @@ class MethodDefinitionPass implements Pass
         return '(' . implode(', ', $methodParams) . ')';
     }
 
-    protected function renderReturnType(Method $method)
+    protected function renderReturnType(Method $method): string
     {
         $type = $method->getReturnType();
 
         return $type ? sprintf(': %s', $type) : '';
     }
 
-    protected function renderTypeHint(Parameter $param)
+    protected function renderTypeHint(Parameter $param): string
     {
         $typeHint = $param->getTypeHint();
 
         return $typeHint === null ? '' : sprintf('%s ', $typeHint);
     }
 
-    private function renderMethodBody($method, $config)
+    private function renderMethodBody($method, \Mockery\Generator\MockConfiguration $config): string
     {
         $invoke = $method->isStatic() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
         $body = <<<BODY

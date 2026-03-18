@@ -23,7 +23,7 @@ abstract class MatcherAbstract implements MatcherInterface
      *
      * @var TExpected
      */
-    protected $_expected = null;
+    protected $_expected;
 
     /**
      * Set the expected value

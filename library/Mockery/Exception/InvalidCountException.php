@@ -20,7 +20,7 @@ class InvalidCountException extends Exception
     /**
      * @var int|null
      */
-    protected $actual = null;
+    protected $actual;
 
     /**
      * @var int
@@ -35,12 +35,12 @@ class InvalidCountException extends Exception
     /**
      * @var string|null
      */
-    protected $method = null;
+    protected $method;
 
     /**
      * @var LegacyMockInterface|null
      */
-    protected $mockObject = null;
+    protected $mockObject;
 
     /**
      * @return int|null
@@ -99,9 +99,8 @@ class InvalidCountException extends Exception
 
     /**
      * @param  int  $count
-     * @return self
      */
-    public function setActualCount($count)
+    public function setActualCount($count): self
     {
         $this->actual = $count;
         return $this;
@@ -109,9 +108,8 @@ class InvalidCountException extends Exception
 
     /**
      * @param  int  $count
-     * @return self
      */
-    public function setExpectedCount($count)
+    public function setExpectedCount($count): self
     {
         $this->expected = $count;
         return $this;
@@ -119,9 +117,8 @@ class InvalidCountException extends Exception
 
     /**
      * @param  string $comp
-     * @return self
      */
-    public function setExpectedCountComparative($comp)
+    public function setExpectedCountComparative($comp): self
     {
         if (! in_array($comp, ['=', '>', '<', '>=', '<='], true)) {
             throw new RuntimeException('Illegal comparative for expected call counts set: ' . $comp);
@@ -133,18 +130,14 @@ class InvalidCountException extends Exception
 
     /**
      * @param  string $name
-     * @return self
      */
-    public function setMethodName($name)
+    public function setMethodName($name): self
     {
         $this->method = $name;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function setMock(LegacyMockInterface $mock)
+    public function setMock(LegacyMockInterface $mock): self
     {
         $this->mockObject = $mock;
         return $this;

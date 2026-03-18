@@ -14,10 +14,8 @@ class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatche
 {
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '<MultiArgumentClosure===true>';
     }
@@ -30,10 +28,8 @@ class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatche
      * @template TMixed
      *
      * @param TMixed $actual
-     *
-     * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         return ($this->_expected)(...$actual) === true;
     }

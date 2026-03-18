@@ -19,12 +19,10 @@ class HasValue extends MatcherAbstract
 {
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return '<HasValue[' . (string) $this->_expected . ']>';
+        return '<HasValue[' . $this->_expected . ']>';
     }
 
     /**

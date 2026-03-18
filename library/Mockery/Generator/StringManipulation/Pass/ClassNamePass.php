@@ -18,9 +18,8 @@ class ClassNamePass implements Pass
 {
     /**
      * @param  string $code
-     * @return string
      */
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, MockConfiguration $config): string
     {
         $namespace = $config->getNamespaceName();
 

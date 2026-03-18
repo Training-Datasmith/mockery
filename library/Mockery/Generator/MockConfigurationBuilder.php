@@ -100,9 +100,8 @@ class MockConfigurationBuilder
 
     /**
      * @param  string $blackListedMethod
-     * @return self
      */
-    public function addBlackListedMethod($blackListedMethod)
+    public function addBlackListedMethod($blackListedMethod): self
     {
         $this->blackListedMethods[] = $blackListedMethod;
         return $this;
@@ -110,9 +109,8 @@ class MockConfigurationBuilder
 
     /**
      * @param  list<string> $blackListedMethods
-     * @return self
      */
-    public function addBlackListedMethods(array $blackListedMethods)
+    public function addBlackListedMethods(array $blackListedMethods): self
     {
         foreach ($blackListedMethods as $method) {
             $this->addBlackListedMethod($method);
@@ -123,9 +121,8 @@ class MockConfigurationBuilder
 
     /**
      * @param  class-string $target
-     * @return self
      */
-    public function addTarget($target)
+    public function addTarget($target): self
     {
         $this->targets[] = $target;
 
@@ -134,9 +131,8 @@ class MockConfigurationBuilder
 
     /**
      * @param  list<class-string> $targets
-     * @return self
      */
-    public function addTargets($targets)
+    public function addTargets($targets): self
     {
         foreach ($targets as $target) {
             $this->addTarget($target);
@@ -145,19 +141,13 @@ class MockConfigurationBuilder
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function addWhiteListedMethod($whiteListedMethod)
+    public function addWhiteListedMethod($whiteListedMethod): self
     {
         $this->whiteListedMethods[] = $whiteListedMethod;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function addWhiteListedMethods(array $whiteListedMethods)
+    public function addWhiteListedMethods(array $whiteListedMethods): self
     {
         foreach ($whiteListedMethods as $method) {
             $this->addWhiteListedMethod($method);
@@ -166,10 +156,7 @@ class MockConfigurationBuilder
         return $this;
     }
 
-    /**
-     * @return MockConfiguration
-     */
-    public function getMockConfiguration()
+    public function getMockConfiguration(): \Mockery\Generator\MockConfiguration
     {
         return new MockConfiguration(
             $this->targets,
@@ -185,18 +172,14 @@ class MockConfigurationBuilder
 
     /**
      * @param  list<string> $blackListedMethods
-     * @return self
      */
-    public function setBlackListedMethods(array $blackListedMethods)
+    public function setBlackListedMethods(array $blackListedMethods): self
     {
         $this->blackListedMethods = $blackListedMethods;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function setConstantsMap(array $map)
+    public function setConstantsMap(array $map): self
     {
         $this->constantsMap = $map;
 
@@ -206,7 +189,7 @@ class MockConfigurationBuilder
     /**
      * @param bool $instanceMock
      */
-    public function setInstanceMock($instanceMock)
+    public function setInstanceMock($instanceMock): self
     {
         $this->instanceMock = (bool) $instanceMock;
 
@@ -216,7 +199,7 @@ class MockConfigurationBuilder
     /**
      * @param bool $mockDestructor
      */
-    public function setMockOriginalDestructor($mockDestructor)
+    public function setMockOriginalDestructor($mockDestructor): self
     {
         $this->mockOriginalDestructor = (bool) $mockDestructor;
         return $this;
@@ -225,16 +208,13 @@ class MockConfigurationBuilder
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function setParameterOverrides(array $overrides)
+    public function setParameterOverrides(array $overrides): self
     {
         $this->parameterOverrides = $overrides;
         return $this;
@@ -242,9 +222,8 @@ class MockConfigurationBuilder
 
     /**
      * @param  list<string> $whiteListedMethods
-     * @return self
      */
-    public function setWhiteListedMethods(array $whiteListedMethods)
+    public function setWhiteListedMethods(array $whiteListedMethods): self
     {
         $this->whiteListedMethods = $whiteListedMethods;
         return $this;

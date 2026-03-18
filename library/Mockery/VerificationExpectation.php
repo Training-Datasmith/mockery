@@ -19,10 +19,7 @@ class VerificationExpectation extends Expectation
         $this->_actualCount = 0;
     }
 
-    /**
-     * @return void
-     */
-    public function clearCountValidators()
+    public function clearCountValidators(): void
     {
         $this->_countValidators = [];
     }

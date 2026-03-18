@@ -33,16 +33,15 @@ class UndefinedTargetClass implements TargetClassInterface
     /**
      * @return class-string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }
 
     /**
      * @param  class-string $name
-     * @return self
      */
-    public static function factory($name)
+    public static function factory($name): self
     {
         return new self($name);
     }
@@ -50,7 +49,7 @@ class UndefinedTargetClass implements TargetClassInterface
     /**
      * @return list<class-string>
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return [];
     }
@@ -58,7 +57,7 @@ class UndefinedTargetClass implements TargetClassInterface
     /**
      * @return list<self>
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return [];
     }
@@ -66,7 +65,7 @@ class UndefinedTargetClass implements TargetClassInterface
     /**
      * @return list<Method>
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return [];
     }
@@ -79,62 +78,43 @@ class UndefinedTargetClass implements TargetClassInterface
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getNamespaceName()
+    public function getNamespaceName(): string
     {
         $parts = explode('\\', ltrim($this->getName(), '\\'));
         array_pop($parts);
         return implode('\\', $parts);
     }
 
-    /**
-     * @return string
-     */
-    public function getShortName()
+    public function getShortName(): string
     {
         $parts = explode('\\', $this->getName());
         return array_pop($parts);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasInternalAncestor()
+    public function hasInternalAncestor(): bool
     {
         return false;
     }
 
     /**
      * @param  class-string $interface
-     * @return bool
      */
-    public function implementsInterface($interface)
+    public function implementsInterface($interface): bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function inNamespace()
+    public function inNamespace(): bool
     {
         return $this->getNamespaceName() !== '';
     }
 
-    /**
-     * @return bool
-     */
-    public function isAbstract()
+    public function isAbstract(): bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function isFinal()
+    public function isFinal(): bool
     {
         return false;
     }

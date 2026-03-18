@@ -129,7 +129,7 @@ class Container
      *
      * @return null|(LegacyMockInterface&TFetchMock)|(MockInterface&TFetchMock)
      */
-    public function fetchMock($reference)
+    public function fetchMock(string $reference)
     {
         return $this->_mocks[$reference] ?? null;
     }
@@ -143,12 +143,10 @@ class Container
     }
 
     /**
-     * @param string $method
      * @param string $parent
-     *
      * @return null|string
      */
-    public function getKeyOfDemeterMockFor($method, $parent)
+    public function getKeyOfDemeterMockFor(string $method, $parent)
     {
         $keys = array_keys($this->_mocks);
 
@@ -294,10 +292,8 @@ class Container
 
     /**
      * Reset the container to its original state
-     *
-     * @return void
      */
-    public function mockery_close()
+    public function mockery_close(): void
     {
         foreach ($this->_mocks as $mock) {
             $mock->mockery_teardown();
@@ -356,12 +352,10 @@ class Container
     /**
      * Set ordering for a group
      *
-     * @param string $group
      * @param int    $order
      *
-     * @return void
      */
-    public function mockery_setGroup($group, $order)
+    public function mockery_setGroup(string $group, $order): void
     {
         $this->_groups[$group] = $order;
     }
@@ -370,10 +364,8 @@ class Container
      * Tear down tasks for this container
      *
      * @throws PHPException
-     *
-     * @return void
      */
-    public function mockery_teardown()
+    public function mockery_teardown(): void
     {
         try {
             $this->mockery_verify();
@@ -406,14 +398,12 @@ class Container
     /**
      * Validate the current mock's ordering
      *
-     * @param string $method
      * @param int    $order
      *
      * @throws Exception
      *
-     * @return void
      */
-    public function mockery_validateOrder($method, $order, LegacyMockInterface $mock)
+    public function mockery_validateOrder(string $method, $order, LegacyMockInterface $mock): void
     {
         if ($order < $this->_currentOrder) {
             $exception = new InvalidOrderException(
@@ -438,10 +428,8 @@ class Container
 
     /**
      * Verify the container mocks
-     *
-     * @return void
      */
-    public function mockery_verify()
+    public function mockery_verify(): void
     {
         foreach ($this->_mocks as $mock) {
             $mock->mockery_verify();
@@ -497,7 +485,7 @@ class Container
      *
      * @return TMock
      */
-    protected function _getInstance($mockName, $constructorArgs = null)
+    protected function _getInstance(string $mockName, $constructorArgs = null)
     {
         if ($constructorArgs !== null) {
             return (new ReflectionClass($mockName))->newInstanceArgs($constructorArgs);
@@ -623,8 +611,6 @@ class Container
      * @template TMock of object
      *
      * @param class-string<TMock> $className
-     * @param null|array $constructorArgs
-     * @param MockConfiguration $mockConfiguration
      *
      * @return (TMock&MockInterface)|(TMock&LegacyMockInterface)
      */

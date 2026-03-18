@@ -17,7 +17,7 @@ class BadMethodCallException extends \BadMethodCallException implements MockeryE
      */
     private $dismissed = false;
 
-    public function dismiss()
+    public function dismiss(): void
     {
         $this->dismissed = true;
         // we sometimes stack them

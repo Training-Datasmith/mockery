@@ -14,12 +14,12 @@ class ReceivedMethodCalls
 {
     private $methodCalls = [];
 
-    public function push(MethodCall $methodCall)
+    public function push(MethodCall $methodCall): void
     {
         $this->methodCalls[] = $methodCall;
     }
 
-    public function verify(Expectation $expectation)
+    public function verify(Expectation $expectation): void
     {
         foreach ($this->methodCalls as $methodCall) {
             if ($methodCall->getMethod() !== $expectation->getName()) {

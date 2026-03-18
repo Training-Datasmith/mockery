@@ -41,12 +41,10 @@ class Parameter
      * @template TMixed
      * @template TResult
      *
-     * @param string        $method
      * @param array<TMixed> $args
-     *
      * @return TResult
      */
-    public function __call($method, array $args)
+    public function __call(string $method, array $args)
     {
         /** @var TResult */
         return $this->rfp->{$method}(...$args);
@@ -99,11 +97,10 @@ class Parameter
     /**
      * Get the string representation for the paramater type.
      *
-     * @return string
      *
      * @deprecated since 1.3.2 and will be removed in 2.0. Use getTypeHint() instead.
      */
-    public function getTypeHintAsString()
+    public function getTypeHintAsString(): string
     {
         return (string) Reflector::getTypeHint($this->rfp, true);
     }
@@ -120,10 +117,8 @@ class Parameter
 
     /**
      * Determine if the parameter is variadic.
-     *
-     * @return bool
      */
-    public function isVariadic()
+    public function isVariadic(): bool
     {
         return $this->rfp->isVariadic();
     }

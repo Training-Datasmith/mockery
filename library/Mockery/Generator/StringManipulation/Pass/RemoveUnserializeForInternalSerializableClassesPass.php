@@ -49,7 +49,7 @@ class RemoveUnserializeForInternalSerializableClassesPass implements Pass
         );
     }
 
-    protected function appendToClass($class, $code)
+    protected function appendToClass($class, string $code): string
     {
         $lastBrace = strrpos($class, '}');
         return substr($class, 0, $lastBrace) . $code . "\n    }\n";

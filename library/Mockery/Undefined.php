@@ -17,22 +17,18 @@ class Undefined
     /**
      * Call capturing to merely return this same object.
      *
-     * @param string $method
-     * @param array  $args
      *
      * @return self
      */
-    public function __call($method, array $args)
+    public function __call(string $method, array $args)
     {
         return $this;
     }
 
     /**
      * Return a string, avoiding E_RECOVERABLE_ERROR.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return self::class . ':' . spl_object_hash($this);
     }

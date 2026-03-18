@@ -18,10 +18,8 @@ class EvalLoader implements Loader
 {
     /**
      * Load the given mock definition
-     *
-     * @return void
      */
-    public function load(MockDefinition $definition)
+    public function load(MockDefinition $definition): void
     {
         if (class_exists($definition->getClassName(), false)) {
             return;

@@ -213,10 +213,8 @@ class MockConfiguration
      * Attempt to create a hash of the configuration, in order to allow caching
      *
      * @TODO workout if this will work
-     *
-     * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
         $vars = [
             'targetClassName' => $this->targetClassName,
@@ -239,7 +237,7 @@ class MockConfiguration
      *
      * @return list<Method>
      */
-    public function getMethodsToMock()
+    public function getMethodsToMock(): array
     {
         $methods = $this->getAllMethods();
 
@@ -256,7 +254,7 @@ class MockConfiguration
         if ($whiteListedMethods !== []) {
             $whitelist = array_map('strtolower', $whiteListedMethods);
 
-            return array_filter($methods, static function ($method) use ($whitelist) {
+            return array_filter($methods, static function (\Mockery\Generator\Method $method) use ($whitelist): bool {
                 if ($method->isAbstract()) {
                     return true;
                 }
@@ -272,7 +270,7 @@ class MockConfiguration
         if ($blackListedMethods !== []) {
             $blacklist = array_map('strtolower', $blackListedMethods);
 
-            $methods = array_filter($methods, static function ($method) use ($blacklist) {
+            $methods = array_filter($methods, static function (\Mockery\Generator\Method $method) use ($blacklist): bool {
                 return ! in_array(strtolower($method->getName()), $blacklist, true);
             });
         }
@@ -290,7 +288,7 @@ class MockConfiguration
             && $targetClass->implementsInterface(Serializable::class)
             && $targetClass->hasInternalAncestor()
         ) {
-            $methods = array_filter($methods, static function ($method) {
+            $methods = array_filter($methods, static function (\Mockery\Generator\Method $method): bool {
                 return $method->getName() !== 'unserialize';
             });
         }
@@ -306,10 +304,7 @@ class MockConfiguration
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getNamespaceName()
+    public function getNamespaceName(): string
     {
         $parts = explode('\\', $this->getName());
         array_pop($parts);
@@ -329,10 +324,7 @@ class MockConfiguration
         return $this->parameterOverrides;
     }
 
-    /**
-     * @return string
-     */
-    public function getShortName()
+    public function getShortName(): string
     {
         $parts = explode('\\', $this->getName());
         return array_pop($parts);
@@ -501,9 +493,8 @@ class MockConfiguration
 
     /**
      * @param  class-string $className
-     * @return self
      */
-    public function rename($className)
+    public function rename($className): self
     {
         $targets = [];
 
@@ -679,7 +670,7 @@ class MockConfiguration
         }
 
         $names = [];
-        $methods = array_filter($methods, static function ($method) use (&$names) {
+        $methods = array_filter($methods, static function (\Mockery\Generator\Method $method) use (&$names): bool {
             if (in_array($method->getName(), $names, true)) {
                 return false;
             }

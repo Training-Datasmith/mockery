@@ -19,14 +19,14 @@ abstract class CountValidatorAbstract implements CountValidatorInterface
      *
      * @var Expectation
      */
-    protected $_expectation = null;
+    protected $_expectation;
 
     /**
      * Call count limit
      *
      * @var int
      */
-    protected $_limit = null;
+    protected $_limit;
 
     /**
      * Set Expectation object and upper call limit

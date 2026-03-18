@@ -169,7 +169,7 @@ if (! \function_exists('str_ends_with')) {
      */
     function str_ends_with(string $haystack, string $needle): bool
     {
-        if ($needle === '' || $needle === $haystack) {
+        if ($needle === $haystack) {
             return true;
         }
 

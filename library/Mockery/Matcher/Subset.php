@@ -32,20 +32,16 @@ class Subset extends MatcherAbstract
 
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '<Subset' . $this->formatArray($this->expected) . '>';
     }
 
     /**
      * @param array $expected Expected subset of data
-     *
-     * @return Subset
      */
-    public static function loose(array $expected)
+    public static function loose(array $expected): self
     {
         return new static($expected, false);
     }
@@ -74,20 +70,16 @@ class Subset extends MatcherAbstract
 
     /**
      * @param array $expected Expected subset of data
-     *
-     * @return Subset
      */
-    public static function strict(array $expected)
+    public static function strict(array $expected): self
     {
         return new static($expected, true);
     }
 
     /**
      * Recursively format an array into the string representation for this matcher
-     *
-     * @return string
      */
-    protected function formatArray(array $array)
+    protected function formatArray(array $array): string
     {
         $elements = [];
         foreach ($array as $k => $v) {

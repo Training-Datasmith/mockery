@@ -29,10 +29,9 @@ class TestListenerTrait
      * endTest is called after each test and checks if \Mockery::close() has
      * been called, and will let the test fail if it hasn't.
      *
-     * @param Test  $test
      * @param float $time
      */
-    public function endTest(Test $test, $time)
+    public function endTest(Test $test, $time): void
     {
         if (! $test instanceof TestCase) {
             // We need the getTestResultObject and getStatus methods which are
@@ -72,7 +71,7 @@ class TestListenerTrait
         }
     }
 
-    public function startTestSuite()
+    public function startTestSuite(): void
     {
         if (method_exists(Blacklist::class, 'addDirectory')) {
             (new Blacklist())->getBlacklistedDirectories();

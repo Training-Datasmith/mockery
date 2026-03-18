@@ -23,12 +23,12 @@ class NoMatchingExpectationException extends Exception
     /**
      * @var string|null
      */
-    protected $method = null;
+    protected $method;
 
     /**
      * @var LegacyMockInterface|null
      */
-    protected $mockObject = null;
+    protected $mockObject;
 
     /**
      * @return array<mixed>
@@ -73,9 +73,8 @@ class NoMatchingExpectationException extends Exception
      * @template TMixed
      *
      * @param  array<TMixed> $count
-     * @return self
      */
-    public function setActualArguments($count)
+    public function setActualArguments($count): self
     {
         $this->actual = $count;
         return $this;
@@ -83,18 +82,14 @@ class NoMatchingExpectationException extends Exception
 
     /**
      * @param  string $name
-     * @return self
      */
-    public function setMethodName($name)
+    public function setMethodName($name): self
     {
         $this->method = $name;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function setMock(LegacyMockInterface $mock)
+    public function setMock(LegacyMockInterface $mock): self
     {
         $this->mockObject = $mock;
         return $this;

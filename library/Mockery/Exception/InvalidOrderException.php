@@ -18,7 +18,7 @@ class InvalidOrderException extends Exception
     /**
      * @var int|null
      */
-    protected $actual = null;
+    protected $actual;
 
     /**
      * @var int
@@ -28,12 +28,12 @@ class InvalidOrderException extends Exception
     /**
      * @var string|null
      */
-    protected $method = null;
+    protected $method;
 
     /**
      * @var LegacyMockInterface|null
      */
-    protected $mockObject = null;
+    protected $mockObject;
 
     /**
      * @return int|null
@@ -83,10 +83,8 @@ class InvalidOrderException extends Exception
 
     /**
      * @param int $count
-     *
-     * @return self
      */
-    public function setActualOrder($count)
+    public function setActualOrder($count): self
     {
         $this->actual = $count;
         return $this;
@@ -94,10 +92,8 @@ class InvalidOrderException extends Exception
 
     /**
      * @param int $count
-     *
-     * @return self
      */
-    public function setExpectedOrder($count)
+    public function setExpectedOrder($count): self
     {
         $this->expected = $count;
         return $this;
@@ -105,19 +101,14 @@ class InvalidOrderException extends Exception
 
     /**
      * @param string $name
-     *
-     * @return self
      */
-    public function setMethodName($name)
+    public function setMethodName($name): self
     {
         $this->method = $name;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function setMock(LegacyMockInterface $mock)
+    public function setMock(LegacyMockInterface $mock): self
     {
         $this->mockObject = $mock;
         return $this;

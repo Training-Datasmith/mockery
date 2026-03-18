@@ -30,7 +30,7 @@ class TraitPass implements Pass
             return $code;
         }
 
-        $useStatements = array_map(static function ($trait) {
+        $useStatements = array_map(static function ($trait): string {
             return 'use \\\\' . ltrim($trait->getName(), '\\') . ';';
         }, $traits);
 

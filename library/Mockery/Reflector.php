@@ -69,10 +69,8 @@ class Reflector
      * Compute the string representation for the return type.
      *
      * @param bool $withoutNullable
-     *
-     * @return null|string
      */
-    public static function getReturnType(ReflectionMethod $method, $withoutNullable = false)
+    public static function getReturnType(ReflectionMethod $method, $withoutNullable = false): ?string
     {
         $type = $method->getReturnType();
 
@@ -127,10 +125,8 @@ class Reflector
      * Compute the string representation for the paramater type.
      *
      * @param bool $withoutNullable
-     *
-     * @return null|string
      */
-    public static function getTypeHint(ReflectionParameter $param, $withoutNullable = false)
+    public static function getTypeHint(ReflectionParameter $param, $withoutNullable = false): ?string
     {
         if (! $param->hasType()) {
             return null;
@@ -145,10 +141,8 @@ class Reflector
 
     /**
      * Determine if the parameter is typed as an array.
-     *
-     * @return bool
      */
-    public static function isArray(ReflectionParameter $param)
+    public static function isArray(ReflectionParameter $param): bool
     {
         $type = $param->getType();
 

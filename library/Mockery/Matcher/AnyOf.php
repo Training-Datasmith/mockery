@@ -16,10 +16,8 @@ class AnyOf extends MatcherAbstract
 {
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '<AnyOf>';
     }
@@ -31,10 +29,8 @@ class AnyOf extends MatcherAbstract
      * @template TMixed
      *
      * @param TMixed $actual
-     *
-     * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         return in_array($actual, $this->_expected, true);
     }

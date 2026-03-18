@@ -12,7 +12,7 @@ namespace Mockery\Matcher;
 
 class AnyArgs extends MatcherAbstract implements ArgumentListMatcher
 {
-    public function __toString()
+    public function __toString(): string
     {
         return '<Any Arguments>';
     }
@@ -21,10 +21,8 @@ class AnyArgs extends MatcherAbstract implements ArgumentListMatcher
      * @template TMixed
      *
      * @param TMixed $actual
-     *
-     * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         return true;
     }

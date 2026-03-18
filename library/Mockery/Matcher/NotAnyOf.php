@@ -14,10 +14,8 @@ class NotAnyOf extends MatcherAbstract
 {
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '<AnyOf>';
     }
@@ -29,10 +27,8 @@ class NotAnyOf extends MatcherAbstract
      * @template TMixed
      *
      * @param TMixed $actual
-     *
-     * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         foreach ($this->_expected as $exp) {
             if ($actual === $exp || $actual == $exp) {

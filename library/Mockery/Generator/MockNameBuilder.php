@@ -28,17 +28,14 @@ class MockNameBuilder
     /**
      * @param string $part
      */
-    public function addPart($part)
+    public function addPart($part): self
     {
         $this->parts[] = $part;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function build()
+    public function build(): string
     {
         $parts = ['Mockery', static::$mockCounter++];
 

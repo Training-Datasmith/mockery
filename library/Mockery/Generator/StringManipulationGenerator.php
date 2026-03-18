@@ -49,19 +49,12 @@ class StringManipulationGenerator implements Generator
         $this->code = file_get_contents(__DIR__ . '/../Mock.php');
     }
 
-    /**
-     * @param  Pass $pass
-     * @return void
-     */
-    public function addPass(Pass $pass)
+    public function addPass(Pass $pass): void
     {
         $this->passes[] = $pass;
     }
 
-    /**
-     * @return MockDefinition
-     */
-    public function generate(MockConfiguration $config)
+    public function generate(MockConfiguration $config): \Mockery\Generator\MockDefinition
     {
         $className = $config->getName() ?: $config->generateName();
 
@@ -77,10 +70,8 @@ class StringManipulationGenerator implements Generator
 
     /**
      * Creates a new StringManipulationGenerator with the default passes
-     *
-     * @return StringManipulationGenerator
      */
-    public static function withDefaultPasses()
+    public static function withDefaultPasses(): self
     {
         return new static([
             new CallTypeHintPass(),

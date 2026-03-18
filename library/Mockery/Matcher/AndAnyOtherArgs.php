@@ -14,10 +14,8 @@ class AndAnyOtherArgs extends MatcherAbstract
 {
     /**
      * Return a string representation of this Matcher
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '<AndAnyOthers>';
     }
@@ -28,10 +26,8 @@ class AndAnyOtherArgs extends MatcherAbstract
      * @template TMixed
      *
      * @param TMixed $actual
-     *
-     * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         return true;
     }

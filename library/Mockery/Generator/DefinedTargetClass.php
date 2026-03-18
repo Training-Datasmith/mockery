@@ -33,7 +33,6 @@ class DefinedTargetClass implements TargetClassInterface
     private $rfc;
 
     /**
-     * @param ReflectionClass   $rfc
      * @param class-string|null $alias
      */
     public function __construct(ReflectionClass $rfc, $alias = null)
@@ -45,7 +44,7 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return class-string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }
@@ -53,9 +52,8 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @param  class-string      $name
      * @param  class-string|null $alias
-     * @return self
      */
-    public static function factory($name, $alias = null)
+    public static function factory($name, $alias = null): self
     {
         return new self(new ReflectionClass($name), $alias);
     }
@@ -63,7 +61,7 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return list<class-string>
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         if (PHP_VERSION_ID < 80000) {
             return [];
@@ -85,7 +83,7 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return array<class-string,self>
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return array_map(
             static function (ReflectionClass $interface): self {
@@ -98,7 +96,7 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return list<Method>
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return array_map(
             static function (ReflectionMethod $method): Method {
@@ -116,26 +114,17 @@ class DefinedTargetClass implements TargetClassInterface
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getNamespaceName()
+    public function getNamespaceName(): string
     {
         return $this->rfc->getNamespaceName();
     }
 
-    /**
-     * @return string
-     */
-    public function getShortName()
+    public function getShortName(): string
     {
         return $this->rfc->getShortName();
     }
 
-    /**
-     * @return bool
-     */
-    public function hasInternalAncestor()
+    public function hasInternalAncestor(): bool
     {
         if ($this->rfc->isInternal()) {
             return true;
@@ -155,33 +144,23 @@ class DefinedTargetClass implements TargetClassInterface
 
     /**
      * @param  class-string $interface
-     * @return bool
      */
-    public function implementsInterface($interface)
+    public function implementsInterface($interface): bool
     {
         return $this->rfc->implementsInterface($interface);
     }
 
-    /**
-     * @return bool
-     */
-    public function inNamespace()
+    public function inNamespace(): bool
     {
         return $this->rfc->inNamespace();
     }
 
-    /**
-     * @return bool
-     */
-    public function isAbstract()
+    public function isAbstract(): bool
     {
         return $this->rfc->isAbstract();
     }
 
-    /**
-     * @return bool
-     */
-    public function isFinal()
+    public function isFinal(): bool
     {
         return $this->rfc->isFinal();
     }

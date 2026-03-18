@@ -81,7 +81,7 @@ class VerificationDirector
         return $this->cloneWithoutCountValidatorsApplyAndVerify('twice', []);
     }
 
-    public function verify()
+    public function verify(): void
     {
         $this->receivedMethodCalls->verify($this->expectation);
     }
@@ -129,10 +129,8 @@ class VerificationDirector
     /**
      * @param string $method
      * @param array  $args
-     *
-     * @return self
      */
-    protected function cloneApplyAndVerify($method, $args)
+    protected function cloneApplyAndVerify($method, $args): self
     {
         $verificationExpectation = clone $this->expectation;
 
@@ -148,10 +146,8 @@ class VerificationDirector
     /**
      * @param string $method
      * @param array  $args
-     *
-     * @return self
      */
-    protected function cloneWithoutCountValidatorsApplyAndVerify($method, $args)
+    protected function cloneWithoutCountValidatorsApplyAndVerify($method, $args): self
     {
         $verificationExpectation = clone $this->expectation;
 

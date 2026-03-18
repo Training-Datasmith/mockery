@@ -22,15 +22,14 @@ class Exact extends CountValidatorAbstract
      * @param int $n
      *
      * @throws InvalidCountException
-     * @return bool
      */
-    public function validate($n)
+    public function validate($n): void
     {
         if ($this->_limit !== $n) {
             $because = $this->_expectation->getExceptionMessage();
 
             $exception = new InvalidCountException(
-                'Method ' . (string) $this->_expectation
+                'Method ' . $this->_expectation
                 . ' from ' . $this->_expectation->getMock()->mockery_getName()
                 . ' should be called' . PHP_EOL
                 . ' exactly ' . $this->_limit . ' times but called ' . $n

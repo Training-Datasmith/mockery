@@ -72,21 +72,19 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Returns the magic methods within the
      * passed DefinedTargetClass.
-     *
-     * @return array
      */
-    public function getMagicMethods(?TargetClassInterface $class = null)
+    public function getMagicMethods(?TargetClassInterface $class = null): array
     {
         if (! $class instanceof TargetClassInterface) {
             return [];
         }
 
-        return array_filter($class->getMethods(), function (Method $method) {
+        return array_filter($class->getMethods(), function (Method $method): bool {
             return in_array($method->getName(), $this->mockMagicMethods, true);
         });
     }
 
-    protected function renderTypeHint(Parameter $param)
+    protected function renderTypeHint(Parameter $param): string
     {
         $typeHint = $param->getTypeHint();
 
@@ -119,11 +117,9 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns a regex string used to match the
      * declaration of some method.
      *
-     * @param string $methodName
      *
-     * @return string
      */
-    private function getDeclarationRegex($methodName)
+    private function getDeclarationRegex(string $methodName): string
     {
         return sprintf('/public\s+(?:static\s+)?function\s+%s\s*\(.*\)\s*(?=\{)/i', $methodName);
     }
@@ -131,11 +127,9 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Gets the declaration code, as a string, for the passed method.
      *
-     * @param array $namedParameters
      *
-     * @return string
      */
-    private function getMethodDeclaration(Method $method, array $namedParameters)
+    private function getMethodDeclaration(Method $method, array $namedParameters): string
     {
         $declaration = 'public';
         $declaration .= $method->isStatic() ? ' static' : '';
@@ -187,10 +181,8 @@ class MagicMethodTypeHintsPass implements Pass
      * Checks if the method is declared within code.
      *
      * @param int $code
-     *
-     * @return bool
      */
-    private function isMethodWithinCode($code, Method $method)
+    private function isMethodWithinCode($code, Method $method): bool
     {
         return preg_match($this->getDeclarationRegex($method->getName()), $code) === 1;
     }

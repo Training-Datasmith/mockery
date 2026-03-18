@@ -14,7 +14,7 @@ use function count;
 
 class NoArgs extends MatcherAbstract implements ArgumentListMatcher
 {
-    public function __toString()
+    public function __toString(): string
     {
         return '<No Arguments>';
     }
@@ -23,10 +23,8 @@ class NoArgs extends MatcherAbstract implements ArgumentListMatcher
      * @template TMixed
      *
      * @param TMixed $actual
-     *
-     * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         return count($actual) === 0;
     }
