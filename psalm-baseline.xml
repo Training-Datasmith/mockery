@@ -1208,7 +1208,7 @@
             // get the director method needed
             \$existingDirector = \$this->mockery_getExpectationsFor(\$method);
             if (!\$existingDirector) {
-                \$existingDirector = new \Mockery\ExpectationDirector(\$method, \$this);
+                \$existingDirector = new \Mockery\Expectation_Director(\$method, \$this);
                 \$this->mockery_setExpectationsFor(\$method, \$existingDirector);
             }
             \$expectations = \$director->getExpectations();
@@ -2802,9 +2802,9 @@ MOCK]]></code>
       <code><![CDATA[public function mockeryTestTearDown(): void]]></code>
     </MissingOverrideAttribute>
     <MissingThrowsDocblock>
-      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing())]]></code>
-      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing())]]></code>
-      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing())]]></code>
+      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80Test_Interface::class, $mock->do()->thing())]]></code>
+      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80Test_Interface::class, $mock->do()->thing())]]></code>
+      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80Test_Interface::class, $mock->do()->thing())]]></code>
       <code><![CDATA[self::assertInstanceOf(stdClass::class, $result)]]></code>
       <code><![CDATA[self::assertInstanceOf(stdClass::class, $result)]]></code>
       <code><![CDATA[self::assertInstanceOf(stdClass::class, $result)]]></code>
@@ -4812,7 +4812,7 @@ MOCK]]></code>
   </file>
   <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/ClassPassTest.php">
     <ArgumentTypeCoercion>
-      <code><![CDATA[['Testing\TestClass']]]></code>
+      <code><![CDATA[['Testing\Test_Class']]]></code>
     </ArgumentTypeCoercion>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function mockeryTestSetUp(): void]]></code>
@@ -4821,8 +4821,8 @@ MOCK]]></code>
       <code><![CDATA[$pass]]></code>
     </MissingPropertyType>
     <MissingThrowsDocblock>
-      <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'class Mock extends \Testing\TestClass implements MockInterface'))]]></code>
-      <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'class Mock extends \Testing\TestClass implements MockInterface'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'class Mock extends \Testing\Test_Class implements MockInterface'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'class Mock extends \Testing\Test_Class implements MockInterface'))]]></code>
     </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$code]]></code>
@@ -4834,7 +4834,7 @@ MOCK]]></code>
       <code><![CDATA[apply]]></code>
     </MixedMethodCall>
     <UndefinedClass>
-      <code><![CDATA[['Testing\TestClass']]]></code>
+      <code><![CDATA[['Testing\Test_Class']]]></code>
     </UndefinedClass>
     <UnusedClass>
       <code><![CDATA[ClassPassTest]]></code>
