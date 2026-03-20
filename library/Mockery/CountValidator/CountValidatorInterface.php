@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Mockery\Count_Validator;
 
-namespace Mockery\CountValidator;
-
-interface CountValidatorInterface
+interface Count_Validator_Interface
 {
     /**
      * Checks if the validator can accept an additional nth call
@@ -13,8 +12,7 @@ interface CountValidatorInterface
      *
      * @return bool
      */
-    public function isEligible($n);
-
+    public function is_eligible($n);
     /**
      * Validate the call count against this validator
      *

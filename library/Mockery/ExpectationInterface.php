@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,10 +8,9 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery;
 
-interface ExpectationInterface
+interface Expectation_Interface
 {
     /**
      * @template TArgs
@@ -21,20 +19,17 @@ interface ExpectationInterface
      *
      * @return self
      */
-    public function andReturn(...$args);
-
+    public function and_return(...$args);
     /**
      * @return self
      */
-    public function andReturns();
-
+    public function and_returns();
     /**
      * @return LegacyMockInterface|MockInterface
      */
-    public function getMock();
-
+    public function get_mock();
     /**
      * @return int
      */
-    public function getOrderNumber();
+    public function get_order_number();
 }

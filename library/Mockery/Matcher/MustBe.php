@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,15 +8,13 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
 use function is_object;
-
 /**
  * @deprecated 2.0 Due to ambiguity, use PHPUnit equivalents
  */
-class MustBe extends MatcherAbstract
+class Must_Be extends Matcher_Abstract
 {
     /**
      * Return a string representation of this Matcher
@@ -26,7 +23,6 @@ class MustBe extends MatcherAbstract
     {
         return '<MustBe>';
     }
-
     /**
      * Check if the actual value matches the expected.
      *
@@ -36,10 +32,9 @@ class MustBe extends MatcherAbstract
      */
     public function match(&$actual): bool
     {
-        if (! is_object($actual)) {
+        if (!is_object($actual)) {
             return $this->_expected === $actual;
         }
-
         return $this->_expected == $actual;
     }
 }

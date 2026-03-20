@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,88 +8,61 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Generator;
 
 use function file_get_contents;
-
-use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
-use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
-use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
-use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
-use Mockery\Generator\StringManipulation\Pass\ClassPass;
-use Mockery\Generator\StringManipulation\Pass\ConstantsPass;
-use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
-use Mockery\Generator\StringManipulation\Pass\InterfacePass;
-use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
-use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
-use Mockery\Generator\StringManipulation\Pass\Pass;
-use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPass;
-use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
-use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
-use Mockery\Generator\StringManipulation\Pass\TraitPass;
-
-class StringManipulationGenerator implements Generator
+use Mockery\Generator\String_Manipulation\Pass\Avoid_Method_Clash_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Call_Type_Hint_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Class_Attributes_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Class_Name_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Class_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Constants_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Instance_Mock_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Interface_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Magic_Method_Type_Hints_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Method_Definition_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Pass;
+use Mockery\Generator\String_Manipulation\Pass\Remove_Builtin_Methods_That_Are_Final_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Remove_Destructor_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Remove_Unserialize_For_Internal_Serializable_Classes_Pass;
+use Mockery\Generator\String_Manipulation\Pass\Trait_Pass;
+class String_Manipulation_Generator implements Generator
 {
     /**
      * @var list<Pass>
      */
     protected $passes = [];
-
     /**
      * @var string
      */
     private $code;
-
     /**
      * @param list<Pass> $passes
      */
     public function __construct(array $passes)
     {
         $this->passes = $passes;
-
         $this->code = file_get_contents(__DIR__ . '/../Mock.php');
     }
-
-    public function addPass(Pass $pass): void
+    public function add_pass(Pass $pass): void
     {
         $this->passes[] = $pass;
     }
-
-    public function generate(MockConfiguration $config): \Mockery\Generator\MockDefinition
+    public function generate(Mock_Configuration $config): \Mockery\Generator\Mock_Definition
     {
-        $className = $config->getName() ?: $config->generateName();
-
-        $namedConfig = $config->rename($className);
-
+        $class_name = $config->get_name() ?: $config->generate_name();
+        $named_config = $config->rename($class_name);
         $code = $this->code;
         foreach ($this->passes as $pass) {
-            $code = $pass->apply($code, $namedConfig);
+            $code = $pass->apply($code, $named_config);
         }
-
-        return new MockDefinition($namedConfig, $code);
+        return new Mock_Definition($named_config, $code);
     }
-
     /**
      * Creates a new StringManipulationGenerator with the default passes
      */
-    public static function withDefaultPasses(): self
+    public static function with_default_passes(): self
     {
-        return new static([
-            new CallTypeHintPass(),
-            new MagicMethodTypeHintsPass(),
-            new ClassPass(),
-            new TraitPass(),
-            new ClassNamePass(),
-            new InstanceMockPass(),
-            new InterfacePass(),
-            new AvoidMethodClashPass(),
-            new MethodDefinitionPass(),
-            new RemoveUnserializeForInternalSerializableClassesPass(),
-            new RemoveBuiltinMethodsThatAreFinalPass(),
-            new RemoveDestructorPass(),
-            new ConstantsPass(),
-            new ClassAttributesPass(),
-        ]);
+        return new static([new Call_Type_Hint_Pass(), new Magic_Method_Type_Hints_Pass(), new Class_Pass(), new Trait_Pass(), new Class_Name_Pass(), new Instance_Mock_Pass(), new Interface_Pass(), new Avoid_Method_Clash_Pass(), new Method_Definition_Pass(), new Remove_Unserialize_For_Internal_Serializable_Classes_Pass(), new Remove_Builtin_Methods_That_Are_Final_Pass(), new Remove_Destructor_Pass(), new Constants_Pass(), new Class_Attributes_Pass()]);
     }
 }

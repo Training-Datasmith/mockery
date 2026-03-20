@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,10 +8,9 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
-class NotAnyOf extends MatcherAbstract
+class Not_Any_Of extends Matcher_Abstract
 {
     /**
      * Return a string representation of this Matcher
@@ -21,7 +19,6 @@ class NotAnyOf extends MatcherAbstract
     {
         return '<AnyOf>';
     }
-
     /**
      * Check if the actual value does not match the expected (in this
      * case it's specifically NOT expected).
@@ -37,7 +34,6 @@ class NotAnyOf extends MatcherAbstract
                 return false;
             }
         }
-
         return true;
     }
 }

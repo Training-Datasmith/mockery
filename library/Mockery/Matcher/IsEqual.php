@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,10 +8,9 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
-class IsEqual extends MatcherAbstract
+class Is_Equal extends Matcher_Abstract
 {
     /**
      * Return a string representation of this Matcher
@@ -21,7 +19,6 @@ class IsEqual extends MatcherAbstract
     {
         return '<IsEqual>';
     }
-
     /**
      * Check if the actual value matches the expected.
      *

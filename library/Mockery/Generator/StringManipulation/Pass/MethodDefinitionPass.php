@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,8 +8,7 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
-namespace Mockery\Generator\StringManipulation\Pass;
+namespace Mockery\Generator\String_Manipulation\Pass;
 
 use function array_values;
 use function count;
@@ -19,13 +17,10 @@ use function get_class;
 use function implode;
 use function in_array;
 use function is_object;
-
 use Mockery\Generator\Method;
-use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\Mock_Configuration;
 use Mockery\Generator\Parameter;
-
 use const PHP_VERSION_ID;
-
 use function preg_match;
 use function sprintf;
 use function strpos;
@@ -33,172 +28,140 @@ use function strrpos;
 use function strtolower;
 use function substr;
 use function var_export;
-
-class MethodDefinitionPass implements Pass
+class Method_Definition_Pass implements Pass
 {
     /**
      * @param  string $code
      * @return string
      */
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, Mock_Configuration $config)
     {
-        foreach ($config->getMethodsToMock() as $method) {
-            if ($method->isPublic()) {
-                $methodDef = 'public';
-            } elseif ($method->isProtected()) {
-                $methodDef = 'protected';
+        foreach ($config->get_methods_to_mock() as $method) {
+            if ($method->is_public()) {
+                $method_def = 'public';
+            } elseif ($method->is_protected()) {
+                $method_def = 'protected';
             } else {
-                $methodDef = 'private';
+                $method_def = 'private';
             }
-
-            if ($method->isStatic()) {
-                $methodDef .= ' static';
+            if ($method->is_static()) {
+                $method_def .= ' static';
             }
-
-            $methodDef .= ' function ';
-            $methodDef .= $method->returnsReference() ? ' & ' : '';
-            $methodDef .= $method->getName();
-            $methodDef .= $this->renderParams($method, $config);
-            $methodDef .= $this->renderReturnType($method);
-            $methodDef .= $this->renderMethodBody($method, $config);
-
-            $code = $this->appendToClass($code, $methodDef);
+            $method_def .= ' function ';
+            $method_def .= $method->returns_reference() ? ' & ' : '';
+            $method_def .= $method->get_name();
+            $method_def .= $this->render_params($method, $config);
+            $method_def .= $this->render_return_type($method);
+            $method_def .= $this->render_method_body($method, $config);
+            $code = $this->append_to_class($code, $method_def);
         }
-
         return $code;
     }
-
-    protected function appendToClass($class, string $code): string
+    protected function append_to_class($class, string $code): string
     {
-        $lastBrace = strrpos($class, '}');
-        return substr($class, 0, $lastBrace) . $code . "\n    }\n";
+        $last_brace = strrpos($class, '}');
+        return substr($class, 0, $last_brace) . $code . "\n    }\n";
     }
-
-    protected function renderParams(Method $method, $config): string
+    protected function render_params(Method $method, $config): string
     {
-        $class = $method->getDeclaringClass();
-        if ($class->isInternal()) {
-            $overrides = $config->getParameterOverrides();
-
-            if (isset($overrides[strtolower($class->getName())][$method->getName()])) {
-                return '(' . implode(',', $overrides[strtolower($class->getName())][$method->getName()]) . ')';
+        $class = $method->get_declaring_class();
+        if ($class->is_internal()) {
+            $overrides = $config->get_parameter_overrides();
+            if (isset($overrides[strtolower($class->get_name())][$method->get_name()])) {
+                return '(' . implode(',', $overrides[strtolower($class->get_name())][$method->get_name()]) . ')';
             }
         }
-
-        $methodParams = [];
-        $params = $method->getParameters();
-        $isPhp81 = PHP_VERSION_ID >= 80100;
+        $method_params = [];
+        $params = $method->get_parameters();
+        $is_php81 = PHP_VERSION_ID >= 80100;
         foreach ($params as $param) {
-            $paramDef = $this->renderTypeHint($param);
-            $paramDef .= $param->isPassedByReference() ? '&' : '';
-            $paramDef .= $param->isVariadic() ? '...' : '';
-            $paramDef .= '$' . $param->getName();
-
-            if (! $param->isVariadic()) {
-                if ($param->isDefaultValueAvailable() !== false) {
-                    $defaultValue = $param->getDefaultValue();
-
-                    if (is_object($defaultValue)) {
-                        $prefix = get_class($defaultValue);
-                        if ($isPhp81) {
+            $param_def = $this->render_type_hint($param);
+            $param_def .= $param->is_passed_by_reference() ? '&' : '';
+            $param_def .= $param->is_variadic() ? '...' : '';
+            $param_def .= '$' . $param->get_name();
+            if (!$param->is_variadic()) {
+                if ($param->is_default_value_available() !== false) {
+                    $default_value = $param->get_default_value();
+                    if (is_object($default_value)) {
+                        $prefix = get_class($default_value);
+                        if ($is_php81) {
                             if (enum_exists($prefix)) {
-                                $prefix = var_export($defaultValue, true);
-                            } elseif (
-                                ! $param->isDefaultValueConstant() &&
-                                // "Parameter #1 [ <optional> F\Q\CN $a = new \F\Q\CN(param1, param2: 2) ]
-                                preg_match(
-                                    '#<optional>\s.*?\s=\snew\s(.*?)\s]$#',
-                                    $param->__toString(),
-                                    $matches
-                                ) === 1
-                            ) {
+                                $prefix = var_export($default_value, true);
+                            } elseif (!$param->is_default_value_constant() && preg_match('#<optional>\s.*?\s=\snew\s(.*?)\s]$#', $param->__toString(), $matches) === 1) {
                                 $prefix = 'new ' . $matches[1];
                             }
                         }
                     } else {
-                        $prefix = var_export($defaultValue, true);
+                        $prefix = var_export($default_value, true);
                     }
-
-                    $paramDef .= ' = ' . $prefix;
-                } elseif ($param->isOptional()) {
-                    $paramDef .= ' = null';
+                    $param_def .= ' = ' . $prefix;
+                } elseif ($param->is_optional()) {
+                    $param_def .= ' = null';
                 }
             }
-
-            $methodParams[] = $paramDef;
+            $method_params[] = $param_def;
         }
-
-        return '(' . implode(', ', $methodParams) . ')';
+        return '(' . implode(', ', $method_params) . ')';
     }
-
-    protected function renderReturnType(Method $method): string
+    protected function render_return_type(Method $method): string
     {
-        $type = $method->getReturnType();
-
+        $type = $method->get_return_type();
         return $type ? sprintf(': %s', $type) : '';
     }
-
-    protected function renderTypeHint(Parameter $param): string
+    protected function render_type_hint(Parameter $param): string
     {
-        $typeHint = $param->getTypeHint();
-
-        return $typeHint === null ? '' : sprintf('%s ', $typeHint);
+        $type_hint = $param->get_type_hint();
+        return $type_hint === null ? '' : sprintf('%s ', $type_hint);
     }
-
-    private function renderMethodBody($method, \Mockery\Generator\MockConfiguration $config): string
+    private function render_method_body($method, \Mockery\Generator\Mock_Configuration $config): string
     {
-        $invoke = $method->isStatic() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
+        $invoke = $method->is_static() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
         $body = <<<BODY
-{
-\$argc = func_num_args();
-\$argv = func_get_args();
-
-BODY;
-
+        {
+        \$argc = func_num_args();
+        \$argv = func_get_args();
+        
+        BODY;
         // Fix up known parameters by reference - used func_get_args() above
         // in case more parameters are passed in than the function definition
         // says - eg varargs.
-        $class = $method->getDeclaringClass();
-        $class_name = strtolower($class->getName());
-        $overrides = $config->getParameterOverrides();
-        if (isset($overrides[$class_name][$method->getName()])) {
-            $params = array_values($overrides[$class_name][$method->getName()]);
-            $paramCount = count($params);
-            for ($i = 0; $i < $paramCount; ++$i) {
+        $class = $method->get_declaring_class();
+        $class_name = strtolower($class->get_name());
+        $overrides = $config->get_parameter_overrides();
+        if (isset($overrides[$class_name][$method->get_name()])) {
+            $params = array_values($overrides[$class_name][$method->get_name()]);
+            $param_count = count($params);
+            for ($i = 0; $i < $param_count; ++$i) {
                 $param = $params[$i];
                 if (strpos($param, '&') !== false) {
                     $body .= <<<BODY
-if (\$argc > {$i}) {
-    \$argv[{$i}] = {$param};
-}
-
-BODY;
+                    if (\$argc > {$i}) {
+                        \$argv[{$i}] = {$param};
+                    }
+                    
+                    BODY;
                 }
             }
         } else {
-            $params = array_values($method->getParameters());
-            $paramCount = count($params);
-            for ($i = 0; $i < $paramCount; ++$i) {
+            $params = array_values($method->get_parameters());
+            $param_count = count($params);
+            for ($i = 0; $i < $param_count; ++$i) {
                 $param = $params[$i];
-                if (! $param->isPassedByReference()) {
+                if (!$param->is_passed_by_reference()) {
                     continue;
                 }
-
                 $body .= <<<BODY
-if (\$argc > {$i}) {
-    \$argv[{$i}] =& \${$param->getName()};
-}
-
-BODY;
+                if (\$argc > {$i}) {
+                    \$argv[{$i}] =& \${$param->get_name()};
+                }
+                
+                BODY;
             }
         }
-
         $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
-
-        if (! in_array($method->getReturnType(), ['never', 'void'], true)) {
+        if (!in_array($method->get_return_type(), ['never', 'void'], true)) {
             $body .= "return \$ret;\n";
         }
-
         return $body . "}\n";
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,12 +8,10 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
+namespace Mockery\Count_Validator;
 
-namespace Mockery\CountValidator;
-
-use Mockery\Exception\MockeryExceptionInterface;
+use Mockery\Exception\Mockery_Exception_Interface;
 use OutOfBoundsException;
-
-class Exception extends OutOfBoundsException implements MockeryExceptionInterface
+class Exception extends OutOfBoundsException implements Mockery_Exception_Interface
 {
 }

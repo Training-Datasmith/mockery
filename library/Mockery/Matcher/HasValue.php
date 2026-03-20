@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,15 +8,12 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
 use ArrayAccess;
-
 use function in_array;
 use function is_array;
-
-class HasValue extends MatcherAbstract
+class Has_Value extends Matcher_Abstract
 {
     /**
      * Return a string representation of this Matcher
@@ -26,7 +22,6 @@ class HasValue extends MatcherAbstract
     {
         return '<HasValue[' . $this->_expected . ']>';
     }
-
     /**
      * Check if the actual value matches the expected.
      *
@@ -38,10 +33,9 @@ class HasValue extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        if (! is_array($actual) && ! $actual instanceof ArrayAccess) {
+        if (!is_array($actual) && !$actual instanceof ArrayAccess) {
             return false;
         }
-
         return in_array($this->_expected, (array) $actual, true);
     }
 }

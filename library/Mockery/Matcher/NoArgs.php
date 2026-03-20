@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,18 +8,15 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
 use function count;
-
-class NoArgs extends MatcherAbstract implements ArgumentListMatcher
+class No_Args extends Matcher_Abstract implements Argument_List_Matcher
 {
     public function __toString(): string
     {
         return '<No Arguments>';
     }
-
     /**
      * @template TMixed
      *

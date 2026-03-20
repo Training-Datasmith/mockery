@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,11 +8,9 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Loader;
 
-use Mockery\Generator\MockDefinition;
-
+use Mockery\Generator\Mock_Definition;
 interface Loader
 {
     /**
@@ -21,5 +18,5 @@ interface Loader
      *
      * @return void
      */
-    public function load(MockDefinition $definition);
+    public function load(Mock_Definition $definition);
 }

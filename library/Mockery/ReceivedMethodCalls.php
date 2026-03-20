@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,32 +8,26 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery;
 
-class ReceivedMethodCalls
+class Received_Method_Calls
 {
-    private $methodCalls = [];
-
-    public function push(MethodCall $methodCall): void
+    private $method_calls = [];
+    public function push(Method_Call $method_call): void
     {
-        $this->methodCalls[] = $methodCall;
+        $this->method_calls[] = $method_call;
     }
-
     public function verify(Expectation $expectation): void
     {
-        foreach ($this->methodCalls as $methodCall) {
-            if ($methodCall->getMethod() !== $expectation->getName()) {
+        foreach ($this->method_calls as $method_call) {
+            if ($method_call->get_method() !== $expectation->get_name()) {
                 continue;
             }
-
-            if (! $expectation->matchArgs($methodCall->getArgs())) {
+            if (!$expectation->match_args($method_call->get_args())) {
                 continue;
             }
-
-            $expectation->verifyCall($methodCall->getArgs());
+            $expectation->verify_call($method_call->get_args());
         }
-
         $expectation->verify();
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,34 +8,29 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
-use Mockery\LegacyMockInterface;
-use Mockery\Matcher\AndAnyOtherArgs;
-use Mockery\Matcher\AnyArgs;
-use Mockery\MockInterface;
-
-if (! \function_exists('andAnyOtherArgs')) {
-    function andAnyOtherArgs(): AndAnyOtherArgs
+use Mockery\Legacy_Mock_Interface;
+use Mockery\Matcher\And_Any_Other_Args;
+use Mockery\Matcher\Any_Args;
+use Mockery\Mock_Interface;
+if (!\function_exists('andAnyOtherArgs')) {
+    function and_any_other_args(): And_Any_Other_Args
     {
-        return new AndAnyOtherArgs();
+        return new And_Any_Other_Args();
     }
 }
-
-if (! \function_exists('andAnyOthers')) {
-    function andAnyOthers(): AndAnyOtherArgs
+if (!\function_exists('andAnyOthers')) {
+    function and_any_others(): And_Any_Other_Args
     {
-        return new AndAnyOtherArgs();
+        return new And_Any_Other_Args();
     }
 }
-
-if (! \function_exists('anyArgs')) {
-    function anyArgs(): AnyArgs
+if (!\function_exists('anyArgs')) {
+    function any_args(): Any_Args
     {
-        return new AnyArgs();
+        return new Any_Args();
     }
 }
-
-if (! \function_exists('get_debug_type')) {
+if (!\function_exists('get_debug_type')) {
     /**
      * Copied from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
      *
@@ -48,52 +42,51 @@ if (! \function_exists('get_debug_type')) {
     function get_debug_type($value): string
     {
         switch (true) {
-            case $value === null: return 'null';
-            case \is_bool($value): return 'bool';
-            case \is_string($value): return 'string';
-            case \is_array($value): return 'array';
-            case \is_int($value): return 'int';
-            case \is_float($value): return 'float';
-            case \is_object($value): break;
-            case $value instanceof \__PHP_Incomplete_Class: return '__PHP_Incomplete_Class';
+            case $value === null:
+                return 'null';
+            case \is_bool($value):
+                return 'bool';
+            case \is_string($value):
+                return 'string';
+            case \is_array($value):
+                return 'array';
+            case \is_int($value):
+                return 'int';
+            case \is_float($value):
+                return 'float';
+            case \is_object($value):
+                break;
+            case $value instanceof \__PHP_Incomplete_Class:
+                return '__PHP_Incomplete_Class';
             default:
                 if (null === $type = @\get_resource_type($value)) {
                     return 'unknown';
                 }
-
                 if ($type === 'Unknown') {
                     $type = 'closed';
                 }
-
                 return "resource ({$type})";
         }
-
         $class = \get_class($value);
-
-        if (! \str_contains($class, '@')) {
+        if (!\str_contains($class, '@')) {
             return $class;
         }
-
         $parent = \get_parent_class($class);
         if ($parent !== false) {
             return $parent . '@anonymous';
         }
-
         $interfaces = \class_implements($class);
         if ($interfaces === false) {
             return 'class@anonymous';
         }
-
         $parent = \key($interfaces);
         if ($parent === null) {
             return 'class@anonymous';
         }
-
         return $parent . '@anonymous';
     }
 }
-
-if (! \function_exists('mock')) {
+if (!\function_exists('mock')) {
     /**
      * @template TMixed
      *
@@ -108,8 +101,7 @@ if (! \function_exists('mock')) {
         return Mockery::mock(...$args);
     }
 }
-
-if (! \function_exists('namedMock')) {
+if (!\function_exists('namedMock')) {
     /**
      * @template TMixed
      *
@@ -119,13 +111,12 @@ if (! \function_exists('namedMock')) {
      *
      * @return ((LegacyMockInterface&TMixed)|(MockInterface&TMixed))
      */
-    function namedMock(...$args)
+    function named_mock(...$args)
     {
-        return Mockery::namedMock(...$args);
+        return Mockery::named_mock(...$args);
     }
 }
-
-if (! \function_exists('spy')) {
+if (!\function_exists('spy')) {
     /**
      * @template TMixed
      *
@@ -140,8 +131,7 @@ if (! \function_exists('spy')) {
         return Mockery::spy(...$args);
     }
 }
-
-if (! \function_exists('str_contains')) {
+if (!\function_exists('str_contains')) {
     /**
      * Copied from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
      *
@@ -156,8 +146,7 @@ if (! \function_exists('str_contains')) {
         return $needle === '' || \strpos($haystack, $needle) !== false;
     }
 }
-
-if (! \function_exists('str_ends_with')) {
+if (!\function_exists('str_ends_with')) {
     /**
      * Copied from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
      *
@@ -172,18 +161,14 @@ if (! \function_exists('str_ends_with')) {
         if ($needle === $haystack) {
             return true;
         }
-
         if ($haystack === '') {
             return false;
         }
-
-        $needleLength = \strlen($needle);
-
-        return $needleLength <= \strlen($haystack) && \substr_compare($haystack, $needle, -$needleLength) === 0;
+        $needle_length = \strlen($needle);
+        return $needle_length <= \strlen($haystack) && \substr_compare($haystack, $needle, -$needle_length) === 0;
     }
 }
-
-if (! \function_exists('str_starts_with')) {
+if (!\function_exists('str_starts_with')) {
     /**
      * Copied from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
      *
@@ -198,7 +183,6 @@ if (! \function_exists('str_starts_with')) {
         return \strncmp($haystack, $needle, \strlen($needle)) === 0;
     }
 }
-
 /**
  * Copied from php.net (https://www.php.net/manual/en/function.array-is-list.php#127044)
  *
@@ -208,8 +192,7 @@ if (! \function_exists('str_starts_with')) {
  *
  * @return bool
  */
-if (! \function_exists('array_is_list')) {
-
+if (!\function_exists('array_is_list')) {
     function array_is_list(array $array): bool
     {
         $i = -1;

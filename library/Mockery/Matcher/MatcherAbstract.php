@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,14 +8,13 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
 /**
  * @deprecated Implement \Mockery\Matcher\MatcherInterface instead of extending this class
  * @see https://github.com/mockery/mockery/pull/1338
  */
-abstract class MatcherAbstract implements MatcherInterface
+abstract class Matcher_Abstract implements Matcher_Interface
 {
     /**
      * The expected value (or part thereof)
@@ -26,7 +24,6 @@ abstract class MatcherAbstract implements MatcherInterface
      * @var TExpected
      */
     protected $_expected;
-
     /**
      * Set the expected value
      *

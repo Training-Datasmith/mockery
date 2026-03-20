@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,10 +8,9 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Generator;
 
-interface TargetClassInterface
+interface Target_Class_Interface
 {
     /**
      * Returns a new instance of the current TargetClassInterface's implementation.
@@ -22,57 +20,49 @@ interface TargetClassInterface
      * @return TargetClassInterface
      */
     public static function factory($name);
-
     /**
      * Returns the targetClass's attributes.
      *
      * @return array<class-string>
      */
-    public function getAttributes();
-
+    public function get_attributes();
     /**
      * Returns the targetClass's interfaces.
      *
      * @return array<TargetClassInterface>
      */
-    public function getInterfaces();
-
+    public function get_interfaces();
     /**
      * Returns the targetClass's methods.
      *
      * @return array<Method>
      */
-    public function getMethods();
-
+    public function get_methods();
     /**
      * Returns the targetClass's name.
      *
      * @return class-string
      */
-    public function getName();
-
+    public function get_name();
     /**
      * Returns the targetClass's namespace name.
      *
      * @return string
      */
-    public function getNamespaceName();
-
+    public function get_namespace_name();
     /**
      * Returns the targetClass's short name.
      *
      * @return string
      */
-    public function getShortName();
-
+    public function get_short_name();
     /**
      * Returns whether the targetClass has
      * an internal ancestor.
      *
      * @return bool
      */
-    public function hasInternalAncestor();
-
+    public function has_internal_ancestor();
     /**
      * Returns whether the targetClass is in
      * the passed interface.
@@ -81,26 +71,23 @@ interface TargetClassInterface
      *
      * @return bool
      */
-    public function implementsInterface($interface);
-
+    public function implements_interface($interface);
     /**
      * Returns whether the targetClass is in namespace.
      *
      * @return bool
      */
-    public function inNamespace();
-
+    public function in_namespace();
     /**
      * Returns whether the targetClass is abstract.
      *
      * @return bool
      */
-    public function isAbstract();
-
+    public function is_abstract();
     /**
      * Returns whether the targetClass is final.
      *
      * @return bool
      */
-    public function isFinal();
+    public function is_final();
 }

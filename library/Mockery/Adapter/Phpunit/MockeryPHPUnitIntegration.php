@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,81 +8,68 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Adapter\Phpunit;
 
 use function method_exists;
-
 use Mockery;
-use PHPUnit\Framework\Attributes\After;
-
-use PHPUnit\Framework\Attributes\Before;
-
+use Php_Unit\Framework\Attributes\After;
+use Php_Unit\Framework\Attributes\Before;
 /**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified
  * for each test and are included by the assertion counter.
  */
-trait MockeryPHPUnitIntegration
+trait Mockery_Php_Unit_Integration
 {
-    use MockeryPHPUnitIntegrationAssertPostConditions;
-
-    protected $mockeryOpen;
-
-    protected function addMockeryExpectationsToAssertionCount()
+    use Mockery_Php_Unit_Integration_Assert_Post_Conditions;
+    protected $mockery_open;
+    protected function add_mockery_expectations_to_assertion_count()
     {
-        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
+        $this->add_to_assertion_count(Mockery::get_container()->mockery_get_expectation_count());
     }
-
-    protected function checkMockeryExceptions()
+    protected function check_mockery_exceptions()
     {
-        if (! method_exists($this, 'markAsRisky')) {
+        if (!method_exists($this, 'markAsRisky')) {
             return;
         }
-
-        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
-            if (! $e->dismissed()) {
-                $this->markAsRisky();
+        foreach (Mockery::get_container()->mockery_thrown_exceptions() as $e) {
+            if (!$e->dismissed()) {
+                $this->mark_as_risky();
             }
         }
     }
-
-    protected function closeMockery()
+    protected function close_mockery()
     {
         Mockery::close();
-        $this->mockeryOpen = false;
+        $this->mockery_open = false;
     }
-
     /**
      * Performs assertions shared by all tests of a test case. This method is
      * called before execution of a test ends and before the tearDown method.
      */
-    protected function mockeryAssertPostConditions()
+    protected function mockery_assert_post_conditions()
     {
-        $this->addMockeryExpectationsToAssertionCount();
-        $this->checkMockeryExceptions();
-        $this->closeMockery();
-
-        parent::assertPostConditions();
+        $this->add_mockery_expectations_to_assertion_count();
+        $this->check_mockery_exceptions();
+        $this->close_mockery();
+        parent::assert_post_conditions();
     }
-
     /**
      * @after
      */
     #[After]
-    protected function purgeMockeryContainer()
+    protected function purge_mockery_container()
     {
-        if ($this->mockeryOpen) {
+        if ($this->mockery_open) {
             // post conditions wasn't called, so test probably failed
             Mockery::close();
         }
     }
-
     /**
      * @before
      */
     #[Before]
-    protected function startMockery()
+    protected function start_mockery()
     {
-        $this->mockeryOpen = true;
+        $this->mockery_open = true;
     }
 }

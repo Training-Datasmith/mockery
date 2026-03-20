@@ -7,24 +7,19 @@
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Mockery\Adapter\Phpunit;
 
-trait MockeryTestCaseSetUp
+trait Mockery_Test_Case_Set_Up
 {
-    protected function setUp(): void
+    protected function set_up(): void
     {
-        parent::setUp();
-
-        $this->mockeryTestSetUp();
+        parent::set_up();
+        $this->mockery_test_set_up();
     }
-
-    protected function tearDown(): void
+    protected function tear_down(): void
     {
-        $this->mockeryTestTearDown();
-
-        parent::tearDown();
+        $this->mockery_test_tear_down();
+        parent::tear_down();
     }
 }

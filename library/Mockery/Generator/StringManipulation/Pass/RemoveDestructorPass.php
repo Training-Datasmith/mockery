@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,34 +8,28 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
+namespace Mockery\Generator\String_Manipulation\Pass;
 
-namespace Mockery\Generator\StringManipulation\Pass;
-
-use Mockery\Generator\MockConfiguration;
-
+use Mockery\Generator\Mock_Configuration;
 use function preg_replace;
-
 /**
  * Remove mock's empty destructor if we tend to use original class destructor
  */
-class RemoveDestructorPass implements Pass
+class Remove_Destructor_Pass implements Pass
 {
     /**
      * @param  string $code
      * @return string
      */
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, Mock_Configuration $config)
     {
-        $target = $config->getTargetClass();
-
-        if (! $target) {
+        $target = $config->get_target_class();
+        if (!$target) {
             return $code;
         }
-
-        if (! $config->isMockOriginalDestructor()) {
+        if (!$config->is_mock_original_destructor()) {
             return preg_replace('/public function __destruct\(\)\s+\{.*?\}/sm', '', $code);
         }
-
         return $code;
     }
 }

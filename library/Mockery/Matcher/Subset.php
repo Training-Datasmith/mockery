@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,19 +8,15 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
 use function array_replace_recursive;
 use function implode;
 use function is_array;
-
-class Subset extends MatcherAbstract
+class Subset extends Matcher_Abstract
 {
     private $expected;
-
     private $strict = true;
-
     /**
      * @param array $expected Expected subset of data
      * @param bool  $strict   Whether to run a strict or loose comparison
@@ -31,15 +26,13 @@ class Subset extends MatcherAbstract
         $this->expected = $expected;
         $this->strict = $strict;
     }
-
     /**
      * Return a string representation of this Matcher
      */
     public function __toString(): string
     {
-        return '<Subset' . $this->formatArray($this->expected) . '>';
+        return '<Subset' . $this->format_array($this->expected) . '>';
     }
-
     /**
      * @param array $expected Expected subset of data
      */
@@ -47,7 +40,6 @@ class Subset extends MatcherAbstract
     {
         return new static($expected, false);
     }
-
     /**
      * Check if the actual value matches the expected.
      *
@@ -59,17 +51,14 @@ class Subset extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        if (! is_array($actual)) {
+        if (!is_array($actual)) {
             return false;
         }
-
         if ($this->strict) {
             return $actual === array_replace_recursive($actual, $this->expected);
         }
-
         return $actual == array_replace_recursive($actual, $this->expected);
     }
-
     /**
      * @param array $expected Expected subset of data
      */
@@ -77,17 +66,15 @@ class Subset extends MatcherAbstract
     {
         return new static($expected, true);
     }
-
     /**
      * Recursively format an array into the string representation for this matcher
      */
-    protected function formatArray(array $array): string
+    protected function format_array(array $array): string
     {
         $elements = [];
         foreach ($array as $k => $v) {
-            $elements[] = $k . '=' . (is_array($v) ? $this->formatArray($v) : (string) $v);
+            $elements[] = $k . '=' . (is_array($v) ? $this->format_array($v) : (string) $v);
         }
-
         return '[' . implode(', ', $elements) . ']';
     }
 }

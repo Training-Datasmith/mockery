@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,21 +8,18 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery;
 
-class MethodCall
+class Method_Call
 {
     /**
      * @var array
      */
     private $args;
-
     /**
      * @var string
      */
     private $method;
-
     /**
      * @param string $method
      * @param array  $args
@@ -33,19 +29,17 @@ class MethodCall
         $this->method = $method;
         $this->args = $args;
     }
-
     /**
      * @return array
      */
-    public function getArgs()
+    public function get_args()
     {
         return $this->args;
     }
-
     /**
      * @return string
      */
-    public function getMethod()
+    public function get_method()
     {
         return $this->method;
     }

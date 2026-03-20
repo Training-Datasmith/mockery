@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,10 +8,9 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Matcher;
 
-class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatcher
+class Multi_Argument_Closure extends Matcher_Abstract implements Argument_List_Matcher
 {
     /**
      * Return a string representation of this Matcher
@@ -21,7 +19,6 @@ class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatche
     {
         return '<MultiArgumentClosure===true>';
     }
-
     /**
      * Check if the actual value matches the expected.
      * Actual passed by reference to preserve reference trail (where applicable)

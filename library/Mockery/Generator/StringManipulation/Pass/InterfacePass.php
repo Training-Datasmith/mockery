@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,36 +8,30 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
-namespace Mockery\Generator\StringManipulation\Pass;
+namespace Mockery\Generator\String_Manipulation\Pass;
 
 use function array_reduce;
 use function interface_exists;
 use function ltrim;
-
 use Mockery;
-use Mockery\Generator\MockConfiguration;
-
+use Mockery\Generator\Mock_Configuration;
 use function str_replace;
-
-class InterfacePass implements Pass
+class Interface_Pass implements Pass
 {
     /**
      * @param  string $code
      */
-    public function apply($code, MockConfiguration $config): string
+    public function apply($code, Mock_Configuration $config): string
     {
-        foreach ($config->getTargetInterfaces() as $i) {
-            $name = ltrim($i->getName(), '\\');
-            if (! interface_exists($name)) {
-                Mockery::declareInterface($name);
+        foreach ($config->get_target_interfaces() as $i) {
+            $name = ltrim($i->get_name(), '\\');
+            if (!interface_exists($name)) {
+                Mockery::declare_interface($name);
             }
         }
-
-        $interfaces = array_reduce($config->getTargetInterfaces(), static function (string $code, \Mockery\Generator\TargetClassInterface $i): string {
-            return $code . ', \\' . ltrim($i->getName(), '\\');
+        $interfaces = array_reduce($config->get_target_interfaces(), static function (string $code, \Mockery\Generator\Target_Class_Interface $i): string {
+            return $code . ', \\' . ltrim($i->get_name(), '\\');
         }, '');
-
         return str_replace('implements MockInterface', 'implements MockInterface' . $interfaces, $code);
     }
 }

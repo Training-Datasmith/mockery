@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,25 +8,21 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
+namespace Mockery\Count_Validator;
 
-namespace Mockery\CountValidator;
-
-use Mockery\Exception\InvalidCountException;
-
+use Mockery\Exception\Invalid_Count_Exception;
 use const PHP_EOL;
-
-class AtLeast extends CountValidatorAbstract
+class At_Least extends Count_Validator_Abstract
 {
     /**
      * Checks if the validator can accept an additional nth call
      *
      * @param int $n
      */
-    public function isEligible($n): bool
+    public function is_eligible($n): bool
     {
         return true;
     }
-
     /**
      * Validate the call count against this validator
      *
@@ -38,19 +33,8 @@ class AtLeast extends CountValidatorAbstract
     public function validate($n): void
     {
         if ($this->_limit > $n) {
-            $exception = new InvalidCountException(
-                'Method ' . $this->_expectation
-                . ' from ' . $this->_expectation->getMock()->mockery_getName()
-                . ' should be called' . PHP_EOL
-                . ' at least ' . $this->_limit . ' times but called ' . $n
-                . ' times.'
-            );
-
-            $exception->setMock($this->_expectation->getMock())
-                ->setMethodName((string) $this->_expectation)
-                ->setExpectedCountComparative('>=')
-                ->setExpectedCount($this->_limit)
-                ->setActualCount($n);
+            $exception = new Invalid_Count_Exception('Method ' . $this->_expectation . ' from ' . $this->_expectation->get_mock()->mockery_get_name() . ' should be called' . PHP_EOL . ' at least ' . $this->_limit . ' times but called ' . $n . ' times.');
+            $exception->set_mock($this->_expectation->get_mock())->set_method_name((string) $this->_expectation)->set_expected_count_comparative('>=')->set_expected_count($this->_limit)->set_actual_count($n);
             throw $exception;
         }
     }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,28 +8,24 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Exception;
 
-class BadMethodCallException extends \BadMethodCallException implements MockeryExceptionInterface
+class BadMethodCallException extends \BadMethodCallException implements Mockery_Exception_Interface
 {
     /**
      * @var bool
      */
     private $dismissed = false;
-
     public function dismiss(): void
     {
         $this->dismissed = true;
         // we sometimes stack them
-        $previous = $this->getPrevious();
-        if (! $previous instanceof self) {
+        $previous = $this->get_previous();
+        if (!$previous instanceof self) {
             return;
         }
-
         $previous->dismiss();
     }
-
     /**
      * @return bool
      */

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,17 +8,15 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Generator;
 
 use function array_diff;
-
-class MockConfigurationBuilder
+class Mock_Configuration_Builder
 {
     /**
      * @var list<string>
      */
-    protected $blackListedMethods = [
+    protected $black_listed_methods = [
         '__call',
         '__callStatic',
         '__clone',
@@ -29,205 +26,211 @@ class MockConfigurationBuilder
         '__toString',
         '__isset',
         '__destruct',
-        '__debugInfo', ## mocking this makes it difficult to debug with xdebug
-
+        '__debugInfo',
+        ## mocking this makes it difficult to debug with xdebug
         // below are reserved words in PHP
-        '__halt_compiler', 'abstract', 'and', 'array', 'as',
-        'break', 'callable', 'case', 'catch', 'class',
-        'clone', 'const', 'continue', 'declare', 'default',
-        'die', 'do', 'echo', 'else', 'elseif',
-        'empty', 'enddeclare', 'endfor', 'endforeach', 'endif',
-        'endswitch', 'endwhile', 'eval', 'exit', 'extends',
-        'final', 'for', 'foreach', 'function', 'global',
-        'goto', 'if', 'implements', 'include', 'include_once',
-        'instanceof', 'insteadof', 'interface', 'isset', 'list',
-        'namespace', 'new', 'or', 'print', 'private',
-        'protected', 'public', 'require', 'require_once', 'return',
-        'static', 'switch', 'throw', 'trait', 'try',
-        'unset', 'use', 'var', 'while', 'xor',
+        '__halt_compiler',
+        'abstract',
+        'and',
+        'array',
+        'as',
+        'break',
+        'callable',
+        'case',
+        'catch',
+        'class',
+        'clone',
+        'const',
+        'continue',
+        'declare',
+        'default',
+        'die',
+        'do',
+        'echo',
+        'else',
+        'elseif',
+        'empty',
+        'enddeclare',
+        'endfor',
+        'endforeach',
+        'endif',
+        'endswitch',
+        'endwhile',
+        'eval',
+        'exit',
+        'extends',
+        'final',
+        'for',
+        'foreach',
+        'function',
+        'global',
+        'goto',
+        'if',
+        'implements',
+        'include',
+        'include_once',
+        'instanceof',
+        'insteadof',
+        'interface',
+        'isset',
+        'list',
+        'namespace',
+        'new',
+        'or',
+        'print',
+        'private',
+        'protected',
+        'public',
+        'require',
+        'require_once',
+        'return',
+        'static',
+        'switch',
+        'throw',
+        'trait',
+        'try',
+        'unset',
+        'use',
+        'var',
+        'while',
+        'xor',
     ];
-
     /**
      * @var array
      */
-    protected $constantsMap = [];
-
+    protected $constants_map = [];
     /**
      * @var bool
      */
-    protected $instanceMock = false;
-
+    protected $instance_mock = false;
     /**
      * @var bool
      */
-    protected $mockOriginalDestructor = false;
-
+    protected $mock_original_destructor = false;
     /**
      * @var string
      */
     protected $name;
-
     /**
      * @var array
      */
-    protected $parameterOverrides = [];
-
+    protected $parameter_overrides = [];
     /**
      * @var list<string>
      */
-    protected $php7SemiReservedKeywords = [
-        'callable', 'class', 'trait', 'extends', 'implements', 'static', 'abstract', 'final',
-        'public', 'protected', 'private', 'const', 'enddeclare', 'endfor', 'endforeach', 'endif',
-        'endwhile', 'and', 'global', 'goto', 'instanceof', 'insteadof', 'interface', 'namespace', 'new',
-        'or', 'xor', 'try', 'use', 'var', 'exit', 'list', 'clone', 'include', 'include_once', 'throw',
-        'array', 'print', 'echo', 'require', 'require_once', 'return', 'else', 'elseif', 'default',
-        'break', 'continue', 'switch', 'yield', 'function', 'if', 'endswitch', 'finally', 'for', 'foreach',
-        'declare', 'case', 'do', 'while', 'as', 'catch', 'die', 'self', 'parent',
-    ];
-
+    protected $php7semi_reserved_keywords = ['callable', 'class', 'trait', 'extends', 'implements', 'static', 'abstract', 'final', 'public', 'protected', 'private', 'const', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endwhile', 'and', 'global', 'goto', 'instanceof', 'insteadof', 'interface', 'namespace', 'new', 'or', 'xor', 'try', 'use', 'var', 'exit', 'list', 'clone', 'include', 'include_once', 'throw', 'array', 'print', 'echo', 'require', 'require_once', 'return', 'else', 'elseif', 'default', 'break', 'continue', 'switch', 'yield', 'function', 'if', 'endswitch', 'finally', 'for', 'foreach', 'declare', 'case', 'do', 'while', 'as', 'catch', 'die', 'self', 'parent'];
     /**
      * @var array
      */
     protected $targets = [];
-
     /**
      * @var array
      */
-    protected $whiteListedMethods = [];
-
+    protected $white_listed_methods = [];
     public function __construct()
     {
-        $this->blackListedMethods = array_diff($this->blackListedMethods, $this->php7SemiReservedKeywords);
+        $this->black_listed_methods = array_diff($this->black_listed_methods, $this->php7semi_reserved_keywords);
     }
-
     /**
      * @param  string $blackListedMethod
      */
-    public function addBlackListedMethod($blackListedMethod): self
+    public function add_black_listed_method($black_listed_method): self
     {
-        $this->blackListedMethods[] = $blackListedMethod;
+        $this->black_listed_methods[] = $black_listed_method;
         return $this;
     }
-
     /**
      * @param  list<string> $blackListedMethods
      */
-    public function addBlackListedMethods(array $blackListedMethods): self
+    public function add_black_listed_methods(array $black_listed_methods): self
     {
-        foreach ($blackListedMethods as $method) {
-            $this->addBlackListedMethod($method);
+        foreach ($black_listed_methods as $method) {
+            $this->add_black_listed_method($method);
         }
-
         return $this;
     }
-
     /**
      * @param  class-string $target
      */
-    public function addTarget($target): self
+    public function add_target($target): self
     {
         $this->targets[] = $target;
-
         return $this;
     }
-
     /**
      * @param  list<class-string> $targets
      */
-    public function addTargets($targets): self
+    public function add_targets($targets): self
     {
         foreach ($targets as $target) {
-            $this->addTarget($target);
+            $this->add_target($target);
         }
-
         return $this;
     }
-
-    public function addWhiteListedMethod($whiteListedMethod): self
+    public function add_white_listed_method($white_listed_method): self
     {
-        $this->whiteListedMethods[] = $whiteListedMethod;
+        $this->white_listed_methods[] = $white_listed_method;
         return $this;
     }
-
-    public function addWhiteListedMethods(array $whiteListedMethods): self
+    public function add_white_listed_methods(array $white_listed_methods): self
     {
-        foreach ($whiteListedMethods as $method) {
-            $this->addWhiteListedMethod($method);
+        foreach ($white_listed_methods as $method) {
+            $this->add_white_listed_method($method);
         }
-
         return $this;
     }
-
-    public function getMockConfiguration(): \Mockery\Generator\MockConfiguration
+    public function get_mock_configuration(): \Mockery\Generator\Mock_Configuration
     {
-        return new MockConfiguration(
-            $this->targets,
-            $this->blackListedMethods,
-            $this->whiteListedMethods,
-            $this->name,
-            $this->instanceMock,
-            $this->parameterOverrides,
-            $this->mockOriginalDestructor,
-            $this->constantsMap
-        );
+        return new Mock_Configuration($this->targets, $this->black_listed_methods, $this->white_listed_methods, $this->name, $this->instance_mock, $this->parameter_overrides, $this->mock_original_destructor, $this->constants_map);
     }
-
     /**
      * @param  list<string> $blackListedMethods
      */
-    public function setBlackListedMethods(array $blackListedMethods): self
+    public function set_black_listed_methods(array $black_listed_methods): self
     {
-        $this->blackListedMethods = $blackListedMethods;
+        $this->black_listed_methods = $black_listed_methods;
         return $this;
     }
-
-    public function setConstantsMap(array $map): self
+    public function set_constants_map(array $map): self
     {
-        $this->constantsMap = $map;
-
+        $this->constants_map = $map;
         return $this;
     }
-
     /**
      * @param bool $instanceMock
      */
-    public function setInstanceMock($instanceMock): self
+    public function set_instance_mock($instance_mock): self
     {
-        $this->instanceMock = (bool) $instanceMock;
-
+        $this->instance_mock = (bool) $instance_mock;
         return $this;
     }
-
     /**
      * @param bool $mockDestructor
      */
-    public function setMockOriginalDestructor($mockDestructor): self
+    public function set_mock_original_destructor($mock_destructor): self
     {
-        $this->mockOriginalDestructor = (bool) $mockDestructor;
+        $this->mock_original_destructor = (bool) $mock_destructor;
         return $this;
     }
-
     /**
      * @param string $name
      */
-    public function setName($name): self
+    public function set_name($name): self
     {
         $this->name = $name;
         return $this;
     }
-
-    public function setParameterOverrides(array $overrides): self
+    public function set_parameter_overrides(array $overrides): self
     {
-        $this->parameterOverrides = $overrides;
+        $this->parameter_overrides = $overrides;
         return $this;
     }
-
     /**
      * @param  list<string> $whiteListedMethods
      */
-    public function setWhiteListedMethods(array $whiteListedMethods): self
+    public function set_white_listed_methods(array $white_listed_methods): self
     {
-        $this->whiteListedMethods = $whiteListedMethods;
+        $this->white_listed_methods = $white_listed_methods;
         return $this;
     }
 }

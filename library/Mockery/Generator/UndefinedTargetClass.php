@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,21 +8,18 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
 namespace Mockery\Generator;
 
 use function array_pop;
 use function explode;
 use function implode;
 use function ltrim;
-
-class UndefinedTargetClass implements TargetClassInterface
+class Undefined_Target_Class implements Target_Class_Interface
 {
     /**
      * @var class-string
      */
     private $name;
-
     /**
      * @param class-string $name
      */
@@ -31,7 +27,6 @@ class UndefinedTargetClass implements TargetClassInterface
     {
         $this->name = $name;
     }
-
     /**
      * @return class-string
      */
@@ -39,7 +34,6 @@ class UndefinedTargetClass implements TargetClassInterface
     {
         return $this->name;
     }
-
     /**
      * @param  class-string $name
      */
@@ -47,76 +41,65 @@ class UndefinedTargetClass implements TargetClassInterface
     {
         return new self($name);
     }
-
     /**
      * @return list<class-string>
      */
-    public function getAttributes(): array
+    public function get_attributes(): array
     {
         return [];
     }
-
     /**
      * @return list<self>
      */
-    public function getInterfaces(): array
+    public function get_interfaces(): array
     {
         return [];
     }
-
     /**
      * @return list<Method>
      */
-    public function getMethods(): array
+    public function get_methods(): array
     {
         return [];
     }
-
     /**
      * @return class-string
      */
-    public function getName()
+    public function get_name()
     {
         return $this->name;
     }
-
-    public function getNamespaceName(): string
+    public function get_namespace_name(): string
     {
-        $parts = explode('\\', ltrim($this->getName(), '\\'));
+        $parts = explode('\\', ltrim($this->get_name(), '\\'));
         array_pop($parts);
         return implode('\\', $parts);
     }
-
-    public function getShortName(): string
+    public function get_short_name(): string
     {
-        $parts = explode('\\', $this->getName());
+        $parts = explode('\\', $this->get_name());
         return array_pop($parts);
     }
-
-    public function hasInternalAncestor(): bool
+    public function has_internal_ancestor(): bool
     {
         return false;
     }
-
     /**
      * @param  class-string $interface
      */
-    public function implementsInterface($interface): bool
+    public function implements_interface($interface): bool
     {
         return false;
     }
-
-    public function inNamespace(): bool
+    public function in_namespace(): bool
     {
-        return $this->getNamespaceName() !== '';
+        return $this->get_namespace_name() !== '';
     }
-
-    public function isAbstract(): bool
+    public function is_abstract(): bool
     {
         return false;
     }
-
-    public function isFinal(): bool
+    public function is_final(): bool
     {
         return false;
     }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -9,48 +8,39 @@ declare(strict_types=1);
  * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
  * @link https://github.com/mockery/mockery for the canonical source repository
  */
-
-namespace Mockery\Generator\StringManipulation\Pass;
+namespace Mockery\Generator\String_Manipulation\Pass;
 
 use function array_key_exists;
-
-use Mockery\Generator\MockConfiguration;
-
+use Mockery\Generator\Mock_Configuration;
 use const PHP_EOL;
-
 use function sprintf;
 use function strrpos;
 use function substr_replace;
 use function var_export;
-
-class ConstantsPass implements Pass
+class Constants_Pass implements Pass
 {
     /**
      * @param  string $code
      * @return string
      */
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, Mock_Configuration $config)
     {
-        $cm = $config->getConstantsMap();
+        $cm = $config->get_constants_map();
         if ($cm === []) {
             return $code;
         }
-
-        $name = $config->getName();
-        if (! array_key_exists($name, $cm)) {
+        $name = $config->get_name();
+        if (!array_key_exists($name, $cm)) {
             return $code;
         }
-
-        $constantsCode = '';
+        $constants_code = '';
         foreach ($cm[$name] as $constant => $value) {
-            $constantsCode .= sprintf("\n    const %s = %s;\n", $constant, var_export($value, true));
+            $constants_code .= sprintf("\n    const %s = %s;\n", $constant, var_export($value, true));
         }
-
         $offset = strrpos($code, '}');
         if ($offset === false) {
             return $code;
         }
-
-        return substr_replace($code, $constantsCode, $offset) . '}' . PHP_EOL;
+        return substr_replace($code, $constants_code, $offset) . '}' . PHP_EOL;
     }
 }
