@@ -21,7 +21,7 @@ use PHP81\MockClass;
 use PHP81\NeverReturningTypehintClass;
 use PHP81\ReturnTypeWillChangeAttributeNoReturnType;
 use PHP81\ReturnTypeWillChangeAttributeWrongReturnType;
-use PHP81\SimpleEnum;
+use PHP81\Simple_Enum;
 use PHP81\UsesEnums;
 use RuntimeException;
 use Serializable;
@@ -130,7 +130,7 @@ final class Php81Language_Features_Test extends Mockery_Test_Case
         $mock->should_receive('set')
             ->once();
         $mock->set();
-        self::assertSame(SimpleEnum::first, $mock->enum); // check that mock did not set internal variable
+        self::assertSame(Simple_Enum::first, $mock->enum); // check that mock did not set internal variable
     }
 
     public function testMockingClassWithNewInInitializer(): void

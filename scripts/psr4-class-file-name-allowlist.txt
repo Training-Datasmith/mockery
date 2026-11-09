@@ -1,0 +1,4 @@
+# Intentional class name vs file basename mismatches under library/ or tests/.
+# One entry per line: relative/path.php|DeclaredClassName|reason citing upstream file
+#
+# Leave this file free of stale entries: any line not matched by a live declaration fails the gate.

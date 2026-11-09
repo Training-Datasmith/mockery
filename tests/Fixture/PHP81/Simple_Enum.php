@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PHP81;
 
-enum SimpleEnum
+enum Simple_Enum
 {
     case first;
     case second;

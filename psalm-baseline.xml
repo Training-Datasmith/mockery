@@ -6169,8 +6169,8 @@ MOCK]]></code>
       <code><![CDATA[self::assertSame(0.0, $mock->getTimestamp())]]></code>
       <code><![CDATA[self::assertSame(123, \pcntl_wexitstatus($status))]]></code>
       <code><![CDATA[self::assertSame(123, \pcntl_wexitstatus($status))]]></code>
-      <code><![CDATA[self::assertSame(SimpleEnum::first, $mock->enum)]]></code>
-      <code><![CDATA[self::assertSame(SimpleEnum::first, $mock->enum)]]></code>
+      <code><![CDATA[self::assertSame(Simple_Enum::first, $mock->enum)]]></code>
+      <code><![CDATA[self::assertSame(Simple_Enum::first, $mock->enum)]]></code>
       <code><![CDATA[self::markTestSkipped("Couldn't fork for exit test")]]></code>
       <code><![CDATA[self::markTestSkipped("Couldn't fork for exit test")]]></code>
     </MissingThrowsDocblock>

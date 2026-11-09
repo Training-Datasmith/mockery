@@ -6,9 +6,9 @@ namespace PHP81;
 
 class UsesEnums
 {
-    public SimpleEnum $enum = SimpleEnum::first;
+    public Simple_Enum $enum = Simple_Enum::first;
 
-    public function set(SimpleEnum $enum = SimpleEnum::second)
+    public function set(Simple_Enum $enum = Simple_Enum::second)
     {
         $this->enum = $enum;
     }

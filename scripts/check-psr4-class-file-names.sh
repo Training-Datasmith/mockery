@@ -7,55 +7,37 @@ log() {
   printf '%s\n' "$*" >&2
 }
 
-export MOCKERY_ROOT="${ROOT}"
+PHP_IMAGE="${MOCKERY_CHECK_PHP_IMAGE:-php:7.3.33-cli-bullseye@sha256:b65d1b38434e586d73200b2feba4415da57eb2d5fe415e1ec3143df274abdaf0}"
 
-mapfile -t MISMATCHES < <(python3 <<'PY'
-import os
-import re
-from pathlib import Path
+run_php() {
+  local script_name="$1"
+  shift
 
-root = Path(os.environ["MOCKERY_ROOT"])
-roots = [root / "library", root / "tests"]
-pattern = re.compile(
-    r"^(?:abstract\s+|final\s+)?(?:class|interface|trait)\s+([A-Za-z_][A-Za-z0-9_]*)",
-    re.MULTILINE,
-)
+  if command -v php >/dev/null 2>&1; then
+    MOCKERY_ROOT="${ROOT}" php "${ROOT}/scripts/${script_name}" "$@"
+    return
+  fi
 
-mismatches = []
-for base in roots:
-    if not base.is_dir():
-        continue
-    for dirpath, dirnames, filenames in os.walk(base):
-        rel_dir = Path(dirpath).relative_to(root)
-        if "Fixture" in rel_dir.parts:
-            continue
-        if "/vendor/" in f"/{rel_dir}/":
-            continue
-        for filename in filenames:
-            if not filename.endswith(".php"):
-                continue
-            path = Path(dirpath) / filename
-            text = path.read_text(encoding="utf-8", errors="ignore")
-            names = pattern.findall(text)
-            if not names:
-                continue
-            expected_base = path.stem
-            for declared in names:
-                if declared != expected_base:
-                    mismatches.append(
-                        f"{path.relative_to(root)}: declared {declared}, file base {expected_base}"
-                    )
+  local docker=(docker)
+  if ! docker info >/dev/null 2>&1; then
+    if [[ "${USE_SUDO_DOCKER:-0}" == "1" ]]; then
+      docker=(sudo docker)
+    fi
+  fi
 
-for line in sorted(mismatches):
-    print(line)
-PY
-)
+  "${docker[@]}" run --rm \
+    -v "${ROOT}:/app" \
+    -w /app \
+    -e "MOCKERY_ROOT=/app" \
+    "${PHP_IMAGE}" \
+    php "/app/scripts/${script_name}" "$@"
+}
 
-if ((${#MISMATCHES[@]} > 0)); then
-  log "check-psr4-class-file-names: class/file name mismatches:"
-  for line in "${MISMATCHES[@]}"; do
-    log "  ${line}"
-  done
+if ! run_php check-psr4-class-file-names-selftest.php; then
+  exit 1
+fi
+
+if ! run_php check-psr4-class-file-names.php; then
   exit 1
 fi
 
