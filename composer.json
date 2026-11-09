@@ -43,6 +43,13 @@
         "rss": "https://github.com/mockery/mockery/releases.atom",
         "security": "https://github.com/mockery/mockery/security/advisories"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://raw.githubusercontent.com/Training-Datasmith/composer-index/remote-test-2026-11-09",
+            "canonical": false
+        }
+    ],
     "require": {
         "php": ">=7.3",
         "lib-pcre": ">=7.0",
@@ -101,7 +108,10 @@
             "tools/phive update --force-accept-unsigned",
             "tools/phive purge"
         ],
-        "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
+        "phpunit": [
+            "@php scripts/check-cluster-pins.php",
+            "vendor/bin/phpunit --do-not-cache-result --colors=always"
+        ],
         "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
         "phpunit:migrate": "@phpunit --migrate",
         "psalm": "tools/psalm --no-cache --threads=1",
