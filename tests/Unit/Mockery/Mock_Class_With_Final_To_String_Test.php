@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Container;
 use PHP73\SubclassWithFinalToString;
 use PHP73\TestWithFinalToString;
@@ -13,16 +13,16 @@ use PHP73\TestWithNonFinalToString;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithFinalToStringTest extends MockeryTestCase
+final class MockClassWithFinalToStringTest extends Mockery_Test_Case
 {
     protected $container;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->container = new Container();
     }
 
-    protected function mockeryTestTearDown(): void
+    protected function mockery_test_tear_down(): void
     {
         $this->container->mockery_close();
     }

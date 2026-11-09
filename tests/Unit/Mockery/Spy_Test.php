@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception\InvalidCountException;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class SpyTest extends MockeryTestCase
+final class SpyTest extends Mockery_Test_Case
 {
     public function testAnyArgsCanBeUsedWithAlternativeSyntax(): void
     {
@@ -28,14 +28,14 @@ final class SpyTest extends MockeryTestCase
         $spy->myMethod('param1', 'param2');
         $spy->shouldHaveReceived('myMethod')
             ->with('param1', 'param2');
-        self::assertSame(1, $spy->mockery_getExpectationCount());
+        self::assertSame(1, $spy->mockery_get_expectation_count());
     }
 
     public function testItIncrementsExpectationCountWhenShouldNotHaveReceivedIsUsed(): void
     {
         $spy = Mockery::spy();
         $spy->shouldNotHaveReceived('method');
-        self::assertSame(1, $spy->mockery_getExpectationCount());
+        self::assertSame(1, $spy->mockery_get_expectation_count());
     }
 
     public function testItVerifiesAMethodWasCalled(): void

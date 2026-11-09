@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception\BadMethodCallException;
 use PHP73\TestWithMethodOverloading;
 use PHP73\TestWithMethodOverloadingWithoutCall;
@@ -12,7 +12,7 @@ use PHP73\TestWithMethodOverloadingWithoutCall;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithMethodOverloadingTest extends MockeryTestCase
+final class MockClassWithMethodOverloadingTest extends Mockery_Test_Case
 {
     public function testCreateMockForClassWithMethodOverloading(): void
     {

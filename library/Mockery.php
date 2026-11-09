@@ -124,7 +124,7 @@ class Mockery
             $reference = $argument;
             return true;
         };
-        return new Closure_Matcher($closure);
+        return new ClosureMatcher($closure);
     }
     /**
      * Static shortcut to closing up and verifying all mocks in the global
@@ -445,7 +445,7 @@ class Mockery
      */
     public static function on($closure): \Mockery\Matcher\Closure
     {
-        return new Closure_Matcher($closure);
+        return new ClosureMatcher($closure);
     }
     /**
      * Utility function to parse shouldReceive() arguments and generate
@@ -702,11 +702,11 @@ class Mockery
     private static function extract_instance_public_properties($object, $nesting): array
     {
         $reflection = new ReflectionClass($object);
-        $properties = $reflection->get_properties(ReflectionProperty::IS_PUBLIC);
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
         $cleaned_properties = [];
         foreach ($properties as $public_property) {
             if (!$public_property->is_static()) {
-                $name = $public_property->get_name();
+                $name = $public_property->getName();
                 try {
                     $cleaned_properties[$name] = self::cleanup_nesting($object->{$name}, $nesting);
                 } catch (Throwable $throwable) {
@@ -790,13 +790,13 @@ class Mockery
             $expectation->and_return($mock);
             return $mock;
         }
-        $parent_mock_reflection_object = new Reflection_Object($parent_mock);
-        if (!$parent_mock_reflection_object->has_method($method)) {
+        $parent_mock_reflection_object = new ReflectionObject($parent_mock);
+        if (!$parent_mock_reflection_object->hasMethod($method)) {
             $mock = $container->mock($new_mock_name);
             $expectation->and_return($mock);
             return $mock;
         }
-        $par_ref_method_ret_type = Reflector::get_return_type($parent_mock_reflection_object->get_method($method), true);
+        $par_ref_method_ret_type = Reflector::get_return_type($parent_mock_reflection_object->getMethod($method), true);
         if (!\is_string($par_ref_method_ret_type)) {
             $mock = $container->mock($new_mock_name);
             $expectation->and_return($mock);
@@ -832,5 +832,15 @@ class Mockery
         $formatter = self::get_configuration()->get_object_formatter($class, $default_formatter);
         $array = ['class' => $class, 'identity' => '#' . \md5(\spl_object_hash($object))];
         return \array_merge($array, $formatter($object, $nesting));
+    }
+
+    public static function __callStatic(string $method, array $args)
+    {
+        $snake = mockery_camel_to_snake_method($method);
+        if ($snake !== $method && method_exists(self::class, $snake)) {
+            return self::$snake(...$args);
+        }
+
+        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
     }
 }

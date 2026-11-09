@@ -12,7 +12,7 @@ namespace Mockery\Exception;
 
 use Mockery\Exception;
 use Mockery\Legacy_Mock_Interface;
-class Invalid_Order_Exception extends Exception
+class InvalidOrderException extends Exception
 {
     /**
      * @var int|null

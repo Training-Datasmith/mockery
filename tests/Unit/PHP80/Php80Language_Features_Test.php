@@ -6,7 +6,7 @@ namespace Tests\Unit\PHP80;
 
 use Iterator;
 use IteratorAggregate;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP80\ArgumentMixedTypeHint;
 use PHP80\ArgumentParentTypeHint;
 use PHP80\ArgumentUnionTypeHint;
@@ -24,7 +24,7 @@ use Traversable;
  * @requires PHP 8.0.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php80LanguageFeaturesTest extends MockeryTestCase
+final class Php80LanguageFeaturesTest extends Mockery_Test_Case
 {
     public function testItCanMockAClassWithAMixedArgumentTypeHint(): void
     {

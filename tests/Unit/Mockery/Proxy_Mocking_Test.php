@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception;
 use PHP73\UnmockableClass;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class ProxyMockingTest extends MockeryTestCase
+final class ProxyMockingTest extends Mockery_Test_Case
 {
     public function testFinalClassCannotBeMocked(): void
     {

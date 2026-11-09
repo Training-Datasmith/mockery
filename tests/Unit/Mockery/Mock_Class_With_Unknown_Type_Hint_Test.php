@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-use Mockery\MockInterface;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
+use Mockery\Mock_Interface;
 use PHP73\HasUnknownClassAsTypeHintOnMethod;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithUnknownTypeHintTest extends MockeryTestCase
+final class MockClassWithUnknownTypeHintTest extends Mockery_Test_Case
 {
     public function testItShouldSuccessfullyBuildTheMock(): void
     {
         $mock = \mock(HasUnknownClassAsTypeHintOnMethod::class);
 
-        self::assertInstanceOf(MockInterface::class, $mock);
+        self::assertInstanceOf(Mock_Interface::class, $mock);
     }
 }

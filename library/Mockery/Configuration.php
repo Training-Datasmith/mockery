@@ -17,7 +17,6 @@ use Closure;
 use const E_USER_DEPRECATED;
 use function get_parent_class;
 use Hamcrest\Matcher;
-use Hamcrest_Matcher;
 use InvalidArgumentException;
 use function is_a;
 use LogicException;
@@ -282,7 +281,7 @@ class Configuration
      */
     public function set_default_matcher(string $class, $matcher_class): void
     {
-        $is_hamcrest = is_a($matcher_class, Matcher::class, true) || is_a($matcher_class, Hamcrest_Matcher::class, true);
+        $is_hamcrest = is_a($matcher_class, Matcher::class, true);
         if ($is_hamcrest) {
             @trigger_error('Hamcrest package has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
         }
@@ -320,5 +319,15 @@ class Configuration
     public function set_object_formatter(string $class, $formatter_callback): void
     {
         $this->_object_formatters[$class] = $formatter_callback;
+    }
+
+    public function __call(string $method, array $args)
+    {
+        $snake = mockery_camel_to_snake_method($method);
+        if ($snake !== $method && method_exists($this, $snake)) {
+            return $this->{$snake}(...$args);
+        }
+
+        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
     }
 }

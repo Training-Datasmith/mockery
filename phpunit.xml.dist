@@ -16,9 +16,9 @@
         </include>
         <exclude>
             <directory>library/Mockery/Adapter/Phpunit/Legacy</directory>
-            <file>library/Mockery/Adapter/Phpunit/TestListener.php</file>
-            <file>library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-            <file>library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+            <file>library/Mockery/Adapter/Phpunit/Test_Listener.php</file>
+            <file>library/Mockery/Adapter/Phpunit/Mockery_PHP_Unit_Integration_Assert_Post_Conditions.php</file>
+            <file>library/Mockery/Adapter/Phpunit/Mockery_Test_Case_Set_Up.php</file>
         </exclude>
         <report>
             <html outputDirectory=".cache/phpunit/coverage-html"/>

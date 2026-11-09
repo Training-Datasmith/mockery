@@ -1,6 +1,5 @@
 <?php
 
-declare (strict_types=1);
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -12,10 +11,10 @@ namespace Mockery;
 
 use Mockery\Count_Validator\Exception;
 use Mockery\Exception\BadMethodCallException;
-use Mockery\Exception\Invalid_Order_Exception;
-use Mockery\Exception\No_Matching_Expectation_Exception;
+use Mockery\Exception\InvalidOrderException;
+use Mockery\Exception\NoMatchingExpectationException;
 #[\Allow_Dynamic_Properties]
-class Mock implements Mock_Interface
+class Mock implements \Mockery\Mock_Interface
 {
     /**
      * Stores an array of all expectation directors for this mock
@@ -144,10 +143,10 @@ class Mock implements Mock_Interface
      * @param object $partialObject
      * @param bool $instanceMock
      */
-    public function mockery_init(?Container $container = null, $partial_object = null, $instance_mock = true): void
+    public function mockery_init(?\Mockery\Container $container = null, $partial_object = null, $instance_mock = true)
     {
         if (null === $container) {
-            $container = new Container();
+            $container = new \Mockery\Container();
         }
         $this->_mockery_container = $container;
         if (!is_null($partial_object)) {
@@ -155,8 +154,8 @@ class Mock implements Mock_Interface
         }
         if (!\Mockery::get_configuration()->mocking_non_existent_methods_allowed()) {
             foreach ($this->mockery_get_methods() as $method) {
-                if ($method->is_public()) {
-                    $this->_mockery_mockable_methods[] = $method->get_name();
+                if ($method->isPublic()) {
+                    $this->_mockery_mockable_methods[] = $method->getName();
                 }
             }
         }
@@ -173,7 +172,7 @@ class Mock implements Mock_Interface
     public function should_receive(...$method_names)
     {
         if ($method_names === []) {
-            return new Higher_Order_Message($this, 'shouldReceive');
+            return new \Mockery\Higher_Order_Message($this, 'shouldReceive');
         }
         foreach ($method_names as $method) {
             if ('' === $method) {
@@ -185,19 +184,19 @@ class Mock implements Mock_Interface
         return \Mockery::parse_should_return_args($this, $method_names, static function (string $method) use ($self, $allow_mocking_protected_methods): \Mockery\Expectation {
             $rm = $self->mockery_get_method($method);
             if ($rm) {
-                if ($rm->is_private()) {
+                if ($rm->isPrivate()) {
                     throw new \InvalidArgumentException($method . '() cannot be mocked as it is a private method');
                 }
-                if (!$allow_mocking_protected_methods && $rm->is_protected()) {
+                if (!$allow_mocking_protected_methods && $rm->isProtected()) {
                     throw new \InvalidArgumentException($method . '() cannot be mocked as it is a protected method and mocking protected methods is not enabled for the currently used mock object. Use shouldAllowMockingProtectedMethods() to enable mocking of protected methods.');
                 }
             }
             $director = $self->mockery_get_expectations_for($method);
             if (!$director) {
-                $director = new Expectation_Director($method, $self);
+                $director = new \Mockery\Expectation_Director($method, $self);
                 $self->mockery_set_expectations_for($method, $director);
             }
-            $expectation = new Expectation($self, $method);
+            $expectation = new \Mockery\Expectation($self, $method);
             $director->add_expectation($expectation);
             return $expectation;
         });
@@ -232,7 +231,7 @@ class Mock implements Mock_Interface
         if (is_string($something)) {
             return $this->should_receive($something)->once();
         }
-        return new Expects_Higher_Order_Message($this);
+        return new \Mockery\Expects_Higher_Order_Message($this);
     }
     // end method expects
     /**
@@ -244,7 +243,7 @@ class Mock implements Mock_Interface
     public function should_not_receive(...$method_names)
     {
         if ($method_names === []) {
-            return new Higher_Order_Message($this, 'shouldNotReceive');
+            return new \Mockery\Higher_Order_Message($this, 'shouldNotReceive');
         }
         $expectation = call_user_func_array(function (string $method_names) {
             return $this->should_receive($method_names);
@@ -279,7 +278,7 @@ class Mock implements Mock_Interface
     public function as_undefined(): self
     {
         $this->_mockery_ignore_missing = true;
-        $this->_mockery_default_return_value = new Undefined();
+        $this->_mockery_default_return_value = new \Mockery\Undefined();
         return $this;
     }
     /**
@@ -289,8 +288,8 @@ class Mock implements Mock_Interface
     {
         if (!\Mockery::get_configuration()->mocking_non_existent_methods_allowed()) {
             foreach ($this->mockery_get_methods() as $method) {
-                if ($method->is_protected()) {
-                    $this->_mockery_mockable_methods[] = $method->get_name();
+                if ($method->isProtected()) {
+                    $this->_mockery_mockable_methods[] = $method->getName();
                 }
             }
         }
@@ -324,6 +323,11 @@ class Mock implements Mock_Interface
         $this->_mockery_defer_missing = true;
         return $this;
     }
+
+    public function makePartial(): self
+    {
+        return $this->make_partial();
+    }
     /**
      * In the event shouldReceive() accepting one or more methods/returns,
      * this method will switch them from normal expectations to default
@@ -344,6 +348,11 @@ class Mock implements Mock_Interface
      */
     public function __call(string $method, array $args)
     {
+        $snake = mockery_camel_to_snake_method($method);
+        if ($snake !== $method && method_exists($this, $snake)) {
+            return $this->{$snake}(...$args);
+        }
+
         return $this->_mockery_handle_method_call($method, $args);
     }
     public static function __callStatic(string $method, array $args)
@@ -363,12 +372,12 @@ class Mock implements Mock_Interface
      *
      * @throws Exception
      */
-    public function mockery_verify(): void
+    public function mockery_verify()
     {
         if ($this->_mockery_verified) {
             return;
         }
-        if (property_exists($this, '_mockery_ignoreVerification') && $this->_mockery_ignore_verification !== null && $this->_mockery_ignore_verification == true) {
+        if (property_exists($this, '_mockery_ignoreVerification') && $this->_mockery_ignoreVerification !== null && $this->_mockery_ignoreVerification == true) {
             return;
         }
         $this->_mockery_verified = true;
@@ -409,7 +418,7 @@ class Mock implements Mock_Interface
      * @param mixed $group
      * @param int $order
      */
-    public function mockery_set_group($group, $order): void
+    public function mockery_set_group($group, $order)
     {
         $this->_mockery_groups[$group] = $order;
     }
@@ -448,10 +457,10 @@ class Mock implements Mock_Interface
      * @param int $order
      * @throws \Mockery\Exception
      */
-    public function mockery_validate_order($method, $order): void
+    public function mockery_validate_order($method, $order)
     {
         if ($order < $this->_mockery_current_order) {
-            $exception = new Invalid_Order_Exception('Method ' . self::class . '::' . $method . '()' . ' called out of order: expected order ' . $order . ', was ' . $this->_mockery_current_order);
+            $exception = new \Mockery\Exception\InvalidOrderException('Method ' . self::class . '::' . $method . '()' . ' called out of order: expected order ' . $order . ', was ' . $this->_mockery_current_order);
             $exception->set_mock($this)->set_method_name($method)->set_expected_order($order)->set_actual_order($this->_mockery_current_order);
             throw $exception;
         }
@@ -475,7 +484,7 @@ class Mock implements Mock_Interface
      *
      * @var string $method
      */
-    public function mockery_set_expectations_for($method, Expectation_Director $director): void
+    public function mockery_set_expectations_for($method, \Mockery\Expectation_Director $director)
     {
         $this->_mockery_expectations[$method] = $director;
     }
@@ -571,10 +580,10 @@ class Mock implements Mock_Interface
     {
         $rfc = new \ReflectionClass($this);
         // PHP 8 has Stringable interface
-        $interfaces = array_filter($rfc->get_interfaces(), static function (\ReflectionClass $i): bool {
-            return $i->get_name() !== 'Stringable';
+        $interfaces = array_filter($rfc->getInterfaces(), static function (\ReflectionClass $i): bool {
+            return $i->getName() !== 'Stringable';
         });
-        return false === $rfc->get_parent_class() && 2 === count($interfaces);
+        return false === $rfc->getParentClass() && 2 === count($interfaces);
     }
     public function mockery_is_instance()
     {
@@ -598,7 +607,7 @@ class Mock implements Mock_Interface
     public function mockery_get_method($name)
     {
         foreach ($this->mockery_get_methods() as $method) {
-            if ($method->get_name() == $name) {
+            if ($method->getName() == $name) {
                 return $method;
             }
         }
@@ -615,7 +624,7 @@ class Mock implements Mock_Interface
         if ($rm === null) {
             return null;
         }
-        $return_type = Reflector::get_simplest_return_type($rm);
+        $return_type = \Mockery\Reflector::get_simplest_return_type($rm);
         switch ($return_type) {
             case null:
             case 'void':
@@ -663,14 +672,14 @@ class Mock implements Mock_Interface
     public function should_have_received($method = null, $args = null)
     {
         if ($method === null) {
-            return new Higher_Order_Message($this, 'shouldHaveReceived');
+            return new \Mockery\Higher_Order_Message($this, 'shouldHaveReceived');
         }
-        $expectation = new Verification_Expectation($this, $method);
+        $expectation = new \Mockery\Verification_Expectation($this, $method);
         if (null !== $args) {
             $expectation->with_args($args);
         }
         $expectation->at_least()->once();
-        $director = new Verification_Director($this->_mockery_get_received_method_calls(), $expectation);
+        $director = new \Mockery\Verification_Director($this->_mockery_get_received_method_calls(), $expectation);
         ++$this->_mockery_expectations_count;
         $director->verify();
         return $director;
@@ -682,14 +691,14 @@ class Mock implements Mock_Interface
     public function should_not_have_received($method = null, $args = null): ?\Mockery\Higher_Order_Message
     {
         if ($method === null) {
-            return new Higher_Order_Message($this, 'shouldNotHaveReceived');
+            return new \Mockery\Higher_Order_Message($this, 'shouldNotHaveReceived');
         }
-        $expectation = new Verification_Expectation($this, $method);
+        $expectation = new \Mockery\Verification_Expectation($this, $method);
         if (null !== $args) {
             $expectation->with_args($args);
         }
         $expectation->never();
-        $director = new Verification_Director($this->_mockery_get_received_method_calls(), $expectation);
+        $director = new \Mockery\Verification_Director($this->_mockery_get_received_method_calls(), $expectation);
         ++$this->_mockery_expectations_count;
         $director->verify();
         return null;
@@ -709,7 +718,7 @@ class Mock implements Mock_Interface
     }
     protected function _mockery_get_received_method_calls()
     {
-        return $this->_mockery_received_method_calls ?: $this->_mockery_received_method_calls = new Received_Method_Calls();
+        return $this->_mockery_received_method_calls ?: $this->_mockery_received_method_calls = new \Mockery\Received_Method_Calls();
     }
     /**
      * Called when an instance Mock was created and its constructor is getting called
@@ -734,18 +743,18 @@ class Mock implements Mock_Interface
     }
     protected function _mockery_handle_method_call($method, array $args)
     {
-        $this->_mockery_get_received_method_calls()->push(new Method_Call($method, $args));
+        $this->_mockery_get_received_method_calls()->push(new \Mockery\Method_Call($method, $args));
         $rm = $this->mockery_get_method($method);
-        if ($rm && $rm->is_protected() && !$this->_mockery_allow_mocking_protected_methods) {
-            if ($rm->is_abstract()) {
+        if ($rm && $rm->isProtected() && !$this->_mockery_allow_mocking_protected_methods) {
+            if ($rm->isAbstract()) {
                 return;
             }
             try {
-                $prototype = $rm->get_prototype();
-                if ($prototype->is_abstract()) {
+                $prototype = $rm->getPrototype();
+                if ($prototype->isAbstract()) {
                     return;
                 }
-            } catch (\Reflection_Exception $re) {
+            } catch (\ReflectionException $re) {
                 // noop - there is no hasPrototype method
             }
             if (null === $this->_mockery_parent_class) {
@@ -757,7 +766,7 @@ class Mock implements Mock_Interface
         if ($handler !== null && !$this->_mockery_disable_expectation_matching) {
             try {
                 return $handler->call($args);
-            } catch (No_Matching_Expectation_Exception $e) {
+            } catch (NoMatchingExpectationException $e) {
                 if (!$this->_mockery_ignore_missing && !$this->_mockery_defer_missing) {
                     throw $e;
                 }
@@ -791,7 +800,7 @@ class Mock implements Mock_Interface
         if (!is_null($rm)) {
             $message = 'Received ' . self::class . '::' . $method . '(), but no expectations were specified';
         }
-        $bmce = new BadMethodCallException($message);
+        $bmce = new \Mockery\Exception\BadMethodCallException($message);
         $this->_mockery_thrown_exceptions[] = $bmce;
         throw $bmce;
     }
@@ -807,11 +816,11 @@ class Mock implements Mock_Interface
             return static::$_mockery_methods;
         }
         if ($this->_mockery_partial !== null) {
-            $reflected = new \Reflection_Object($this->_mockery_partial);
+            $reflected = new \ReflectionObject($this->_mockery_partial);
         } else {
             $reflected = new \ReflectionClass($this);
         }
-        return static::$_mockery_methods = $reflected->get_methods();
+        return static::$_mockery_methods = $reflected->getMethods();
     }
     private function has_method_overloading_in_parent_class(): bool
     {
@@ -821,9 +830,9 @@ class Mock implements Mock_Interface
     private function get_non_public_methods(): array
     {
         return array_map(static function ($method) {
-            return $method->get_name();
+            return $method->getName();
         }, array_filter($this->mockery_get_methods(), static function ($method): bool {
-            return !$method->is_public();
+            return !$method->isPublic();
         }));
     }
 }

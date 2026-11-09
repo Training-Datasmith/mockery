@@ -30,7 +30,7 @@ class Avoid_Method_Clash_Pass implements Pass
         foreach (['allows', 'expects'] as $method) {
             if (in_array($method, $names, true)) {
                 $code = preg_replace(sprintf('#// start method %s.*// end method %s#ms', $method, $method), '', $code);
-                $code = str_replace(' implements MockInterface', ' implements LegacyMockInterface', $code);
+                $code = str_replace(' implements \\Mockery\\Mock_Interface', ' implements \\Mockery\\Legacy_Mock_Interface', $code);
             }
         }
         return $code;

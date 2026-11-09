@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\PHP83;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception;
 use PHP83\Classes;
 use PHP83\ClassName;
@@ -16,7 +16,7 @@ use PHP83\Traits;
  * @requires PHP 8.3.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php83LanguageFeaturesTest extends MockeryTestCase
+final class Php83LanguageFeaturesTest extends Mockery_Test_Case
 {
     public function testCanMockClassTypedClassConstants(): void
     {

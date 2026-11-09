@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class InterfacePassTest extends TestCase
 {
-    public const CODE = 'class Mock implements MockInterface';
+    public const CODE = 'class Mock implements Mock_Interface';
 
     public function testShouldAddAnyInterfaceNamesToImplementsDefinition(): void
     {
@@ -33,7 +33,7 @@ final class InterfacePassTest extends TestCase
 
         $code = $pass->apply(self::CODE, $config);
 
-        self::assertNotFalse(\mb_strpos($code, 'implements MockInterface, \Dave\Dave, \Paddy\Paddy'));
+        self::assertNotFalse(\mb_strpos($code, 'implements Mock_Interface, \Dave\Dave, \Paddy\Paddy'));
     }
 
     public function testShouldNotAlterCodeIfNoTargetInterfaces(): void

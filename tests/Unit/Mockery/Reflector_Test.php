@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Reflector;
 use PHP73\ChildClass;
 use PHP73\NullableObject;
@@ -17,7 +17,7 @@ use ReflectionClass;
 /**
  * @coversDefaultClass \Mockery\Reflector
  */
-final class ReflectorTest extends MockeryTestCase
+final class ReflectorTest extends Mockery_Test_Case
 {
     public static function provideGetTypeHintCases(): iterable
     {
@@ -59,7 +59,7 @@ final class ReflectorTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame($expectedTypeHint, Reflector::getTypeHint($refParam));
+        self::assertSame($expectedTypeHint, Reflector::get_type_hint($refParam));
     }
 
     /**
@@ -67,6 +67,6 @@ final class ReflectorTest extends MockeryTestCase
      */
     public function testIsReservedWord(string $type): void
     {
-        self::assertTrue(Reflector::isReservedWord($type));
+        self::assertTrue(Reflector::is_reserved_word($type));
     }
 }

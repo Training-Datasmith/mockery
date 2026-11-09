@@ -7,7 +7,7 @@ namespace Tests\Unit\Mockery;
 use DateTime;
 use Hamcrest\Core\IsEqual;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP73\CustomValueObject;
 use PHP73\CustomValueObjectInterface;
 use PHP73\CustomValueObjectMatcher;
@@ -15,16 +15,16 @@ use PHP73\CustomValueObjectMatcher;
 /**
  * @coversDefaultClass \Mockery
  */
-final class DefaultMatchersTest extends MockeryTestCase
+final class DefaultMatchersTest extends Mockery_Test_Case
 {
     protected $mock;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->mock = \mock('foo');
     }
 
-    public function mockeryTestTearDown(): void
+    public function mockery_test_tear_down(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }

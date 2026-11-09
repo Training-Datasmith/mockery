@@ -6,7 +6,7 @@ namespace Tests\Unit\Mockery;
 
 use function mock;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP73\TestIncreasedVisibilityChild;
 
 use PHP73\TestWithProtectedMethods;
@@ -14,7 +14,7 @@ use PHP73\TestWithProtectedMethods;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingProtectedMethodsTest extends MockeryTestCase
+final class MockingProtectedMethodsTest extends Mockery_Test_Case
 {
     public function testShouldAllowMockingAbstractProtectedMethods(): void
     {

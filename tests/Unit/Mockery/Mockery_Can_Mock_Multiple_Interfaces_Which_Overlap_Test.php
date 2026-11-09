@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Container;
 use PHP73\Chatroulette_ConnectionInterface;
 use PHP73\Evenement_EventEmitter;
@@ -12,7 +12,7 @@ use PHP73\Evenement_EventEmitter;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockeryCanMockMultipleInterfacesWhichOverlapTest extends MockeryTestCase
+final class MockeryCanMockMultipleInterfacesWhichOverlapTest extends Mockery_Test_Case
 {
     public function testItSshouldNotDuplicateDoublyInheritedMethods(): void
     {

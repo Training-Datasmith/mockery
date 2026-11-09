@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery\Adapter\Phpunit;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception;
 use PHPUnit\Framework\Constraint\GreaterThan;
 use PHPUnit\Framework\Constraint\IsIdentical;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\Constraint\IsIdentical;
 /**
  * @coversDefaultClass \Mockery
  */
-final class PhpUnitConstraintExpectationTest extends MockeryTestCase
+final class PhpUnitConstraintExpectationTest extends Mockery_Test_Case
 {
     public function testAnythingConstraintMatchesArgument(): void
     {

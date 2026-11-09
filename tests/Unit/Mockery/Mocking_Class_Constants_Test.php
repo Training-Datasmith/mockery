@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP73\ClassWithConstants;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingClassConstantsTest extends MockeryTestCase
+final class MockingClassConstantsTest extends Mockery_Test_Case
 {
     public function testItShouldAllowToMockClassConstants(): void
     {

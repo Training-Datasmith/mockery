@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class ClassNamePassTest extends MockeryTestCase
+final class ClassNamePassTest extends Mockery_Test_Case
 {
     public const CODE = 'namespace Mockery; class Mock {}';
 
     protected $pass;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->pass = new ClassNamePass();
     }

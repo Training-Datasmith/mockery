@@ -13,7 +13,7 @@ namespace Mockery\Exception;
 use function in_array;
 use Mockery\Count_Validator\Exception;
 use Mockery\Legacy_Mock_Interface;
-class Invalid_Count_Exception extends Exception
+class InvalidCountException extends Exception
 {
     /**
      * @var int|null
@@ -108,6 +108,11 @@ class Invalid_Count_Exception extends Exception
         }
         $this->expected_comparative = $comp;
         return $this;
+    }
+
+    public function setExpectedCountComparative($comp): self
+    {
+        return $this->set_expected_count_comparative($comp);
     }
     /**
      * @param  string $name

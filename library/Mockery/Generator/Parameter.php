@@ -20,6 +20,17 @@ use ReflectionParameter;
 class Parameter
 {
     /**
+     * @var array<string, string>
+     */
+    private static $reflection_parameter_map = [
+        'get_default_value' => 'getDefaultValue',
+        'is_default_value_available' => 'isDefaultValueAvailable',
+        'is_default_value_constant' => 'isDefaultValueConstant',
+        'is_optional' => 'isOptional',
+        'is_passed_by_reference' => 'isPassedByReference',
+        'is_variadic' => 'isVariadic',
+    ];
+    /**
      * @var int
      */
     private static $parameter_counter = 0;
@@ -42,8 +53,9 @@ class Parameter
      */
     public function __call(string $method, array $args)
     {
+        $target = self::$reflection_parameter_map[$method] ?? $method;
         /** @var TResult */
-        return $this->rfp->{$method}(...$args);
+        return $this->rfp->{$target}(...$args);
     }
     /**
      * Get the reflection class for the parameter type, if it exists.
@@ -68,7 +80,7 @@ class Parameter
      */
     public function get_name()
     {
-        $name = $this->rfp->get_name();
+        $name = $this->rfp->getName();
         if (!$name || $name === '...') {
             return 'arg' . self::$parameter_counter++;
         }
@@ -107,6 +119,6 @@ class Parameter
      */
     public function is_variadic(): bool
     {
-        return $this->rfp->is_variadic();
+        return $this->rfp->isVariadic();
     }
 }

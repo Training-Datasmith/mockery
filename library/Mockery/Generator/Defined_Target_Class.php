@@ -14,7 +14,7 @@ use function array_map;
 use function array_merge;
 use function array_unique;
 use const PHP_VERSION_ID;
-use Reflection_Attribute;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 class Defined_Target_Class implements Target_Class_Interface
@@ -33,7 +33,7 @@ class Defined_Target_Class implements Target_Class_Interface
     public function __construct(ReflectionClass $rfc, $alias = null)
     {
         $this->rfc = $rfc;
-        $this->name = $alias ?? $rfc->get_name();
+        $this->name = $alias ?? $rfc->getName();
     }
     /**
      * @return class-string
@@ -58,9 +58,9 @@ class Defined_Target_Class implements Target_Class_Interface
         if (PHP_VERSION_ID < 80000) {
             return [];
         }
-        return array_unique(array_merge(['\AllowDynamicProperties'], array_map(static function (Reflection_Attribute $attribute): string {
-            return '\\' . $attribute->get_name();
-        }, $this->rfc->get_attributes())));
+        return array_unique(array_merge(['\AllowDynamicProperties'], array_map(static function (ReflectionAttribute $attribute): string {
+            return '\\' . $attribute->getName();
+        }, $this->rfc->getAttributes())));
     }
     /**
      * @return array<class-string,self>
@@ -69,7 +69,7 @@ class Defined_Target_Class implements Target_Class_Interface
     {
         return array_map(static function (ReflectionClass $interface): self {
             return new self($interface);
-        }, $this->rfc->get_interfaces());
+        }, $this->rfc->getInterfaces());
     }
     /**
      * @return list<Method>
@@ -78,7 +78,7 @@ class Defined_Target_Class implements Target_Class_Interface
     {
         return array_map(static function (ReflectionMethod $method): Method {
             return new Method($method);
-        }, $this->rfc->get_methods());
+        }, $this->rfc->getMethods());
     }
     /**
      * @return class-string
@@ -89,20 +89,20 @@ class Defined_Target_Class implements Target_Class_Interface
     }
     public function get_namespace_name(): string
     {
-        return $this->rfc->get_namespace_name();
+        return $this->rfc->getNamespaceName();
     }
     public function get_short_name(): string
     {
-        return $this->rfc->get_short_name();
+        return $this->rfc->getShortName();
     }
     public function has_internal_ancestor(): bool
     {
-        if ($this->rfc->is_internal()) {
+        if ($this->rfc->isInternal()) {
             return true;
         }
         $child = $this->rfc;
-        while ($parent = $child->get_parent_class()) {
-            if ($parent->is_internal()) {
+        while ($parent = $child->getParentClass()) {
+            if ($parent->isInternal()) {
                 return true;
             }
             $child = $parent;
@@ -114,18 +114,18 @@ class Defined_Target_Class implements Target_Class_Interface
      */
     public function implements_interface($interface): bool
     {
-        return $this->rfc->implements_interface($interface);
+        return $this->rfc->implementsInterface($interface);
     }
     public function in_namespace(): bool
     {
-        return $this->rfc->in_namespace();
+        return $this->rfc->inNamespace();
     }
     public function is_abstract(): bool
     {
-        return $this->rfc->is_abstract();
+        return $this->rfc->isAbstract();
     }
     public function is_final(): bool
     {
-        return $this->rfc->is_final();
+        return $this->rfc->isFinal();
     }
 }

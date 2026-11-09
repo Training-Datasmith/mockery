@@ -34,6 +34,6 @@ class Class_Pass implements Pass
         if (!class_exists($class_name)) {
             Mockery::declare_class($class_name);
         }
-        return str_replace('implements MockInterface', 'extends \\' . $class_name . ' implements MockInterface', $code);
+        return str_replace('implements \\Mockery\\Mock_Interface', 'extends \\' . $class_name . ' implements \\Mockery\\Mock_Interface', $code);
     }
 }

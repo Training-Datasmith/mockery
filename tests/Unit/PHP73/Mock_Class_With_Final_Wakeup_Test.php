@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\PHP73;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP73\SubclassWithFinalWakeup;
 use PHP73\TestWithFinalWakeup;
 use PHP73\TestWithNonFinalWakeup;
@@ -12,16 +12,16 @@ use PHP73\TestWithNonFinalWakeup;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithFinalWakeupTest extends MockeryTestCase
+final class MockClassWithFinalWakeupTest extends Mockery_Test_Case
 {
     protected $container;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->container = new \Mockery\Container();
     }
 
-    protected function mockeryTestTearDown(): void
+    protected function mockery_test_tear_down(): void
     {
         $this->container->mockery_close();
     }

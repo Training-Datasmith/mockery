@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP74;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP74\Regression\Issue1402\Service;
 
 /**
@@ -13,7 +13,7 @@ use PHP74\Regression\Issue1402\Service;
  * @requires PHP 7.4
  * @see https://github.com/mockery/mockery/issues/1402
  */
-final class TestCase1402Test extends MockeryTestCase
+final class TestCase1402Test extends Mockery_Test_Case
 {
     public function testMethod(): void
     {

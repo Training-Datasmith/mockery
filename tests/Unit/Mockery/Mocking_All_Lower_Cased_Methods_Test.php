@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PHP73\ClassWithAllLowerCaseMethod;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingAllLowerCasedMethodsTest extends MockeryTestCase
+final class MockingAllLowerCasedMethodsTest extends Mockery_Test_Case
 {
     public function testItShouldAllowToCallAllLowerCasedMethodAsCamelCased(): void
     {

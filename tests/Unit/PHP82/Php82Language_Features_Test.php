@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP82;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Reflector;
 use PHP82\HasNullReturnType;
 use PHP82\HasReservedWordFalse;
@@ -27,7 +27,7 @@ use ReflectionType;
  * @requires PHP 8.2.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php82LanguageFeaturesTest extends MockeryTestCase
+final class Php82LanguageFeaturesTest extends Mockery_Test_Case
 {
     public static function provideMockParameterDisjunctiveNormalFormTypesCases(): iterable
     {
@@ -141,7 +141,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame('iterable|\stdClass|string', Reflector::getTypeHint($refParam));
+        self::assertSame('iterable|\stdClass|string', Reflector::get_type_hint($refParam));
     }
 
     public function testTypeHintIterableObject(): void
@@ -150,7 +150,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame('iterable|object', Reflector::getTypeHint($refParam));
+        self::assertSame('iterable|object', Reflector::get_type_hint($refParam));
     }
 
     public function testTypeHintIterableObjectString(): void
@@ -159,6 +159,6 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame('iterable|object|string', Reflector::getTypeHint($refParam));
+        self::assertSame('iterable|object|string', Reflector::get_type_hint($refParam));
     }
 }

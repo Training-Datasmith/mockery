@@ -7,28 +7,28 @@ namespace Tests\Unit\Mockery;
 use mock1;
 use mock2;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Mock;
 use stdClass;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class DemeterChainTest extends MockeryTestCase
+final class DemeterChainTest extends Mockery_Test_Case
 {
     /**
      * @var Mock
      */
     private $mock;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->mock = Mockery::mock()->shouldIgnoreMissing();
     }
 
-    public function mockeryTestTearDown(): void
+    public function mockery_test_tear_down(): void
     {
-        $this->mock->mockery_getContainer()
+        $this->mock->mockery_get_container()
             ->mockery_close();
     }
 
@@ -156,7 +156,7 @@ final class DemeterChainTest extends MockeryTestCase
 
         self::assertSame('something', $this->mock->getElement() ->getFirst());
         self::assertSame('somethingElse', $this->mock->getElement() ->getSecond());
-        $this->mock->mockery_getContainer()
+        $this->mock->mockery_get_container()
             ->mockery_close();
     }
 
@@ -174,7 +174,7 @@ final class DemeterChainTest extends MockeryTestCase
 
         self::assertSame('something', $this->mock->getElement() ->getFirst('parameter'));
         self::assertSame('somethingElse', $this->mock->getElement() ->getSecond('secondParameter'));
-        $this->mock->mockery_getContainer()
+        $this->mock->mockery_get_container()
             ->mockery_close();
     }
 

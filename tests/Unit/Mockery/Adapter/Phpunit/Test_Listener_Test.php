@@ -6,8 +6,8 @@ namespace Tests\Unit\Mockery\Adapter\Phpunit;
 
 use EmptyTestCase;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-use Mockery\Adapter\Phpunit\TestListener;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
+use Mockery\Adapter\Phpunit\Test_Listener;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Blacklist;
@@ -16,7 +16,7 @@ use ReflectionClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class TestListenerTest extends MockeryTestCase
+final class TestListenerTest extends Mockery_Test_Case
 {
     protected $container;
 
@@ -26,12 +26,12 @@ final class TestListenerTest extends MockeryTestCase
 
     protected $testResult;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         // We intentionally test the static container here. That is what the
         // listener will check.
-        $this->container = Mockery::getContainer();
-        $this->listener = new TestListener();
+        $this->container = Mockery::get_container();
+        $this->listener = new Test_Listener();
         $this->testResult = new TestResult();
         $this->test = new EmptyTestCase();
 
@@ -89,7 +89,7 @@ final class TestListenerTest extends MockeryTestCase
 
         // This is what MockeryPHPUnitIntegration and MockeryTestCase trait
         // will do. We intentionally call the static close method.
-        $this->test->addToAssertionCount($this->container->mockery_getExpectationCount());
+        $this->test->addToAssertionCount($this->container->mockery_get_expectation_count());
 
         Mockery::close();
 

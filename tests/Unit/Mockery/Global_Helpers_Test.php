@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\AnyArgs;
-use Mockery\MockInterface;
+use Mockery\Mock_Interface;
 use Throwable;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class GlobalHelpersTest extends MockeryTestCase
+final class GlobalHelpersTest extends Mockery_Test_Case
 {
     /**
      * @throws Throwable
@@ -43,7 +43,7 @@ final class GlobalHelpersTest extends MockeryTestCase
     {
         $double = \mock();
 
-        self::assertInstanceOf(MockInterface::class, $double);
+        self::assertInstanceOf(Mock_Interface::class, $double);
 
         $this->expectException(Throwable::class);
 
@@ -56,7 +56,7 @@ final class GlobalHelpersTest extends MockeryTestCase
 
         $double = \namedMock($className);
 
-        self::assertInstanceOf(MockInterface::class, $double);
+        self::assertInstanceOf(Mock_Interface::class, $double);
         self::assertInstanceOf($className, $double);
     }
 
@@ -64,7 +64,7 @@ final class GlobalHelpersTest extends MockeryTestCase
     {
         $double = \spy();
 
-        self::assertInstanceOf(MockInterface::class, $double);
+        self::assertInstanceOf(Mock_Interface::class, $double);
         $double->foo();
     }
 }

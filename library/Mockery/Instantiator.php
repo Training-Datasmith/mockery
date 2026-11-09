@@ -46,14 +46,14 @@ final class Instantiator
     private function attempt_instantiation_via_un_serialization(ReflectionClass $reflection_class, string $serialized_string): void
     {
         set_error_handler(static function ($code, $message, $file, $line) use ($reflection_class, &$error): void {
-            $msg = sprintf('Could not produce an instance of "%s" via un-serialization, since an error was triggered in file "%s" at line "%d"', $reflection_class->get_name(), $file, $line);
+            $msg = sprintf('Could not produce an instance of "%s" via un-serialization, since an error was triggered in file "%s" at line "%d"', $reflection_class->getName(), $file, $line);
             $error = new UnexpectedValueException($msg, 0, new Exception($message, $code));
         });
         try {
             unserialize($serialized_string);
         } catch (Exception $exception) {
             restore_error_handler();
-            throw new UnexpectedValueException(sprintf('An exception was raised while trying to instantiate an instance of "%s" via un-serialization', $reflection_class->get_name()), 0, $exception);
+            throw new UnexpectedValueException(sprintf('An exception was raised while trying to instantiate an instance of "%s" via un-serialization', $reflection_class->getName()), 0, $exception);
         }
         restore_error_handler();
         if ($error instanceof UnexpectedValueException) {
@@ -68,7 +68,7 @@ final class Instantiator
         $reflection_class = $this->get_reflection_class($class_name);
         if ($this->is_instantiable_via_reflection($reflection_class)) {
             return static function () use ($reflection_class): object {
-                return $reflection_class->new_instance_without_constructor();
+                return $reflection_class->newInstanceWithoutConstructor();
             };
         }
         $serialized_string = sprintf('O:%d:"%s":0:{}', strlen($class_name), $class_name);
@@ -86,7 +86,7 @@ final class Instantiator
             throw new InvalidArgumentException(sprintf('Class:%s does not exist', $class_name));
         }
         $reflection = new ReflectionClass($class_name);
-        if ($reflection->is_abstract()) {
+        if ($reflection->isAbstract()) {
             throw new InvalidArgumentException(sprintf('Class:%s is an abstract class', $class_name));
         }
         return $reflection;
@@ -96,6 +96,6 @@ final class Instantiator
      */
     private function is_instantiable_via_reflection(ReflectionClass $reflection_class): bool
     {
-        return !($reflection_class->is_internal() && $reflection_class->is_final());
+        return !($reflection_class->isInternal() && $reflection_class->isFinal());
     }
 }

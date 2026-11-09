@@ -86,6 +86,12 @@ if (!\function_exists('get_debug_type')) {
         return $parent . '@anonymous';
     }
 }
+if (!\function_exists('mockery_camel_to_snake_method')) {
+    function mockery_camel_to_snake_method(string $method): string
+    {
+        return strtolower((string) preg_replace('/([a-z0-9])([A-Z])/', '$1_$2', $method));
+    }
+}
 if (!\function_exists('mock')) {
     /**
      * @template TMixed

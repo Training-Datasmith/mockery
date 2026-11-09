@@ -61,10 +61,10 @@ validate_mockery_phpunit_output() {
   fi
 
   local -a seen_skips=()
-  mapfile -t seen_skips < <(grep -E '^S ' "${stripped}" | sed -E 's/^S +//' | sed -E 's/ \([0-9.]+s\)$//' || true)
+  mapfile -t seen_skips < <(grep -E '^[0-9]+\) ' "${stripped}" | sed -E 's/^[0-9]+\) +([^ ]+).*/\1/' || true)
 
   if [[ "${#seen_skips[@]}" -ne "${expected_skip_count}" ]]; then
-    printf '%s\n' "Expected ${expected_skip_count} S lines, found ${#seen_skips[@]}"
+    printf '%s\n' "Expected ${expected_skip_count} skipped-test lines, found ${#seen_skips[@]}"
     rm -f "${stripped}"
     return 1
   fi
@@ -88,7 +88,7 @@ validate_mockery_phpunit_output() {
 
   for allowed_id in "${allowed[@]}"; do
     local found=0
-  for id in "${seen_skips[@]}"; do
+    for id in "${seen_skips[@]}"; do
       if [[ "${id}" == "${allowed_id}" ]]; then
         found=1
         break

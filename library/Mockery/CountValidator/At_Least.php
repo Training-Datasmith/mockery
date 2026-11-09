@@ -10,7 +10,7 @@ declare (strict_types=1);
  */
 namespace Mockery\Count_Validator;
 
-use Mockery\Exception\Invalid_Count_Exception;
+use Mockery\Exception\InvalidCountException;
 use const PHP_EOL;
 class At_Least extends Count_Validator_Abstract
 {
@@ -33,7 +33,7 @@ class At_Least extends Count_Validator_Abstract
     public function validate($n): void
     {
         if ($this->_limit > $n) {
-            $exception = new Invalid_Count_Exception('Method ' . $this->_expectation . ' from ' . $this->_expectation->get_mock()->mockery_get_name() . ' should be called' . PHP_EOL . ' at least ' . $this->_limit . ' times but called ' . $n . ' times.');
+            $exception = new InvalidCountException('Method ' . $this->_expectation . ' from ' . $this->_expectation->get_mock()->mockery_get_name() . ' should be called' . PHP_EOL . ' at least ' . $this->_limit . ' times but called ' . $n . ' times.');
             $exception->set_mock($this->_expectation->get_mock())->set_method_name((string) $this->_expectation)->set_expected_count_comparative('>=')->set_expected_count($this->_limit)->set_actual_count($n);
             throw $exception;
         }

@@ -65,10 +65,10 @@ class Method_Definition_Pass implements Pass
     protected function render_params(Method $method, $config): string
     {
         $class = $method->get_declaring_class();
-        if ($class->is_internal()) {
+        if ($class->isInternal()) {
             $overrides = $config->get_parameter_overrides();
-            if (isset($overrides[strtolower($class->get_name())][$method->get_name()])) {
-                return '(' . implode(',', $overrides[strtolower($class->get_name())][$method->get_name()]) . ')';
+            if (isset($overrides[strtolower($class->getName())][$method->get_name()])) {
+                return '(' . implode(',', $overrides[strtolower($class->getName())][$method->get_name()]) . ')';
             }
         }
         $method_params = [];
@@ -126,7 +126,7 @@ class Method_Definition_Pass implements Pass
         // in case more parameters are passed in than the function definition
         // says - eg varargs.
         $class = $method->get_declaring_class();
-        $class_name = strtolower($class->get_name());
+        $class_name = strtolower($class->getName());
         $overrides = $config->get_parameter_overrides();
         if (isset($overrides[$class_name][$method->get_name()])) {
             $params = array_values($overrides[$class_name][$method->get_name()]);

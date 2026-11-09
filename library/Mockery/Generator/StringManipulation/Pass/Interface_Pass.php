@@ -32,6 +32,6 @@ class Interface_Pass implements Pass
         $interfaces = array_reduce($config->get_target_interfaces(), static function (string $code, \Mockery\Generator\Target_Class_Interface $i): string {
             return $code . ', \\' . ltrim($i->get_name(), '\\');
         }, '');
-        return str_replace('implements MockInterface', 'implements MockInterface' . $interfaces, $code);
+        return str_replace('implements \\Mockery\\Mock_Interface', 'implements \\Mockery\\Mock_Interface' . $interfaces, $code);
     }
 }

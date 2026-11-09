@@ -66,6 +66,9 @@
         "psr-4": {
             "Mockery\\": "library/Mockery"
         },
+        "classmap": [
+            "library/"
+        ],
         "files": [
             "library/helpers.php",
             "library/Mockery.php"
@@ -75,6 +78,9 @@
         "psr-4": {
             "Tests\\": "tests"
         },
+        "classmap": [
+            "tests/"
+        ],
         "exclude-from-classmap": [
             "tests/Fixture"
         ],

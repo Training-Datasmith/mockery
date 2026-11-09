@@ -9,10 +9,10 @@ use ErrorException;
 use Exception;
 use InvalidArgumentException;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception as MockeryException;
 use Mockery\Mock;
-use Mockery\MockInterface;
+use Mockery\Mock_Interface;
 use PHP73\ClassWithMethods;
 use PHP73\ClassWithNoToString;
 use PHP73\ClassWithProtectedMethod;
@@ -22,7 +22,7 @@ use PHP73\ExampleClassForTestingNonExistentMethod;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockTest extends MockeryTestCase
+final class MockTest extends Mockery_Test_Case
 {
     public function testAnonymousMockWorksWithNotAllowingMockingOfNonExistentMethods(): void
     {
@@ -67,7 +67,7 @@ final class MockTest extends MockeryTestCase
             ->once()
             ->byDefault();
 
-        self::assertSame(2, $mock->mockery_getExpectationCount());
+        self::assertSame(2, $mock->mockery_get_expectation_count());
     }
 
     public function testExpectationCountWillCountExpectations(): void
@@ -78,7 +78,7 @@ final class MockTest extends MockeryTestCase
         $mock->shouldReceive('doThat')
             ->once();
 
-        self::assertSame(2, $mock->mockery_getExpectationCount());
+        self::assertSame(2, $mock->mockery_get_expectation_count());
     }
 
     public function testExpectationCountWillIgnoreDefaultsIfOverriden(): void
@@ -92,7 +92,7 @@ final class MockTest extends MockeryTestCase
         $mock->shouldReceive('andThis')
             ->twice();
 
-        self::assertSame(2, $mock->mockery_getExpectationCount());
+        self::assertSame(2, $mock->mockery_get_expectation_count());
     }
 
     public function testMockAddsToString(): void
@@ -142,13 +142,13 @@ final class MockTest extends MockeryTestCase
     public function testShouldAllowMockingMethodReturnsMockInstance(): void
     {
         $m = Mockery::mock('someClass');
-        self::assertInstanceOf(MockInterface::class, $m->shouldAllowMockingMethod('testFunction'));
+        self::assertInstanceOf(Mock_Interface::class, $m->shouldAllowMockingMethod('testFunction'));
     }
 
     public function testShouldAllowMockingProtectedMethodReturnsMockInstance(): void
     {
         $m = Mockery::mock('someClass');
-        self::assertInstanceOf(MockInterface::class, $m->shouldAllowMockingProtectedMethods('testFunction'));
+        self::assertInstanceOf(Mock_Interface::class, $m->shouldAllowMockingProtectedMethods('testFunction'));
     }
 
     public function testShouldIgnoreMissing(): void

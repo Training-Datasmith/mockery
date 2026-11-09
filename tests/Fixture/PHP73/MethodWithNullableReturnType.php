@@ -23,9 +23,9 @@ declare(strict_types=1);
 
 namespace PHP73;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 
-class MethodWithNullableReturnType extends MockeryTestCase
+class MethodWithNullableReturnType extends Mockery_Test_Case
 {
     public function nonNullablePrimitive(): string
     {

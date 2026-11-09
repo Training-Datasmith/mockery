@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
 use Mockery\Generator\UndefinedTargetClass;
@@ -12,7 +12,7 @@ use Mockery\Generator\UndefinedTargetClass;
 /**
  * @coversDefaultClass \Mockery
  */
-class ClassAttributesPassTest extends MockeryTestCase
+class ClassAttributesPassTest extends Mockery_Test_Case
 {
     public const CODE = 'namespace Mockery; class Mock {}';
 

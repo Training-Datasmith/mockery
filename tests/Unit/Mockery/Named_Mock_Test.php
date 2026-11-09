@@ -7,14 +7,14 @@ namespace Tests\Unit\Mockery;
 use DateTime;
 use Gardener;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Stubs\Animal;
 use Stubs\Habitat;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class NamedMockTest extends MockeryTestCase
+final class NamedMockTest extends Mockery_Test_Case
 {
     public function testItCreatesANamedMock(): void
     {

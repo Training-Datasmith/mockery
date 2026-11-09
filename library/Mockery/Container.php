@@ -28,7 +28,7 @@ use function is_object;
 use function is_string;
 use function md5;
 use Mockery;
-use Mockery\Exception\Invalid_Order_Exception;
+use Mockery\Exception\InvalidOrderException;
 use Mockery\Exception\RuntimeException;
 use Mockery\Generator\Generator;
 use Mockery\Generator\Mock_Configuration;
@@ -100,10 +100,10 @@ class Container
      * @var Instantiator
      */
     protected $instantiator;
-    public function __construct(?Generator $generator = null, ?Loader_Interface $loader = null, ?Instantiator $instantiator = null)
+    public function __construct(?Generator $generator = null, ?LoaderInterface $loader = null, ?Instantiator $instantiator = null)
     {
         $this->_generator = $generator instanceof Generator ? $generator : Mockery::get_default_generator();
-        $this->_loader = $loader instanceof Loader_Interface ? $loader : Mockery::get_default_loader();
+        $this->_loader = $loader instanceof LoaderInterface ? $loader : Mockery::get_default_loader();
         $this->instantiator = $instantiator instanceof Instantiator ? $instantiator : new Instantiator();
     }
     /**
@@ -340,7 +340,7 @@ class Container
     public function mockery_validate_order(string $method, $order, Legacy_Mock_Interface $mock): void
     {
         if ($order < $this->_current_order) {
-            $exception = new Invalid_Order_Exception(sprintf('Method %s called out of order: expected order %d, was %d', $method, $order, $this->_current_order));
+            $exception = new InvalidOrderException(sprintf('Method %s called out of order: expected order %d, was %d', $method, $order, $this->_current_order));
             $exception->set_mock($mock)->set_method_name($method)->set_expected_order($order)->set_actual_order($this->_current_order);
             throw $exception;
         }
@@ -403,7 +403,7 @@ class Container
     protected function _get_instance(string $mock_name, $constructor_args = null)
     {
         if ($constructor_args !== null) {
-            return (new ReflectionClass($mock_name))->new_instance_args($constructor_args);
+            return (new ReflectionClass($mock_name))->newInstanceArgs($constructor_args);
         }
         try {
             $instance = $this->instantiator->instantiate($mock_name);
@@ -460,7 +460,7 @@ class Container
         $class_name = $mock_definition->get_class_name();
         if (class_exists($class_name, $attempt_autoload = false)) {
             $rfc = new ReflectionClass($class_name);
-            if (!$rfc->implements_interface(Legacy_Mock_Interface::class)) {
+            if (!$rfc->implementsInterface(Legacy_Mock_Interface::class)) {
                 throw new RuntimeException(sprintf('Could not load mock %s, class already exists', $class_name));
             }
         }

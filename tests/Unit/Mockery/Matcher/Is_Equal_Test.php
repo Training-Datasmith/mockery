@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery\Matcher;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class IsEqualTest extends MockeryTestCase
+final class IsEqualTest extends Mockery_Test_Case
 {
     use MatcherDataProviderTrait;
 

@@ -9,7 +9,7 @@ use DateTime;
 use function mock;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use PDO;
 use PHP81\ArgumentIntersectionTypeHint;
 use PHP81\ClassThatImplementsSerializable;
@@ -32,7 +32,7 @@ use TypeError;
  * @requires PHP 8.1.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php81LanguageFeaturesTest extends MockeryTestCase
+final class Php81LanguageFeaturesTest extends Mockery_Test_Case
 {
     public function testCanMockClassesThatImplementSerializable(): void
     {

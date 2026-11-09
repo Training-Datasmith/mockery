@@ -30,27 +30,26 @@ class Instance_Mock_Pass implements Pass
                 }
             }
     
-            \$directors = \$associatedRealObject->mockery_getExpectations();
+            \$directors = \$associatedRealObject->mockery_get_expectations();
             foreach (\$directors as \$method=>\$director) {
-                // get the director method needed
-                \$existingDirector = \$this->mockery_getExpectationsFor(\$method);
+                \$existingDirector = \$this->mockery_get_expectations_for(\$method);
                 if (!\$existingDirector) {
-                    \$existingDirector = new \\Mockery\\ExpectationDirector(\$method, \$this);
-                    \$this->mockery_setExpectationsFor(\$method, \$existingDirector);
+                    \$existingDirector = new \\Mockery\\Expectation_Director(\$method, \$this);
+                    \$this->mockery_set_expectations_for(\$method, \$existingDirector);
                 }
-                \$expectations = \$director->getExpectations();
+                \$expectations = \$director->get_expectations();
                 foreach (\$expectations as \$expectation) {
                     \$clonedExpectation = clone \$expectation;
-                    \$existingDirector->addExpectation(\$clonedExpectation);
+                    \$existingDirector->add_expectation(\$clonedExpectation);
                 }
-                \$defaultExpectations = \$director->getDefaultExpectations();
+                \$defaultExpectations = \$director->get_default_expectations();
                 foreach (array_reverse(\$defaultExpectations) as \$expectation) {
                     \$clonedExpectation = clone \$expectation;
-                    \$existingDirector->addExpectation(\$clonedExpectation);
-                    \$existingDirector->makeExpectationDefault(\$clonedExpectation);
+                    \$existingDirector->add_expectation(\$clonedExpectation);
+                    \$existingDirector->make_expectation_default(\$clonedExpectation);
                 }
             }
-            \\Mockery::getContainer()->rememberMock(\$this);
+            \\Mockery::get_container()->remember_mock(\$this);
     
             \$this->_mockery_constructorCalled(func_get_args());
         }

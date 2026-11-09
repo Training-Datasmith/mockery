@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Container;
 use Mockery\Exception\RuntimeException;
-use Mockery\MockInterface;
+use Mockery\Mock_Interface;
 use PHP73\NameOfAbstract;
 use PHP73\NameOfExistingClass;
 use PHP73\NameOfExistingClassWithDestructor;
@@ -19,16 +19,16 @@ use SplFileInfo;
  * Ad-hoc unit tests for various scenarios reported by users
  * @coversDefaultClass \Mockery
  */
-final class AdhocTest extends MockeryTestCase
+final class AdhocTest extends Mockery_Test_Case
 {
     protected $container;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->container = new Container(Mockery::getDefaultGenerator(), Mockery::getDefaultLoader());
     }
 
-    public function mockeryTestTearDown(): void
+    public function mockery_test_tear_down(): void
     {
         $this->container->mockery_close();
     }
@@ -63,25 +63,25 @@ final class AdhocTest extends MockeryTestCase
     public function testMockeryInterfaceForAbstract(): void
     {
         $m = $this->container->mock(NameOfAbstract::class);
-        self::assertInstanceOf(MockInterface::class, $m);
+        self::assertInstanceOf(Mock_Interface::class, $m);
     }
 
     public function testMockeryInterfaceForClass(): void
     {
         $m = $this->container->mock(SplFileInfo::class);
-        self::assertInstanceOf(MockInterface::class, $m);
+        self::assertInstanceOf(Mock_Interface::class, $m);
     }
 
     public function testMockeryInterfaceForInterface(): void
     {
         $m = $this->container->mock(NameOfInterface::class);
-        self::assertInstanceOf(MockInterface::class, $m);
+        self::assertInstanceOf(Mock_Interface::class, $m);
     }
 
     public function testMockeryInterfaceForNonExistingClass(): void
     {
         $m = $this->container->mock('ABC_IDontExist');
-        self::assertInstanceOf(MockInterface::class, $m);
+        self::assertInstanceOf(Mock_Interface::class, $m);
     }
 
     public function testSimplestMockCreation(): void

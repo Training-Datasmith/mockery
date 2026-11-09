@@ -9,12 +9,12 @@ use Error;
 use Exception;
 use InvalidArgumentException;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Container;
 use Mockery\CountValidator\Exception as CountValidatorException;
 use Mockery\Exception\InvalidCountException;
 use Mockery\Exception\NoMatchingExpectationException;
-use Mockery\MockInterface;
+use Mockery\Mock_Interface;
 use Mockery\Undefined;
 use OutOfBoundsException;
 use PHP73\IWater;
@@ -32,16 +32,16 @@ use stdClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class ExpectationTest extends MockeryTestCase
+final class ExpectationTest extends Mockery_Test_Case
 {
     protected $mock;
 
-    protected function mockeryTestSetUp(): void
+    protected function mockery_test_set_up(): void
     {
         $this->mock = \mock('Foo');
     }
 
-    public function mockeryTestTearDown(): void
+    public function mockery_test_tear_down(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
@@ -101,7 +101,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCountsPHPUnitTest(): void
     {
-        /** @var MockInterface $service */
+        /**  Mock_Interface $service */
         $service = \mock(MyService2::class);
 
         $service->expects('login')
@@ -367,7 +367,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testByDefaultOnAMockDoesSquatWithoutExpectations(): void
     {
-        self::assertInstanceOf(MockInterface::class, \mock('f')->byDefault());
+        self::assertInstanceOf(Mock_Interface::class, \mock('f')->byDefault());
     }
 
     public function testByDefaultOperatesFromMockConstruction(): void
@@ -2078,7 +2078,7 @@ final class ExpectationTest extends MockeryTestCase
             ->with(1)
             ->andReturn(3)
             ->mock();
-        self::assertInstanceOf(MockInterface::class, $m);
+        self::assertInstanceOf(Mock_Interface::class, $m);
     }
 
     public function testOrderedCallsWithOutOfOrderError(): void
@@ -2594,7 +2594,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testShouldIgnoreMissingAsUndefinedFluentInterface(): void
     {
-        self::assertInstanceOf(MockInterface::class, $this->mock->shouldIgnoreMissing()->asUndefined());
+        self::assertInstanceOf(Mock_Interface::class, $this->mock->shouldIgnoreMissing()->asUndefined());
     }
 
     public function testShouldIgnoreMissingDefaultReturnValue(): void
@@ -2624,7 +2624,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testShouldIgnoreMissingFluentInterface(): void
     {
-        self::assertInstanceOf(MockInterface::class, $this->mock->shouldIgnoreMissing());
+        self::assertInstanceOf(Mock_Interface::class, $this->mock->shouldIgnoreMissing());
     }
 
     public function testShouldNotReceive(): void

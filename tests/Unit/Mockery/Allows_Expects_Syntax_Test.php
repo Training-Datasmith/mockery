@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Exception\InvalidCountException;
 use PHP73\ClassWithAllowsMethod;
 use PHP73\ClassWithExpectsMethod;
@@ -13,7 +13,7 @@ use PHP73\ClassWithExpectsMethod;
 /**
  * @coversDefaultClass \Mockery
  */
-final class AllowsExpectsSyntaxTest extends MockeryTestCase
+final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
 {
     public function testAllowsCanTakeAString(): void
     {

@@ -98,7 +98,7 @@ interface Legacy_Mock_Interface
      *
      * @return void
      */
-    public function mockery_init(?Container $container = null, $partial_object = null);
+    public function mockery_init(?\Mockery\Container $container = null, $partial_object = null, $instance_mock = true);
     /**
      * @return bool
      */
@@ -118,7 +118,7 @@ interface Legacy_Mock_Interface
      *
      * @return null|ExpectationDirector
      */
-    public function mockery_set_expectations_for($method, Expectation_Director $director);
+    public function mockery_set_expectations_for($method, \Mockery\Expectation_Director $director);
     /**
      * Set ordering for a group
      *

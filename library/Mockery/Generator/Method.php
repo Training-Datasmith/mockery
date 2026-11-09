@@ -20,6 +20,21 @@ use ReflectionParameter;
 class Method
 {
     /**
+     * Maps repo snake_case helpers to native ReflectionMethod names.
+     *
+     * @var array<string, string>
+     */
+    private static $reflection_method_map = [
+        'get_name' => 'getName',
+        'get_declaring_class' => 'getDeclaringClass',
+        'is_abstract' => 'isAbstract',
+        'is_final' => 'isFinal',
+        'is_public' => 'isPublic',
+        'is_protected' => 'isProtected',
+        'is_static' => 'isStatic',
+        'returns_reference' => 'returnsReference',
+    ];
+    /**
      * @var ReflectionMethod
      */
     private $method;
@@ -36,8 +51,13 @@ class Method
      */
     public function __call(string $method, array $args)
     {
+        $target = self::$reflection_method_map[$method] ?? $method;
         /** @var TMixed */
-        return $this->method->{$method}(...$args);
+        return $this->method->{$target}(...$args);
+    }
+    public function get_name(): string
+    {
+        return $this->method->getName();
     }
     /**
      * @return list<Parameter>
@@ -46,7 +66,7 @@ class Method
     {
         return array_map(static function (ReflectionParameter $parameter): \Mockery\Generator\Parameter {
             return new Parameter($parameter);
-        }, $this->method->get_parameters());
+        }, $this->method->getParameters());
     }
     /**
      * @return null|string

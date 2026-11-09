@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP82;
 
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use SoapClient;
 use Throwable;
 
@@ -14,7 +14,7 @@ use Throwable;
  * @requires PHP 8.2
  * @see https://github.com/mockery/mockery/issues/1439
  */
-final class TestCase1439Test extends MockeryTestCase
+final class TestCase1439Test extends Mockery_Test_Case
 {
     /**
      * @throws Throwable

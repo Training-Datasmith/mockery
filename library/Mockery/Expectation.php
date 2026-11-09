@@ -21,7 +21,6 @@ use const E_USER_DEPRECATED;
 use function func_get_args;
 use function get_class;
 use Hamcrest\Matcher;
-use Hamcrest_Matcher;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
@@ -39,8 +38,8 @@ use Mockery\Matcher\Matcher_Interface;
 use Mockery\Matcher\Multi_Argument_Closure;
 use Mockery\Matcher\No_Args;
 use OutOfBoundsException;
-use Php_Unit\Framework\Constraint\Constraint;
-use Reflection_Exception;
+use PHPUnit\Framework\Constraint\Constraint;
+use ReflectionException;
 use ReflectionMethod;
 use function sprintf;
 use Throwable;
@@ -176,6 +175,16 @@ class Expectation implements Expectation_Interface
         }
         $this->_count_validators = $new_validators;
     }
+    public function __call(string $method, array $args)
+    {
+        $snake = mockery_camel_to_snake_method($method);
+        if ($snake !== $method && method_exists($this, $snake)) {
+            return $this->{$snake}(...$args);
+        }
+
+        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
+    }
+
     /**
      * Return a string with the method name and arguments formatted
      */
@@ -762,7 +771,7 @@ class Expectation implements Expectation_Interface
         if ($expected instanceof Constraint) {
             return (bool) $expected->evaluate($actual, '', true);
         }
-        if ($expected instanceof Matcher || $expected instanceof Hamcrest_Matcher) {
+        if ($expected instanceof Matcher) {
             @trigger_error('Hamcrest package has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
             return $expected->matches($actual);
         }
@@ -847,24 +856,24 @@ class Expectation implements Expectation_Interface
         $reflection_method = null;
         try {
             $reflection_method = new ReflectionMethod($this->get_mock(), $this->get_name());
-        } catch (Reflection_Exception $_) {
+        } catch (ReflectionException $_) {
         }
         if ($reflection_method instanceof ReflectionMethod && !array_is_list($arguments)) {
             $_arguments = [];
-            foreach ($reflection_method->get_parameters() as $reflection_parameter) {
+            foreach ($reflection_method->getParameters() as $reflection_parameter) {
                 if ([] === $arguments) {
                     // Avoid over populating argument list
                     break;
                 }
-                $name = $reflection_parameter->get_name();
-                $position = $reflection_parameter->get_position();
+                $name = $reflection_parameter->getName();
+                $position = $reflection_parameter->getPosition();
                 if (array_key_exists($name, $arguments)) {
                     $_arguments[$position] = $arguments[$name];
                     unset($arguments[$name]);
                     continue;
                 }
-                if ($reflection_parameter->is_default_value_available()) {
-                    $_arguments[$position] = $reflection_parameter->get_default_value();
+                if ($reflection_parameter->isDefaultValueAvailable()) {
+                    $_arguments[$position] = $reflection_parameter->getDefaultValue();
                 }
             }
             $arguments = $_arguments;
