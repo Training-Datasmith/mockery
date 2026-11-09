@@ -12,7 +12,7 @@ use PHP73\Evenement_EventEmitter;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockeryCanMockMultipleInterfacesWhichOverlapTest extends Mockery_Test_Case
+final class Mockery_Can_Mock_Multiple_Interfaces_Which_Overlap_Test extends Mockery_Test_Case
 {
     public function testItSshouldNotDuplicateDoublyInheritedMethods(): void
     {

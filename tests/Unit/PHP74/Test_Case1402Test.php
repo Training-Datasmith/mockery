@@ -17,10 +17,10 @@ final class TestCase1402Test extends Mockery_Test_Case
 {
     public function testMethod(): void
     {
-        $banana = Mockery::mock(Service::class, [1])->makePartial();
+        $banana = Mockery::mock(Service::class, [1])->make_partial();
 
         $banana->allows('test')
-            ->andReturns(2);
+            ->and_returns(2);
 
         self::assertSame(2, $banana->test());
     }

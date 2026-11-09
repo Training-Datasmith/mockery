@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
-use Mockery\Exception\BadMethodCallException;
+use Mockery\Exception\Bad_Method_Call_Exception;
 use PHP73\TestWithMethodOverloading;
 use PHP73\TestWithMethodOverloadingWithoutCall;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithMethodOverloadingTest extends Mockery_Test_Case
+final class Mock_Class_With_Method_Overloading_Test extends Mockery_Test_Case
 {
     public function testCreateMockForClassWithMethodOverloading(): void
     {
-        $mock = \mock(TestWithMethodOverloading::class)->makePartial();
+        $mock = \mock(TestWithMethodOverloading::class)->make_partial();
 
         self::assertInstanceOf(TestWithMethodOverloading::class, $mock);
 
@@ -25,7 +25,7 @@ final class MockClassWithMethodOverloadingTest extends Mockery_Test_Case
 
     public function testCreateMockForClassWithMethodOverloadingWithExistingMethod(): void
     {
-        $mock = \mock(TestWithMethodOverloading::class)->makePartial();
+        $mock = \mock(TestWithMethodOverloading::class)->make_partial();
 
         self::assertInstanceOf(TestWithMethodOverloading::class, $mock);
 
@@ -34,11 +34,11 @@ final class MockClassWithMethodOverloadingTest extends Mockery_Test_Case
 
     public function testThrowsWhenMethodDoesNotExist(): void
     {
-        $mock = \mock(TestWithMethodOverloadingWithoutCall::class)->makePartial();
+        $mock = \mock(TestWithMethodOverloadingWithoutCall::class)->make_partial();
 
         self::assertInstanceOf(TestWithMethodOverloadingWithoutCall::class, $mock);
 
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(Bad_Method_Call_Exception::class);
 
         $mock->randomMethod();
     }

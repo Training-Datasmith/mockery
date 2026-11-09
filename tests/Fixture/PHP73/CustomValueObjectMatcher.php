@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PHP73;
 
-use Mockery\Matcher\MatcherAbstract;
+use Mockery\Matcher\Matcher_Abstract;
 
-class CustomValueObjectMatcher extends MatcherAbstract
+class CustomValueObjectMatcher extends Matcher_Abstract
 {
     public function match(&$actual)
     {

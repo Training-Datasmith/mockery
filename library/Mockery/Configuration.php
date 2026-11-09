@@ -29,7 +29,7 @@ class Configuration
 {
     /**
      * Boolean assertion of whether we ignore unnecessary mocking of methods,
-     * i.e. when method expectations are made, set using a zeroOrMoreTimes()
+     * i.e. when method expectations are made, set using a zero_or_more_times()
      * constraint, and then never called. Essentially such expectations are
      * not required and are just taking up test space.
      *
@@ -319,15 +319,5 @@ class Configuration
     public function set_object_formatter(string $class, $formatter_callback): void
     {
         $this->_object_formatters[$class] = $formatter_callback;
-    }
-
-    public function __call(string $method, array $args)
-    {
-        $snake = mockery_camel_to_snake_method($method);
-        if ($snake !== $method && method_exists($this, $snake)) {
-            return $this->{$snake}(...$args);
-        }
-
-        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
     }
 }

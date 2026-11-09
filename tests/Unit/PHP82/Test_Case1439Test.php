@@ -36,11 +36,11 @@ final class TestCase1439Test extends Mockery_Test_Case
             'param2' => 'value2',
         ];
 
-        // Expect the method to be called with specific arguments using withArgs
+        // Expect the method to be called with specific arguments using with_args
         $soapClientMock
             ->expects($methodName)
-            ->withArgs($params)
-            ->andReturn($expectedResult);
+            ->with_args($params)
+            ->and_return($expectedResult);
 
         // Simulate the call
         $response = \call_user_func_array([$soapClientMock, $methodName], $params);

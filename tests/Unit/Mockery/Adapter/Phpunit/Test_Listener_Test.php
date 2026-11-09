@@ -16,7 +16,7 @@ use ReflectionClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class TestListenerTest extends Mockery_Test_Case
+final class Test_Listener_Test extends Mockery_Test_Case
 {
     protected $container;
 
@@ -47,7 +47,7 @@ final class TestListenerTest extends Mockery_Test_Case
     public function testFailureOnMissingClose(): void
     {
         $mock = $this->container->mock();
-        $mock->shouldReceive('bar')
+        $mock->should_receive('bar')
             ->once();
 
         $this->listener->endTest($this->test, 0);
@@ -83,7 +83,7 @@ final class TestListenerTest extends Mockery_Test_Case
     public function testSuccessOnClose(): void
     {
         $mock = $this->container->mock();
-        $mock->shouldReceive('bar')
+        $mock->should_receive('bar')
             ->once();
         $mock->bar();
 

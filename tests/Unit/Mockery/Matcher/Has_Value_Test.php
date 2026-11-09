@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery\Matcher;
 
 use ArrayObject;
-use Mockery\Matcher\HasValue;
+use Mockery\Matcher\Has_Value;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class HasValueTest extends TestCase
+final class Has_Value_Test extends TestCase
 {
     public function testItCanHandleANonArray(): void
     {
-        $matcher = new HasValue(123);
+        $matcher = new Has_Value(123);
 
         $actual = null;
 
@@ -24,7 +24,7 @@ final class HasValueTest extends TestCase
 
     public function testItMatchesAnArray(): void
     {
-        $matcher = new HasValue(123);
+        $matcher = new Has_Value(123);
 
         $actual = [
             'foo' => 'bar',
@@ -37,7 +37,7 @@ final class HasValueTest extends TestCase
 
     public function testItMatchesAnArrayLikeObject(): void
     {
-        $matcher = new HasValue(123);
+        $matcher = new Has_Value(123);
 
         $actual = new ArrayObject([
             'foo' => 'bar',

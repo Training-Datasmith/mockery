@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP74;
 
 use Mockery;
-use Mockery\Exception\NoMatchingExpectationException;
+use Mockery\Exception\No_Matching_Expectation_Exception;
 use PHP74\DummyClass;
-use Tests\Unit\AbstractTestCase;
+use Tests\Unit\Abstract_Test_Case;
 
 /**
  * @coversDefaultClass \Mockery
  * @requires PHP 7.4
  * @see https://github.com/mockery/mockery/issues/1132
  */
-final class TestCase1132Test extends AbstractTestCase
+final class TestCase1132Test extends Abstract_Test_Case
 {
     public function testCase(): void
     {
@@ -25,7 +25,7 @@ final class TestCase1132Test extends AbstractTestCase
 
         $mock->allows()->saveDummy($expectedDummy);
 
-        $this->expectException(NoMatchingExpectationException::class);
+        $this->expectException(No_Matching_Expectation_Exception::class);
 
         $actualDummy = new DummyClass();
         $mock->saveDummy($actualDummy);

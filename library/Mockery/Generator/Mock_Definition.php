@@ -18,7 +18,7 @@ class Mock_Definition
      */
     protected $code;
     /**
-     * @var MockConfiguration
+     * @var Mock_Configuration
      */
     protected $config;
     /**
@@ -28,7 +28,7 @@ class Mock_Definition
     public function __construct(Mock_Configuration $config, $code)
     {
         if (!$config->get_name()) {
-            throw new InvalidArgumentException('MockConfiguration must contain a name');
+            throw new InvalidArgumentException('Mock_Configuration must contain a name');
         }
         $this->config = $config;
         $this->code = $code;
@@ -48,7 +48,7 @@ class Mock_Definition
         return $this->code;
     }
     /**
-     * @return MockConfiguration
+     * @return Mock_Configuration
      */
     public function get_config()
     {

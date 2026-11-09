@@ -11,7 +11,7 @@ use PHP73\HasUnknownClassAsTypeHintOnMethod;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithUnknownTypeHintTest extends Mockery_Test_Case
+final class Mock_Class_With_Unknown_Type_Hint_Test extends Mockery_Test_Case
 {
     public function testItShouldSuccessfullyBuildTheMock(): void
     {

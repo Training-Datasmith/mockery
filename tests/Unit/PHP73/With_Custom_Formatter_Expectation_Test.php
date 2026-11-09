@@ -16,11 +16,11 @@ use stdClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class WithCustomFormatterExpectationTest extends TestCase
+final class With_Custom_Formatter_Expectation_Test extends TestCase
 {
     protected function setUp(): void
     {
-        Mockery::getConfiguration()->setObjectFormatter(
+        Mockery::get_configuration()->set_object_formatter(
             ClassWithCustomFormatter::class,
             function ($object, $nesting) {
                 return [
@@ -34,7 +34,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
                 ];
             }
         );
-        Mockery::getConfiguration()->setObjectFormatter(
+        Mockery::get_configuration()->set_object_formatter(
             InterfaceWithCustomFormatter::class,
             function ($object, $nesting) {
                 return [
@@ -87,7 +87,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
      */
     public function testFormatObjects($obj, $shouldContains, $shouldNotContains): void
     {
-        $string = Mockery::formatObjects([$obj]);
+        $string = Mockery::format_objects([$obj]);
         foreach ($shouldContains as $containString) {
             self::assertStringContainsString($containString, $string);
         }
@@ -105,7 +105,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
             return null;
         };
 
-        $formatter = Mockery::getConfiguration()->getObjectFormatter(\get_class($object), $defaultFormatter);
+        $formatter = Mockery::get_configuration()->get_object_formatter(\get_class($object), $defaultFormatter);
         $formatted = $formatter($object, 1);
 
         self::assertSame($expected, $formatted ? $formatted['formatter'] : null);

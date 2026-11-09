@@ -21,7 +21,7 @@ use function preg_replace;
  */
 class Remove_Builtin_Methods_That_Are_Final_Pass implements Pass
 {
-    protected $methods = ['__wakeup' => '/public function __wakeup\(\)\s+\{.*?\}/sm', '__toString' => '/public function __toString\(\)\s+(:\s+string)?\s*\{.*?\}/sm'];
+    protected $methods = ['__wakeup' => '/public function __wakeup\(\)\s+\{.*?\}/sm', '__toString' => '/(?:\s*#\[[^\]]*\]\s*)*public function __toString\(\)\s*(?::\s*string)?\s*\{.*?\}/sm'];
     /**
      * @param  string $code
      * @return string

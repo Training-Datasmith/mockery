@@ -11,11 +11,11 @@ use PHP73\ClassWithConstants;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingClassConstantsTest extends Mockery_Test_Case
+final class Mocking_Class_Constants_Test extends Mockery_Test_Case
 {
     public function testItShouldAllowToMockClassConstants(): void
     {
-        Mockery::getConfiguration()->setConstantsMap([
+        Mockery::get_configuration()->set_constants_map([
             ClassWithConstants::class => [
                 'FOO' => 'baz',
                 'X' => 2,

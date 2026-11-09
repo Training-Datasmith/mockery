@@ -6,20 +6,20 @@ namespace Tests\Unit\Mockery;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
-use Mockery\Exception\InvalidCountException;
+use Mockery\Exception\Invalid_Count_Exception;
 use PHP73\ClassWithAllowsMethod;
 use PHP73\ClassWithExpectsMethod;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
+final class Allows_Expects_Syntax_Test extends Mockery_Test_Case
 {
     public function testAllowsCanTakeAString(): void
     {
         $stub = Mockery::mock();
         $stub->allows('foo')
-            ->andReturns('bar');
+            ->and_returns('bar');
         self::assertSame('bar', $stub->foo());
     }
 
@@ -40,7 +40,7 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
         $stub = Mockery::mock();
         $stub->allows()
             ->foo(123)
-            ->andReturns(456);
+            ->and_returns(456);
 
         self::assertSame(456, $stub->foo(123));
     }
@@ -64,7 +64,7 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
             ->twice();
 
         $mock->foo(123);
-        $this->expectException(\Mockery\Exception\InvalidCountException::class);
+        $this->expectException(\Mockery\Exception\Invalid_Count_Exception::class);
         Mockery::close();
     }
 
@@ -73,8 +73,8 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
         $mock = Mockery::mock();
         $mock->allows()
             ->foo()
-            ->withAnyArgs()
-            ->andReturns(123);
+            ->with_any_args()
+            ->and_returns(123);
 
         self::assertSame(123, $mock->foo(456, 789));
     }
@@ -83,7 +83,7 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
     {
         $mock = Mockery::mock();
         $mock->expects('foo')
-            ->andReturns(123);
+            ->and_returns(123);
 
         self::assertSame(123, $mock->foo(456, 789));
     }
@@ -94,7 +94,7 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
         $mock->expects()
             ->foo(123);
 
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         Mockery::close();
     }
 
@@ -102,8 +102,8 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
     {
         $stub = Mockery::mock(ClassWithAllowsMethod::class);
 
-        $stub->shouldReceive('allows')
-            ->andReturn(123);
+        $stub->should_receive('allows')
+            ->and_return(123);
 
         self::assertSame(123, $stub->allows());
     }
@@ -112,8 +112,8 @@ final class AllowsExpectsSyntaxTest extends Mockery_Test_Case
     {
         $stub = Mockery::mock(ClassWithExpectsMethod::class);
 
-        $stub->shouldReceive('expects')
-            ->andReturn(123);
+        $stub->should_receive('expects')
+            ->and_return(123);
 
         self::assertSame(123, $stub->expects());
     }

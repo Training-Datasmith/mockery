@@ -50,7 +50,7 @@ class Magic_Method_Type_Hints_Pass implements Pass
     }
     /**
      * Returns the magic methods within the
-     * passed DefinedTargetClass.
+     * passed Defined_Target_Class.
      */
     public function get_magic_methods(?Target_Class_Interface $class = null): array
     {

@@ -197,7 +197,7 @@ class Mock_Configuration_Builder
         return $this;
     }
     /**
-     * @param bool $instanceMock
+     * @param bool $instance_mock
      */
     public function set_instance_mock($instance_mock): self
     {

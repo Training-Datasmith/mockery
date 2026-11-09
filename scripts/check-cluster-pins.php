@@ -242,19 +242,28 @@ if (strlen($liveRef) !== 40 || $liveRef !== $versionsJson['phpunit/phpunit']['re
     exit(1);
 }
 
-$wrongExpected = [
-    'phpunit/phpunit' => [
-        'alias' => '9.6.99',
-        'reference' => '0000000000000000000000000000000000000000',
-    ],
-];
+$wrongSha = '0000000000000000000000000000000000000000';
+$wrongAlias = '9.6.99';
 
-if (runPinChecks($versionsPhp, $versionsJson, $wrongExpected)) {
-    fwrite(STDERR, "check-cluster-pins: wrong-SHA demo did not fail as expected.\n");
+$wrongPhp = $versionsPhp;
+$wrongPhp['phpunit/phpunit']['reference'] = $wrongSha;
+$wrongPhp['phpunit/phpunit']['aliases'] = [$wrongAlias];
+
+if (runPinChecks($wrongPhp, $versionsJson, ['phpunit/phpunit' => ['alias' => $wrongAlias, 'reference' => $wrongSha]])) {
+    fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.php demo did not fail as expected.\n");
     exit(1);
 }
+fwrite(STDOUT, "check-cluster-pins: wrong-SHA installed.php demo failed as expected\n");
 
-fwrite(STDOUT, "check-cluster-pins: wrong-SHA demo failed as expected\n");
+$wrongJson = $versionsJson;
+$wrongJson['phpunit/phpunit']['reference'] = $wrongSha;
+
+if (runPinChecks($versionsPhp, $wrongJson, ['phpunit/phpunit' => ['alias' => $wrongAlias, 'reference' => $wrongSha]])) {
+    fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.json demo did not fail as expected.\n");
+    exit(1);
+}
+fwrite(STDOUT, "check-cluster-pins: wrong-SHA installed.json demo failed as expected\n");
+
 fwrite(STDOUT, sprintf("gap phpunit/phpunit on Packagist @ %s\n", $liveRef));
 $parserRef = $versionsJson['nikic/php-parser']['reference'] ?? '(missing)';
 fwrite(STDOUT, sprintf("gap nikic/php-parser on Packagist @ %s\n", $parserRef));

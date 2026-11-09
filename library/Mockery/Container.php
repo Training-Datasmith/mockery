@@ -28,8 +28,8 @@ use function is_object;
 use function is_string;
 use function md5;
 use Mockery;
-use Mockery\Exception\InvalidOrderException;
-use Mockery\Exception\RuntimeException;
+use Mockery\Exception\Invalid_Order_Exception;
+use Mockery\Exception\Runtime_Exception;
 use Mockery\Generator\Generator;
 use Mockery\Generator\Mock_Configuration;
 use Mockery\Generator\Mock_Configuration_Builder;
@@ -194,7 +194,7 @@ class Container
      *
      * @template TMock of object
      *
-     * @param (array<class-string<TMock>|MockConfigurationBuilder|TMock>|class-string<TMock>|(Closure((LegacyMockInterface&TMock)|(MockInterface&TMock)):void)|TMock) ...$args
+     * @param (array<class-string<TMock>|Mock_Configuration_Builder|TMock>|class-string<TMock>|(Closure((LegacyMockInterface&TMock)|(MockInterface&TMock)):void)|TMock) ...$args
      *
      * @throws Throwable
      *
@@ -340,7 +340,7 @@ class Container
     public function mockery_validate_order(string $method, $order, Legacy_Mock_Interface $mock): void
     {
         if ($order < $this->_current_order) {
-            $exception = new InvalidOrderException(sprintf('Method %s called out of order: expected order %d, was %d', $method, $order, $this->_current_order));
+            $exception = new Invalid_Order_Exception(sprintf('Method %s called out of order: expected order %d, was %d', $method, $order, $this->_current_order));
             $exception->set_mock($mock)->set_method_name($method)->set_expected_order($order)->set_actual_order($this->_current_order);
             throw $exception;
         }
@@ -418,7 +418,7 @@ class Container
         return $instance;
     }
     /**
-     * @param MockConfiguration $config
+     * @param Mock_Configuration $config
      *
      * @return void
      *
@@ -461,7 +461,7 @@ class Container
         if (class_exists($class_name, $attempt_autoload = false)) {
             $rfc = new ReflectionClass($class_name);
             if (!$rfc->implementsInterface(Legacy_Mock_Interface::class)) {
-                throw new RuntimeException(sprintf('Could not load mock %s, class already exists', $class_name));
+                throw new Runtime_Exception(sprintf('Could not load mock %s, class already exists', $class_name));
             }
         }
         $this->get_loader()->load($mock_definition);

@@ -11,6 +11,6 @@ declare (strict_types=1);
 namespace Mockery\Exception;
 
 use Exception;
-class RuntimeException extends Exception implements Mockery_Exception_Interface
+class Runtime_Exception extends Exception implements Mockery_Exception_Interface
 {
 }

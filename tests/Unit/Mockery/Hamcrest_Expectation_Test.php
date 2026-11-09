@@ -11,7 +11,7 @@ use Mockery\Exception;
 /**
  * @coversDefaultClass \Mockery
  */
-final class HamcrestExpectationTest extends Mockery_Test_Case
+final class Hamcrest_Expectation_Test extends Mockery_Test_Case
 {
     protected $mock;
 
@@ -22,12 +22,12 @@ final class HamcrestExpectationTest extends Mockery_Test_Case
 
     public function mockery_test_tear_down(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(true);
     }
 
     public function testAnythingConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(\anything())
             ->once();
         $this->mock->foo(2);
@@ -35,7 +35,7 @@ final class HamcrestExpectationTest extends Mockery_Test_Case
 
     public function testGreaterThanConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(\greaterThan(1))
             ->once();
         $this->mock->foo(2);
@@ -43,7 +43,7 @@ final class HamcrestExpectationTest extends Mockery_Test_Case
 
     public function testGreaterThanConstraintNotMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(\greaterThan(1));
         $this->expectException(Exception::class);
         $this->mock->foo(1);

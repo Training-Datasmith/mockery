@@ -13,7 +13,7 @@ use PHP80\PHP80TestInterface;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockWithClosureAsLastArgumentTest extends Mockery_Test_Case
+final class Mock_With_Closure_As_Last_Argument_Test extends Mockery_Test_Case
 {
     public function testIfClosureIsPassedAsLastArgumentToMockItIsCalledWithMockObject(): void
     {
@@ -21,7 +21,7 @@ final class MockWithClosureAsLastArgumentTest extends Mockery_Test_Case
             PHP80TestInterface::class,
             static function (Legacy_Mock_Interface|Mock_Interface $mock): void {
                 $mock->expects('blm')
-                    ->andReturn('#BlackLivesMatter');
+                    ->and_return('#BlackLivesMatter');
             }
         );
 

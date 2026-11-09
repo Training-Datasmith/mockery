@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\String_Manipulation\Pass;
 
-use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\StringManipulation\Pass\ConstantsPass;
+use Mockery\Generator\Mock_Configuration;
+use Mockery\Generator\String_Manipulation\Pass\Constants_Pass;
 use PHP73\ClassWithConstants;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class ConstantsPassTest extends TestCase
+final class Constants_Pass_Test extends TestCase
 {
     public const CODE = 'class Foo {}';
 
     public function testShouldAddConstants(): void
     {
-        $pass = new ConstantsPass();
+        $pass = new Constants_Pass();
 
-        $config = new MockConfiguration(
+        $config = new Mock_Configuration(
             [],
             [],
             [],

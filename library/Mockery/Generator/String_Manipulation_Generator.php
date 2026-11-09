@@ -59,7 +59,7 @@ class String_Manipulation_Generator implements Generator
         return new Mock_Definition($named_config, $code);
     }
     /**
-     * Creates a new StringManipulationGenerator with the default passes
+     * Creates a new String_ManipulationGenerator with the default passes
      */
     public static function with_default_passes(): self
     {

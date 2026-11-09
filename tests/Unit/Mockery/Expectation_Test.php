@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use BadMethodCallException;
+use Mockery\Exception\Bad_Method_Call_Exception;
 use Error;
-use Exception;
+use Mockery\Exception as Mockery_Exception;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Container;
-use Mockery\CountValidator\Exception as CountValidatorException;
-use Mockery\Exception\InvalidCountException;
-use Mockery\Exception\NoMatchingExpectationException;
+use Mockery\Count_Validator\Exception as Count_Validator_Exception;
+use Mockery\Exception\Invalid_Count_Exception;
+use Mockery\Exception\No_Matching_Expectation_Exception;
 use Mockery\Mock_Interface;
 use Mockery\Undefined;
 use OutOfBoundsException;
@@ -32,7 +32,7 @@ use stdClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class ExpectationTest extends Mockery_Test_Case
+final class Expectation_Test extends Mockery_Test_Case
 {
     protected $mock;
 
@@ -43,26 +43,26 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function mockery_test_tear_down(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(true);
     }
 
     public function testAnExampleWithSomeExpectationAmends(): void
     {
         $service = \mock('MyService');
-        $service->shouldReceive('login')
+        $service->should_receive('login')
             ->with('user', 'pass')
             ->once()
-            ->andReturn(true);
-        $service->shouldReceive('hasBookmarksTagged')
+            ->and_return(true);
+        $service->should_receive('hasBookmarksTagged')
             ->with('php')
             ->once()
-            ->andReturn(false);
-        $service->shouldReceive('addBookmark')
-            ->with(Mockery::pattern('/^http:/'), Mockery::type('string'))->times(3)->andReturn(true);
-        $service->shouldReceive('hasBookmarksTagged')
+            ->and_return(false);
+        $service->should_receive('addBookmark')
+            ->with(Mockery::pattern('/^http:/'), Mockery::type('string'))->times(3)->and_return(true);
+        $service->should_receive('hasBookmarksTagged')
             ->with('php')
             ->once()
-            ->andReturn(true);
+            ->and_return(true);
 
         self::assertTrue($service->login('user', 'pass'));
         self::assertFalse($service->hasBookmarksTagged('php'));
@@ -75,20 +75,20 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts(): void
     {
         $service = \mock('MyService');
-        $service->shouldReceive('login')
+        $service->should_receive('login')
             ->with('user', 'pass')
             ->once()
-            ->andReturn(true);
-        $service->shouldReceive('hasBookmarksTagged')
+            ->and_return(true);
+        $service->should_receive('hasBookmarksTagged')
             ->with('php')
             ->once()
-            ->andReturn(false);
-        $service->shouldReceive('addBookmark')
-            ->with(Mockery::pattern('/^http:/'), Mockery::type('string'))->times(3)->andReturn(true);
-        $service->shouldReceive('hasBookmarksTagged')
+            ->and_return(false);
+        $service->should_receive('addBookmark')
+            ->with(Mockery::pattern('/^http:/'), Mockery::type('string'))->times(3)->and_return(true);
+        $service->should_receive('hasBookmarksTagged')
             ->with('php')
             ->twice()
-            ->andReturn(true);
+            ->and_return(true);
 
         self::assertTrue($service->login('user', 'pass'));
         self::assertFalse($service->hasBookmarksTagged('php'));
@@ -107,16 +107,16 @@ final class ExpectationTest extends Mockery_Test_Case
         $service->expects('login')
             ->once()
             ->with('user', 'pass')
-            ->andReturnTrue();
+            ->and_return_true();
 
         $service->expects('hasBookmarksTagged')
             ->times(3)
             ->with('php')
-            ->andReturns(false, true, true);
+            ->and_returns(false, true, true);
 
         $service->expects('addBookmark')
             ->times(3)
-            ->andReturnTrue();
+            ->and_return_true();
 
         self::assertTrue($service->login('user', 'pass'));
         self::assertFalse($service->hasBookmarksTagged('php'));
@@ -129,67 +129,67 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testAndAnyOtherConstraintDoesNotPreventMatchingOfRegularArguments(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(1, 2, Mockery::andAnyOthers());
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(1, 2, Mockery::and_any_others());
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(10, 2, 3, 4, 5);
         Mockery::close();
     }
 
     public function testAndAnyOtherConstraintMatchesTheRestOfTheArguments(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(1, 2, Mockery::andAnyOthers())->twice();
+        $this->mock->should_receive('foo')
+            ->with(1, 2, Mockery::and_any_others())->twice();
         $this->mock->foo(1, 2, 3, 4, 5);
         $this->mock->foo(1, 2, 'str', 3, 4);
     }
 
     public function testAndAnyOtherConstraintMultipleExpectationsButNoOthers(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with('a', Mockery::andAnyOthers())->andReturn('a');
-        $this->mock->shouldReceive('foo')
-            ->with('b', Mockery::andAnyOthers())->andReturn('b');
+        $this->mock->should_receive('foo')
+            ->with('a', Mockery::and_any_others())->and_return('a');
+        $this->mock->should_receive('foo')
+            ->with('b', Mockery::and_any_others())->and_return('b');
         self::assertSame('a', $this->mock->foo('a'));
         self::assertSame('b', $this->mock->foo('b'));
     }
 
     public function testAndThrowExceptions(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andThrowExceptions([new OutOfBoundsException(), new InvalidArgumentException()]);
+        $this->mock->should_receive('foo')
+            ->and_throw_exceptions([new OutOfBoundsException(), new InvalidArgumentException()]);
 
         try {
             $this->mock->foo();
-            throw new Exception('Expected OutOfBoundsException, non thrown');
-        } catch (Exception $e) {
+            throw new \Exception('Expected OutOfBoundsException, non thrown');
+        } catch (\Exception $e) {
             self::assertInstanceOf('OutOfBoundsException', $e, "Wrong or no exception thrown: {$e->getMessage()}");
         }
 
         try {
             $this->mock->foo();
-            throw new Exception('Expected InvalidArgumentException, non thrown');
-        } catch (Exception $e) {
+            throw new \Exception('Expected InvalidArgumentException, non thrown');
+        } catch (\Exception $e) {
             self::assertInstanceOf('InvalidArgumentException', $e, "Wrong or no exception thrown: {$e->getMessage()}");
         }
     }
 
     public function testAndThrowExceptionsCatchNonExceptionArgument(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('You must pass an array of exception objects to andThrowExceptions');
+        $this->expectException(\Mockery\Exception::class);
+        $this->expectExceptionMessage('You must pass an array of exception objects to and_throw_exceptions');
 
         $this->mock
-            ->shouldReceive('foo')
-            ->andThrowExceptions(['NotAnException']);
+            ->should_receive('foo')
+            ->and_throw_exceptions(['NotAnException']);
 
         Mockery::close();
     }
 
     public function testAndThrowsIsAnAliasToAndThrow(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andThrows(new OutOfBoundsException());
+        $this->mock->should_receive('foo')
+            ->and_throws(new OutOfBoundsException());
 
         $this->expectException(OutOfBoundsException::class);
         $this->mock->foo();
@@ -197,8 +197,8 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testAndYield(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andYield(1, 2, 3);
+        $this->mock->should_receive('foo')
+            ->and_yield(1, 2, 3);
         self::assertSame([1, 2, 3], \iterator_to_array($this->mock->foo()));
     }
 
@@ -207,7 +207,7 @@ final class ExpectationTest extends Mockery_Test_Case
      */
     public function testAnyConstraintMatchesAnyArg(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::any())->twice();
         $this->mock->foo(1, 2);
         $this->mock->foo(1, 'str');
@@ -215,9 +215,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testAnyConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::any())->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -226,18 +226,18 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testAnyOfConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::anyOf(1, 2))->twice();
+        $this->mock->should_receive('foo')
+            ->with(Mockery::any_of(1, 2))->twice();
         $this->mock->foo(2);
         $this->mock->foo(1);
     }
 
     public function testAnyOfConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
-            ->with(1, Mockery::anyOf(1, 2))->never();
+        $this->mock->should_receive('foo')
+            ->with(1, Mockery::any_of(1, 2))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 2, 3);
@@ -245,41 +245,41 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testAnyOfConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::anyOf(1, 2));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::any_of(1, 2));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(3);
         Mockery::close();
     }
 
     public function testAnyOfConstraintThrowsExceptionWhenFalseIsNotAnExpectedArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::anyOf(0, 1, 2));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::any_of(0, 1, 2));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(false);
     }
 
     public function testAnyOfConstraintThrowsExceptionWhenTrueIsNotAnExpectedArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::anyOf(1, 2));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::any_of(1, 2));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(true);
     }
 
     public function testArrayConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('array'))->once();
         $this->mock->foo([]);
     }
 
     public function testArrayConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('array'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -288,16 +288,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testArrayConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('array'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testArrayContentConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::subset([
                 'a' => 1,
                 'b' => 2,
@@ -311,9 +311,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testArrayContentConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::subset([
                 'a' => 1,
                 'b' => 2,
@@ -325,12 +325,12 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testArrayContentConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::subset([
                 'a' => 1,
                 'b' => 2,
             ]));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo([
             'a' => 1,
             'c' => 3,
@@ -340,16 +340,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testBoolConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('bool'))->once();
         $this->mock->foo(true);
     }
 
     public function testBoolConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('bool'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -358,28 +358,28 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testBoolConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('bool'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testByDefaultOnAMockDoesSquatWithoutExpectations(): void
     {
-        self::assertInstanceOf(Mock_Interface::class, \mock('f')->byDefault());
+        self::assertInstanceOf(Mock_Interface::class, \mock('f')->by_default());
     }
 
     public function testByDefaultOperatesFromMockConstruction(): void
     {
-        $container = new Container(Mockery::getDefaultGenerator(), Mockery::getDefaultLoader());
+        $container = new Container(Mockery::get_default_generator(), Mockery::get_default_loader());
         $mock = $container->mock('f', [
             'foo' => 'rfoo',
             'bar' => 'rbar',
             'baz' => 'rbaz',
-        ])->byDefault();
-        $mock->shouldReceive('foo')
-            ->andReturn('foobar');
+        ])->by_default();
+        $mock->should_receive('foo')
+            ->and_return('foobar');
         self::assertSame('foobar', $mock->foo());
         self::assertSame('rbar', $mock->bar());
         self::assertSame('rbaz', $mock->baz());
@@ -387,24 +387,24 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testByDefaultPreventedFromSettingDefaultWhenDefaultingExpectationWasReplaced(): void
     {
-        $exp = $this->mock->shouldReceive('foo')
-            ->andReturn(1);
-        $this->mock->shouldReceive('foo')
-            ->andReturn(2);
-        $this->expectException(Exception::class);
-        $exp->byDefault();
+        $exp = $this->mock->should_receive('foo')
+            ->and_return(1);
+        $this->mock->should_receive('foo')
+            ->and_return(2);
+        $this->expectException(\Mockery\Exception::class);
+        $exp->by_default();
         Mockery::close();
     }
 
     public function testCallCountingOnlyAppliesToMatchedExpectations(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(2)
             ->twice();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(3);
         $this->mock->foo(1);
         $this->mock->foo(2);
@@ -415,7 +415,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testCallCountingThrowsExceptionFirst(): void
     {
         $number_of_calls = 0;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(2)
             ->with(Mockery::on(function ($argument) use (&$number_of_calls) {
                 $number_of_calls++;
@@ -424,33 +424,33 @@ final class ExpectationTest extends Mockery_Test_Case
 
         $this->mock->foo(1);
         $this->mock->foo(1);
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testCallCountingThrowsExceptionOnAnyMismatch(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(2)
             ->twice();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(3);
-        $this->mock->shouldReceive('bar');
+        $this->mock->should_receive('bar');
         $this->mock->foo(1);
         $this->mock->foo(2);
         $this->mock->foo(3);
         $this->mock->bar();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         Mockery::close();
     }
 
     public function testCallableConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('callable'))->once();
         $this->mock->foo(function () {
             return 'f';
@@ -459,9 +459,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCallableConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('callable'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -470,25 +470,25 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCallableConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('callable'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testCalledAtLeastOnceAtExactlyOneCall(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atLeast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->once();
         $this->mock->foo();
     }
 
     public function testCalledAtLeastOnceAtExactlyThreeCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atLeast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->times(3);
         $this->mock->foo();
         $this->mock->foo();
@@ -497,30 +497,30 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCalledAtLeastThrowsExceptionOnTooFewCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atLeast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->twice();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         Mockery::close();
     }
 
     public function testCalledAtLeastThrowsExceptionOnTooManyCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atMost()
+        $this->mock->should_receive('foo')
+            ->at_most()
             ->twice();
         $this->mock->foo();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
 
     public function testCalledAtMostAtExactlyThreeCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atMost()
+        $this->mock->should_receive('foo')
+            ->at_most()
             ->times(3);
         $this->mock->foo();
         $this->mock->foo();
@@ -529,51 +529,51 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCalledAtMostOnceAtExactlyOneCall(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atMost()
+        $this->mock->should_receive('foo')
+            ->at_most()
             ->once();
         $this->mock->foo();
     }
 
     public function testCalledOnce(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->once();
         $this->mock->foo();
     }
 
     public function testCalledOnceThrowsExceptionIfCalledThreeTimes(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->twice();
         $this->mock->foo();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
 
     public function testCalledOnceThrowsExceptionIfCalledTwice(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->once();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
 
     public function testCalledOnceThrowsExceptionIfNotCalled(): void
     {
-        $this->expectException(CountValidatorException::class);
-        $this->mock->shouldReceive('foo')
+        $this->expectException(Count_Validator_Exception::class);
+        $this->mock->should_receive('foo')
             ->once();
         Mockery::close();
     }
 
     public function testCalledTwice(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->twice();
         $this->mock->foo();
         $this->mock->foo();
@@ -581,16 +581,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCalledTwiceThrowsExceptionIfNotCalled(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->twice();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         Mockery::close();
     }
 
     public function testCalledZeroOrMoreTimesAtThreeCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->zeroOrMoreTimes();
+        $this->mock->should_receive('foo')
+            ->zero_or_more_times();
         $this->mock->foo();
         $this->mock->foo();
         $this->mock->foo();
@@ -598,14 +598,14 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCalledZeroOrMoreTimesAtZeroCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->zeroOrMoreTimes();
+        $this->mock->should_receive('foo')
+            ->zero_or_more_times();
     }
 
     public function testCanReturnSelf(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturnSelf();
+        $this->mock->should_receive('foo')
+            ->and_return_self();
         self::assertSame($this->mock, $this->mock->foo());
     }
 
@@ -613,7 +613,7 @@ final class ExpectationTest extends Mockery_Test_Case
     {
         $object = new stdClass();
         $temp = null;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::capture($temp))->once();
         $this->mock->foo($object);
 
@@ -623,7 +623,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testCaptureStoresArgumentOfTypeScalarClosureEvaluatesToTrue(): void
     {
         $temp = null;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::capture($temp))->once();
         $this->mock->foo(4);
 
@@ -632,16 +632,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testClassConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('stdClass'))->once();
         $this->mock->foo(new stdClass());
     }
 
     public function testClassConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('stdClass'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -650,33 +650,33 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testClassConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('stdClass'));
-        $this->expectException(Exception::class);
-        $this->mock->foo(new Exception());
+        $this->expectException(\Mockery\Exception::class);
+        $this->mock->foo(new \Exception());
         Mockery::close();
     }
 
     public function testComboOfLeastAndMostCallsThrowsExceptionAtTooFewCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atleast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->once()
-            ->atMost()
+            ->at_most()
             ->twice();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         Mockery::close();
     }
 
     public function testComboOfLeastAndMostCallsThrowsExceptionAtTooManyCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atleast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->once()
-            ->atMost()
+            ->at_most()
             ->twice();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         $this->mock->foo();
         Mockery::close();
@@ -684,20 +684,20 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testComboOfLeastAndMostCallsWithOneCall(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atleast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->once()
-            ->atMost()
+            ->at_most()
             ->twice();
         $this->mock->foo();
     }
 
     public function testComboOfLeastAndMostCallsWithTwoCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atleast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->once()
-            ->atMost()
+            ->at_most()
             ->twice();
         $this->mock->foo();
         $this->mock->foo();
@@ -705,7 +705,7 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testContainsConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::contains(1, 2))->once();
         $this->mock->foo([
             'a' => 1,
@@ -716,9 +716,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testContainsConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::contains(1, 2))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -727,9 +727,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testContainsConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::contains(1, 2));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo([
             'a' => 1,
             'c' => 3,
@@ -739,13 +739,13 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testCountWithBecauseExceptionMessage(): void
     {
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         $this->expectExceptionMessageMatches(
             '/Method foo\(<Any Arguments>\) from Mockery_(.*?) should be called' . PHP_EOL . ' ' .
             'exactly 1 times but called 0 times. Because We like foo/'
         );
 
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->once()
             ->because('We like foo');
         Mockery::close();
@@ -753,12 +753,12 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDefaultExpectationsAreReplacedByLaterConcreteExpectations(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn('bar')
+        $this->mock->should_receive('foo')
+            ->and_return('bar')
             ->once()
-            ->byDefault();
-        $this->mock->shouldReceive('foo')
-            ->andReturn('baz')
+            ->by_default();
+        $this->mock->should_receive('foo')
+            ->and_return('baz')
             ->twice();
         self::assertSame('baz', $this->mock->foo());
         self::assertSame('baz', $this->mock->foo());
@@ -766,13 +766,13 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDefaultExpectationsCanBeOrdered(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered()
-            ->byDefault();
-        $this->mock->shouldReceive('bar')
+            ->by_default();
+        $this->mock->should_receive('bar')
             ->ordered()
-            ->byDefault();
-        $this->expectException(Exception::class);
+            ->by_default();
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->bar();
         $this->mock->foo();
         Mockery::close();
@@ -780,16 +780,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDefaultExpectationsCanBeOrderedAndReplaced(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered()
-            ->byDefault();
-        $this->mock->shouldReceive('bar')
+            ->by_default();
+        $this->mock->should_receive('bar')
             ->ordered()
-            ->byDefault();
-        $this->mock->shouldReceive('bar')
+            ->by_default();
+        $this->mock->should_receive('bar')
             ->ordered()
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered()
             ->once();
         $this->mock->bar();
@@ -798,41 +798,41 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDefaultExpectationsCanBeOverridden(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with('test')
-            ->andReturn('bar')
-            ->byDefault();
-        $this->mock->shouldReceive('foo')
+            ->and_return('bar')
+            ->by_default();
+        $this->mock->should_receive('foo')
             ->with('test')
-            ->andReturn('newbar')
-            ->byDefault();
+            ->and_return('newbar')
+            ->by_default();
         $this->mock->foo('test');
         self::assertSame('newbar', $this->mock->foo('test'));
     }
 
     public function testDefaultExpectationsValidatedInCorrectOrder(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->once()
-            ->andReturn('first')
-            ->byDefault();
-        $this->mock->shouldReceive('foo')
+            ->and_return('first')
+            ->by_default();
+        $this->mock->should_receive('foo')
             ->with(2)
             ->once()
-            ->andReturn('second')
-            ->byDefault();
+            ->and_return('second')
+            ->by_default();
         self::assertSame('first', $this->mock->foo(1));
         self::assertSame('second', $this->mock->foo(2));
     }
 
     public function testDifferentArgumentsAndOrderingsPassWithoutException(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->ordered()
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(2)
             ->ordered()
             ->once();
@@ -842,13 +842,13 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDifferentArgumentsAndOrderingsThrowExceptionWhenInWrongOrder(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->ordered();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(2)
             ->ordered();
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(2);
         $this->mock->foo(1);
         Mockery::close();
@@ -856,16 +856,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDoubleConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('double'))->once();
         $this->mock->foo(2.25);
     }
 
     public function testDoubleConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('double'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -874,25 +874,25 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDoubleConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('double'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testDucktypeConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::ducktype('quack', 'swim'))->once();
         $this->mock->foo(new Mockery_Duck());
     }
 
     public function testDucktypeConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::ducktype('quack', 'swim'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -901,23 +901,23 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testDucktypeConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::ducktype('quack', 'swim'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(new Mockery_Duck_Nonswimmer());
         Mockery::close();
     }
 
     public function testEnsuresOrderingIsCrossMockWhenGloballyFlagSet(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->globally()
             ->ordered();
         $mock2 = \mock('bar');
-        $mock2->shouldReceive('bar')
+        $mock2->should_receive('bar')
             ->globally()
             ->ordered();
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $mock2->bar();
         $this->mock->foo();
         Mockery::close();
@@ -925,11 +925,11 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testEnsuresOrderingIsNotCrossMockByDefault(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered()
             ->once();
         $mock2 = \mock('bar');
-        $mock2->shouldReceive('bar')
+        $mock2->should_receive('bar')
             ->ordered()
             ->once();
         $mock2->bar();
@@ -938,12 +938,12 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExactCountersOverrideAnyPriorSetNonExactCounters(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->atLeast()
+        $this->mock->should_receive('foo')
+            ->at_least()
             ->once()
             ->once();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
@@ -951,32 +951,32 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testExceptionOnArgumentIndexOutOfRange(): void
     {
         $this->expectException(OutOfBoundsException::class);
-        $this->mock->shouldReceive('foo')
-            ->andReturnArg(2);
+        $this->mock->should_receive('foo')
+            ->and_return_arg(2);
         $this->mock->foo(0, 1); // only pass 2 arguments so index #2 won't exist
     }
 
     public function testExceptionOnInvalidArgumentIndexValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->mock->shouldReceive('foo')
-            ->andReturnArg('invalid');
+        $this->mock->should_receive('foo')
+            ->and_return_arg('invalid');
     }
 
     public function testExpectationCanBeOverridden(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->once()
-            ->andReturn('green');
-        $this->mock->shouldReceive('foo')
-            ->andReturn('blue');
+            ->and_return('green');
+        $this->mock->should_receive('foo')
+            ->and_return('blue');
         self::assertSame('green', $this->mock->foo());
         self::assertSame('blue', $this->mock->foo());
     }
 
     public function testExpectationCastToStringFormatting(): void
     {
-        $exp = $this->mock->shouldReceive('foo')
+        $exp = $this->mock->should_receive('foo')
             ->with(1, 'bar', new stdClass(), [
                 'Spam' => 'Ham',
                 'Bar' => 'Baz',
@@ -986,14 +986,14 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectationFallsBackToDefaultExpectationWhenConcreteExpectationsAreUsedUp(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
-            ->andReturn('bar')
+            ->and_return('bar')
             ->once()
-            ->byDefault();
-        $this->mock->shouldReceive('foo')
+            ->by_default();
+        $this->mock->should_receive('foo')
             ->with(2)
-            ->andReturn('baz')
+            ->and_return('baz')
             ->once();
         self::assertSame('baz', $this->mock->foo(2));
         self::assertSame('bar', $this->mock->foo(1));
@@ -1001,16 +1001,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectationMatchingWithAnyArgsOrderings(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withAnyArgs()
+        $this->mock->should_receive('foo')
+            ->with_any_args()
             ->once()
             ->ordered();
-        $this->mock->shouldReceive('bar')
-            ->withAnyArgs()
+        $this->mock->should_receive('bar')
+            ->with_any_args()
             ->once()
             ->ordered();
-        $this->mock->shouldReceive('foo')
-            ->withAnyArgs()
+        $this->mock->should_receive('foo')
+            ->with_any_args()
             ->once()
             ->ordered();
         $this->mock->foo();
@@ -1020,16 +1020,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectationMatchingWithNoArgsOrderings(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withNoArgs()
+        $this->mock->should_receive('foo')
+            ->with_no_args()
             ->once()
             ->ordered();
-        $this->mock->shouldReceive('bar')
-            ->withNoArgs()
+        $this->mock->should_receive('bar')
+            ->with_no_args()
             ->once()
             ->ordered();
-        $this->mock->shouldReceive('foo')
-            ->withNoArgs()
+        $this->mock->should_receive('foo')
+            ->with_no_args()
             ->once()
             ->ordered();
         $this->mock->foo();
@@ -1039,16 +1039,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectationsCanBeMarkedAsDefaults(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn('bar')
-            ->byDefault();
+        $this->mock->should_receive('foo')
+            ->and_return('bar')
+            ->by_default();
         self::assertSame('bar', $this->mock->foo());
     }
 
     public function testExpectsAnyArguments(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withAnyArgs()
+        $this->mock->should_receive('foo')
+            ->with_any_args()
             ->times(3);
         $this->mock->foo();
         $this->mock->foo(1);
@@ -1057,8 +1057,8 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectsAndOthers(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withAndOthers(1, 2)
+        $this->mock->should_receive('foo')
+            ->with_and_others(1, 2)
             ->times(2);
         $this->mock->foo(1, 2);
         $this->mock->foo(1, 2, new stdClass(), 'a', 'b', 'c');
@@ -1066,15 +1066,15 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectsArgumentMatchingObjectType(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(stdClass::class)->once();
         $this->mock->foo(new stdClass());
     }
 
     public function testExpectsArgumentsArray(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withArgs([1, 2])->once();
+        $this->mock->should_receive('foo')
+            ->with_args([1, 2])->once();
         $this->mock->foo(1, 2);
     }
 
@@ -1083,8 +1083,8 @@ final class ExpectationTest extends Mockery_Test_Case
         $closure = function ($odd, $even) {
             return ($odd % 2 !== 0) && ($even % 2 === 0);
         };
-        $this->mock->shouldReceive('foo')
-            ->withArgs($closure)
+        $this->mock->should_receive('foo')
+            ->with_args($closure)
             ->once();
         $this->mock->foo(1, 2);
     }
@@ -1098,8 +1098,8 @@ final class ExpectationTest extends Mockery_Test_Case
             }
             return $result;
         };
-        $this->mock->shouldReceive('foo')
-            ->withArgs($closure)
+        $this->mock->should_receive('foo')
+            ->with_args($closure)
             ->once();
         $this->mock->foo(1, 4);
     }
@@ -1113,8 +1113,8 @@ final class ExpectationTest extends Mockery_Test_Case
             }
             return $result;
         };
-        $this->mock->shouldReceive('foo')
-            ->withArgs($closure)
+        $this->mock->should_receive('foo')
+            ->with_args($closure)
             ->once();
         $this->mock->foo(1, 4, 5);
     }
@@ -1128,27 +1128,27 @@ final class ExpectationTest extends Mockery_Test_Case
             }
             return $result;
         };
-        $this->mock->shouldReceive('foo')
-            ->withArgs($closure);
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with_args($closure);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1, 4, 2);
         Mockery::close();
     }
 
     public function testExpectsArgumentsArrayThrowsExceptionIfNoArgumentsPassed(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with();
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testExpectsArgumentsArrayThrowsExceptionIfPassedEmptyArray(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withArgs([]);
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with_args([]);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1, 2);
         Mockery::close();
     }
@@ -1157,16 +1157,16 @@ final class ExpectationTest extends Mockery_Test_Case
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/invalid argument (.+), only array and closure are allowed/');
-        $this->mock->shouldReceive('foo')
-            ->withArgs(5);
+        $this->mock->should_receive('foo')
+            ->with_args(5);
         Mockery::close();
     }
 
     public function testExpectsArgumentsArrayThrowsExceptionIfPassedWrongArguments(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withArgs([1, 2]);
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with_args([1, 2]);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(3, 4);
         Mockery::close();
     }
@@ -1176,9 +1176,9 @@ final class ExpectationTest extends Mockery_Test_Case
         $closure = function ($odd, $even) {
             return ($odd % 2 !== 0) && ($even % 2 === 0);
         };
-        $this->mock->shouldReceive('foo')
-            ->withArgs($closure);
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with_args($closure);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(4, 2);
         Mockery::close();
     }
@@ -1187,7 +1187,7 @@ final class ExpectationTest extends Mockery_Test_Case
     {
         $this->mock->expects()
             ->foo()
-            ->atLeast()
+            ->at_least()
             ->once();
         $this->mock->foo();
         $this->mock->foo();
@@ -1196,40 +1196,40 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectsNoArguments(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withNoArgs()
+        $this->mock->should_receive('foo')
+            ->with_no_args()
             ->once();
         $this->mock->foo();
     }
 
     public function testExpectsNoArgumentsThrowsExceptionIfAnyPassed(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withNoArgs();
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with_no_args();
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testExpectsSomeOfArgumentsGivenArgsDoNotMatchRealArgsAndThrowNoMatchingException(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withSomeOfArgs(1, 3, 5);
-        $this->expectException(NoMatchingExpectationException::class);
+        $this->mock->should_receive('foo')
+            ->with_some_of_args(1, 3, 5);
+        $this->expectException(No_Matching_Expectation_Exception::class);
         $this->mock->foo(1, 2, 4, 5);
     }
 
     public function testExpectsSomeOfArgumentsMatchRealArguments(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withSomeOfArgs(1, 3, 5)
+        $this->mock->should_receive('foo')
+            ->with_some_of_args(1, 3, 5)
             ->times(4);
         $this->mock->foo(1, 2, 3, 4, 5);
         $this->mock->foo(1, 3, 5, 2, 4);
         $this->mock->foo(1, 'foo', 3, 'bar', 5);
         $this->mock->foo(1, 3, 5);
-        $this->mock->shouldReceive('foo')
-            ->withSomeOfArgs('foo')
+        $this->mock->should_receive('foo')
+            ->with_some_of_args('foo')
             ->times(2);
         $this->mock->foo('foo', 'bar');
         $this->mock->foo('bar', 'foo');
@@ -1238,7 +1238,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testExpectsStringArgumentCalledAtLeastOnceOverridingDefaultOnceCall(): void
     {
         $this->mock->expects('foo')
-            ->atLeast()
+            ->at_least()
             ->once();
         $this->mock->foo();
         $this->mock->foo();
@@ -1247,9 +1247,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testExpectsStringArgumentExceptionMessageDifferentiatesBetweenNullAndEmptyString(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->withArgs(['a string']);
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with_args(['a string']);
+        $this->expectException(\Mockery\Exception::class);
         $this->expectExceptionMessageMatches('/foo\(NULL\)/');
         $this->mock->foo(null);
         Mockery::close();
@@ -1257,16 +1257,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testFloatConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('float'))->once();
         $this->mock->foo(2.25);
     }
 
     public function testFloatConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('float'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -1275,44 +1275,44 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testFloatConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('float'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnAutoDeclaredClasses(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $this->expectException(Exception::class);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(false);
+        $this->expectException(\Mockery\Exception::class);
         $this->expectExceptionMessage("Mockery can't find 'SomeMadeUpClass' so can't mock it");
         $mock = \mock('SomeMadeUpClass');
-        $mock->shouldReceive('foo');
+        $mock->should_receive('foo');
         Mockery::close();
     }
 
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnClasses(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(false);
         $mock = \mock(stdClass::class);
-        $this->expectException(Exception::class);
-        $mock->shouldReceive('foo');
+        $this->expectException(\Mockery\Exception::class);
+        $mock->should_receive('foo');
         Mockery::close();
     }
 
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnObjects(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(false);
         $mock = \mock(new stdClass());
-        $this->expectException(Exception::class);
-        $mock->shouldReceive('foo');
+        $this->expectException(\Mockery\Exception::class);
+        $mock->should_receive('foo');
         Mockery::close();
     }
 
     public function testGlobalConfigQuickDefinitionsConfigurationDefaultExpectation(): void
     {
-        Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(false);
+        Mockery::get_configuration()->get_quick_definitions()->should_be_called_at_least_once(false);
         \mock([
             'foo' => 1,
         ]);
@@ -1322,21 +1322,21 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testGlobalConfigQuickDefinitionsConfigurationMockAtLeastOnce(): void
     {
-        Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(true);
+        Mockery::get_configuration()->get_quick_definitions()->should_be_called_at_least_once(true);
         \mock([
             'foo' => 1,
         ]);
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         Mockery::close();
     }
 
     public function testGroupedOrderingThrowsExceptionWhenCallsDisordered(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered('first');
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered('second');
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->bar();
         $this->mock->foo();
         Mockery::close();
@@ -1344,17 +1344,17 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testGroupedOrderingWithLimitsAllowsMultipleReturnValues(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(2)
             ->once()
-            ->andReturn('first');
-        $this->mock->shouldReceive('foo')
+            ->and_return('first');
+        $this->mock->should_receive('foo')
             ->with(2)
             ->twice()
-            ->andReturn('second/third');
-        $this->mock->shouldReceive('foo')
+            ->and_return('second/third');
+        $this->mock->should_receive('foo')
             ->with(2)
-            ->andReturn('infinity');
+            ->and_return('infinity');
         self::assertSame('first', $this->mock->foo(2));
         self::assertSame('second/third', $this->mock->foo(2));
         self::assertSame('second/third', $this->mock->foo(2));
@@ -1365,20 +1365,20 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testGroupedUngroupedOrderingDoNotOverlap(): void
     {
-        $s = $this->mock->shouldReceive('start')
+        $s = $this->mock->should_receive('start')
             ->ordered();
-        $m = $this->mock->shouldReceive('mid')
+        $m = $this->mock->should_receive('mid')
             ->ordered('foobar');
-        $e = $this->mock->shouldReceive('end')
+        $e = $this->mock->should_receive('end')
             ->ordered();
-        self::assertLessThan($m->getOrderNumber(), $s->getOrderNumber());
-        self::assertLessThan($e->getOrderNumber(), $m->getOrderNumber());
+        self::assertLessThan($m->get_order_number(), $s->get_order_number());
+        self::assertLessThan($e->get_order_number(), $m->get_order_number());
     }
 
     public function testHasKeyConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::hasKey('c'))->once();
+        $this->mock->should_receive('foo')
+            ->with(Mockery::has_key('c'))->once();
         $this->mock->foo([
             'a' => 1,
             'b' => 2,
@@ -1388,10 +1388,10 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testHasKeyConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
-            ->with(1, Mockery::hasKey('a'))->never();
+        $this->mock->should_receive('foo')
+            ->with(1, Mockery::has_key('a'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, [
@@ -1401,9 +1401,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testHasKeyConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::hasKey('c'));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::has_key('c'));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo([
             'a' => 1,
             'b' => 3,
@@ -1413,8 +1413,8 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testHasValueConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::hasValue(1))->once();
+        $this->mock->should_receive('foo')
+            ->with(Mockery::has_value(1))->once();
         $this->mock->foo([
             'a' => 1,
             'b' => 2,
@@ -1424,10 +1424,10 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testHasValueConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
-            ->with(1, Mockery::hasValue(1))->never();
+        $this->mock->should_receive('foo')
+            ->with(1, Mockery::has_value(1))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, [
@@ -1437,9 +1437,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testHasValueConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::hasValue(2));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::has_value(2));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo([
             'a' => 1,
             'b' => 3,
@@ -1452,7 +1452,7 @@ final class ExpectationTest extends Mockery_Test_Case
         $mock = \mock(Mockery_Duck::class);
 
         $this->expectException(
-            BadMethodCallException::class,
+            Bad_Method_Call_Exception::class,
             'Received ' . \get_class($mock) .
             '::quack(), ' . 'but no expectations were specified'
         );
@@ -1466,7 +1466,7 @@ final class ExpectationTest extends Mockery_Test_Case
         $mock = \mock(Mockery_Duck::class);
 
         $this->expectException(
-            BadMethodCallException::class,
+            Bad_Method_Call_Exception::class,
             'Method ' . \get_class($mock) .
             '::nonExistent() does not exist on this mock object'
         );
@@ -1477,16 +1477,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testIntConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('int'))->once();
         $this->mock->foo(2);
     }
 
     public function testIntConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('int'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -1495,9 +1495,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testIntConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('int'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
@@ -1505,8 +1505,8 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testItCanThrowAThrowable(): void
     {
         $this->expectException(Error::class);
-        $this->mock->shouldReceive('foo')
-            ->andThrow(new Error());
+        $this->mock->should_receive('foo')
+            ->and_throw(new Error());
         $this->mock->foo();
     }
 
@@ -1515,9 +1515,9 @@ final class ExpectationTest extends Mockery_Test_Case
         $mock = Mockery::mock();
 
         $mock->expects()
-            ->foo(Mockery::hasKey('foo'));
+            ->foo(Mockery::has_key('foo'));
 
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         $this->expectExceptionMessage('Method foo(<HasKey[foo]>)');
 
         Mockery::close();
@@ -1525,16 +1525,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testLongConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('long'))->once();
         $this->mock->foo(2);
     }
 
     public function testLongConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('long'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -1543,16 +1543,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testLongConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('long'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
 
     public function testLongExpectationCastToStringFormatting(): void
     {
-        $exp = $this->mock->shouldReceive('foo')
+        $exp = $this->mock->should_receive('foo')
             ->with([
                 'Spam' => 'Ham',
                 'Bar' => 'Baz',
@@ -1711,24 +1711,24 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testMakePartialExpectationBasedOnArgs(): void
     {
-        $mock = \mock(MockeryTest_SubjectCall1::class)->makePartial();
+        $mock = \mock(MockeryTest_SubjectCall1::class)->make_partial();
 
         self::assertSame('bar', $mock->foo());
         self::assertSame('bar', $mock->foo('baz'));
         self::assertSame('bar', $mock->foo('qux'));
 
-        $mock->shouldReceive('foo')
+        $mock->should_receive('foo')
             ->with('baz')
             ->twice()
-            ->andReturn('123');
+            ->and_return('123');
         self::assertSame('bar', $mock->foo());
         self::assertSame('123', $mock->foo('baz'));
         self::assertSame('bar', $mock->foo('qux'));
 
-        $mock->shouldReceive('foo')
-            ->withNoArgs()
+        $mock->should_receive('foo')
+            ->with_no_args()
             ->once()
-            ->andReturn('456');
+            ->and_return('456');
         self::assertSame('456', $mock->foo());
         self::assertSame('123', $mock->foo('baz'));
         self::assertSame('bar', $mock->foo('qux'));
@@ -1736,9 +1736,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testMatchPrecedenceBasedOnExpectedCallsFavouringAnyMatch(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::any())->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->never();
         $this->mock->foo(1);
@@ -1746,10 +1746,10 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testMatchPrecedenceBasedOnExpectedCallsFavouringExplicitMatch(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::any())->never();
         $this->mock->foo(1);
     }
@@ -1757,22 +1757,22 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface(): void
     {
         $waterMock = \mock(IWater::class);
-        self::assertFalse($waterMock->mockery_isAnonymous());
+        self::assertFalse($waterMock->mockery_is_anonymous());
     }
 
     public function testMockedMethodsCallableFromWithinOriginalClass(): void
     {
         $mock = \mock(MockeryTest_InterMethod1::class . '[doThird]');
-        $mock->shouldReceive('doThird')
-            ->andReturn(true);
+        $mock->should_receive('doThird')
+            ->and_return(true);
         self::assertTrue($mock->doFirst());
     }
 
     public function testMockingDemeterChainsPassesMockeryExpectationToCompositeExpectation(): void
     {
         $mock = \mock(Mockery_Demeterowski::class);
-        $mock->shouldReceive('foo->bar->baz')
-            ->andReturn('Spam!');
+        $mock->should_receive('foo->bar->baz')
+            ->and_return('Spam!');
         $demeter = new Mockery_UseDemeter($mock);
         self::assertSame('Spam!', $demeter->doit());
     }
@@ -1780,35 +1780,35 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testMockingDemeterChainsPassesMockeryExpectationToCompositeExpectationWithArgs(): void
     {
         $mock = \mock(Mockery_Demeterowski::class);
-        $mock->shouldReceive('foo->bar->baz')
-            ->andReturn('Spam!');
+        $mock->should_receive('foo->bar->baz')
+            ->and_return('Spam!');
         $demeter = new Mockery_UseDemeter($mock);
         self::assertSame('Spam!', $demeter->doitWithArgs());
     }
 
     public function testMultipleExpectationCastToStringFormatting(): void
     {
-        $exp = $this->mock->shouldReceive('foo', 'bar')
+        $exp = $this->mock->should_receive('foo', 'bar')
             ->with(1);
         self::assertSame('[foo(1), bar(1)]', (string) $exp);
     }
 
     public function testMultipleExpectationsWithReturns(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
-            ->andReturn(10);
-        $this->mock->shouldReceive('bar')
+            ->and_return(10);
+        $this->mock->should_receive('bar')
             ->with(2)
-            ->andReturn(20);
+            ->and_return(20);
         self::assertSame(10, $this->mock->foo(1));
         self::assertSame(20, $this->mock->bar(2));
     }
 
     public function testMustBeConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::mustBe(2))->once();
+        $this->mock->should_receive('foo')
+            ->with(Mockery::must_be(2))->once();
         $this->mock->foo(2);
     }
 
@@ -1818,17 +1818,17 @@ final class ExpectationTest extends Mockery_Test_Case
         $a->foo = 1;
         $b = new stdClass();
         $b->foo = 1;
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::mustBe($a))->once();
+        $this->mock->should_receive('foo')
+            ->with(Mockery::must_be($a))->once();
         $this->mock->foo($b);
     }
 
     public function testMustBeConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
-            ->with(1, Mockery::mustBe(2))->never();
+        $this->mock->should_receive('foo')
+            ->with(1, Mockery::must_be(2))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 2, 3);
@@ -1838,10 +1838,10 @@ final class ExpectationTest extends Mockery_Test_Case
     {
         $a = new stdClass();
         $a->foo = 1;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
-            ->with(1, Mockery::mustBe($a))->never();
+        $this->mock->should_receive('foo')
+            ->with(1, Mockery::must_be($a))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, $a, 3);
@@ -1849,9 +1849,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testMustBeConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::mustBe(2));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::must_be(2));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('2');
         Mockery::close();
     }
@@ -1862,24 +1862,24 @@ final class ExpectationTest extends Mockery_Test_Case
         $a->foo = 1;
         $b = new stdClass();
         $b->foo = 2;
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::mustBe($a));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::must_be($a));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo($b);
         Mockery::close();
     }
 
     public function testNeverCalled(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->never();
     }
 
     public function testNeverCalledThrowsExceptionOnCall(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->never();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
@@ -1894,9 +1894,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
         $foo = Mockery::mock();
 
-        $foo->shouldReceive('foo')
+        $foo->should_receive('foo')
             ->with($input)
-            ->andReturn('foobar');
+            ->and_return('foobar');
 
         // only sort the input to change the order but not the values.
         \ksort($input);
@@ -1906,17 +1906,17 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testNotAnyOfConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::notAnyOf(1, 2))->once();
+        $this->mock->should_receive('foo')
+            ->with(Mockery::not_any_of(1, 2))->once();
         $this->mock->foo(3);
     }
 
     public function testNotAnyOfConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
-            ->with(1, Mockery::notAnyOf(1, 2))->never();
+        $this->mock->should_receive('foo')
+            ->with(1, Mockery::not_any_of(1, 2))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 4, 3);
@@ -1924,25 +1924,25 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testNotAnyOfConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->with(Mockery::notAnyOf(1, 2));
-        $this->expectException(Exception::class);
+        $this->mock->should_receive('foo')
+            ->with(Mockery::not_any_of(1, 2));
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(2);
         Mockery::close();
     }
 
     public function testNotConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::not(1))->once();
         $this->mock->foo(2);
     }
 
     public function testNotConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::not(2))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -1951,25 +1951,25 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testNotConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::not(2));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(2);
         Mockery::close();
     }
 
     public function testNullConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('null'))->once();
         $this->mock->foo(null);
     }
 
     public function testNullConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('null'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -1978,25 +1978,25 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testNullConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('null'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
 
     public function testNumericConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('numeric'))->once();
         $this->mock->foo('2');
     }
 
     public function testNumericConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('numeric'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -2005,25 +2005,25 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testNumericConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('numeric'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
 
     public function testObjectConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('object'))->once();
         $this->mock->foo(new stdClass());
     }
 
     public function testObjectConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('object`'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -2032,9 +2032,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testObjectConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('object'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
@@ -2044,7 +2044,7 @@ final class ExpectationTest extends Mockery_Test_Case
         $function = function ($arg) {
             return $arg % 2 === 0;
         };
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::on($function))->once();
         $this->mock->foo(4);
     }
@@ -2054,7 +2054,7 @@ final class ExpectationTest extends Mockery_Test_Case
         $function = function ($arg) {
             return \is_array($arg);
         };
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::on($function))->once();
         $this->mock->foo([4, 5]);
     }
@@ -2064,9 +2064,9 @@ final class ExpectationTest extends Mockery_Test_Case
         $function = function ($arg) {
             return $arg % 2 === 0;
         };
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::on($function));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(5);
         Mockery::close();
     }
@@ -2074,20 +2074,20 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testOptionalMockRetrieval(): void
     {
         $m = \mock('f')
-            ->shouldReceive('foo')
+            ->should_receive('foo')
             ->with(1)
-            ->andReturn(3)
+            ->and_return(3)
             ->mock();
         self::assertInstanceOf(Mock_Interface::class, $m);
     }
 
     public function testOrderedCallsWithOutOfOrderError(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered();
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered();
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->bar();
         $this->mock->foo();
         Mockery::close();
@@ -2095,10 +2095,10 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testOrderedCallsWithoutError(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered()
             ->once();
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered()
             ->once();
         $this->mock->foo();
@@ -2107,10 +2107,10 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testOrderingOfDefaultGrouping(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered()
             ->once();
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered()
             ->once();
         $this->mock->foo();
@@ -2119,11 +2119,11 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testOrderingOfDefaultGroupingThrowsExceptionOnWrongOrder(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered();
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered();
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->bar();
         $this->mock->foo();
         Mockery::close();
@@ -2131,16 +2131,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testOrderingUsingNamedGroups(): void
     {
-        $this->mock->shouldReceive('start')
+        $this->mock->should_receive('start')
             ->ordered('start')
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered('foobar')
             ->once();
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered('foobar')
             ->twice();
-        $this->mock->shouldReceive('final')
+        $this->mock->should_receive('final')
             ->ordered()
             ->once();
         $this->mock->start();
@@ -2152,16 +2152,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testOrderingUsingNumberedGroups(): void
     {
-        $this->mock->shouldReceive('start')
+        $this->mock->should_receive('start')
             ->ordered(1)
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->ordered(2)
             ->once();
-        $this->mock->shouldReceive('bar')
+        $this->mock->should_receive('bar')
             ->ordered(2)
             ->twice();
-        $this->mock->shouldReceive('final')
+        $this->mock->should_receive('final')
             ->ordered()
             ->once();
         $this->mock->start();
@@ -2174,7 +2174,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testPassthruCallMagic(): void
     {
         $mock = \mock(Mockery_Magic::class);
-        $mock->shouldReceive('theAnswer')
+        $mock->should_receive('theAnswer')
             ->once()
             ->passthru();
         self::assertSame(42, $mock->theAnswer());
@@ -2183,7 +2183,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testPassthruEnsuresRealMethodCalledForReturnValues(): void
     {
         $mock = \mock(MockeryTest_SubjectCall1::class);
-        $mock->shouldReceive('foo')
+        $mock->should_receive('foo')
             ->once()
             ->passthru();
         self::assertSame('bar', $mock->foo());
@@ -2191,41 +2191,41 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testPatternConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::pattern('/foo.*/'))->once();
         $this->mock->foo('foobar');
     }
 
     public function testPatternConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::pattern('/foo.*/'))->never();
         $this->mock->foo('bar');
     }
 
     public function testPatternConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::pattern('/foo.*/'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('bar');
         Mockery::close();
     }
 
     public function testRealConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('float'))->once();
         $this->mock->foo(2.25);
     }
 
     public function testRealConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('float'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -2234,16 +2234,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testRealConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('float'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
 
     public function testResourceConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('resource'))->once();
         $r = \fopen(\dirname(__FILE__, 3) . '/Fixture/_files/file.txt', 'rb');
         $this->mock->foo($r);
@@ -2251,9 +2251,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testResourceConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('resource'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -2262,37 +2262,37 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testResourceConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('resource'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
     }
 
     public function testReturnAsUndefinedAllowsForInfiniteSelfReturningChain(): void
     {
-        $this->mock->shouldIgnoreMissing()
-            ->asUndefined();
+        $this->mock->should_ignore_missing()
+            ->as_undefined();
         self::assertInstanceOf(Undefined::class, $this->mock->g(1, 2)->a()->b()->c());
     }
 
     public function testReturnNullIfIgnoreMissingMethodsSet(): void
     {
-        $this->mock->shouldIgnoreMissing();
+        $this->mock->should_ignore_missing();
         self::assertNull($this->mock->g(1, 2));
     }
 
     public function testReturnUndefinedIfIgnoreMissingMethodsSet(): void
     {
-        $this->mock->shouldIgnoreMissing()
-            ->asUndefined();
+        $this->mock->should_ignore_missing()
+            ->as_undefined();
         self::assertInstanceOf(Undefined::class, $this->mock->g(1, 2));
     }
 
     public function testReturnsFalseIfFalseIsReturnValue(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturnFalse();
+        $this->mock->should_receive('foo')
+            ->and_return_false();
         self::assertFalse($this->mock->foo());
     }
 
@@ -2300,93 +2300,93 @@ final class ExpectationTest extends Mockery_Test_Case
     {
         $args = [1, null, 3];
         $index = 1;
-        $this->mock->shouldReceive('foo')
-            ->withArgs($args)
-            ->andReturnArg($index);
+        $this->mock->should_receive('foo')
+            ->with_args($args)
+            ->and_return_arg($index);
         self::assertNull($this->mock->foo(...$args));
     }
 
     public function testReturnsNullForMockedExistingClassIfAndReturnNullCalled(): void
     {
         $mock = \mock(MockeryTest_Foo::class);
-        $mock->shouldReceive('foo')
-            ->andReturn(null);
+        $mock->should_receive('foo')
+            ->and_return(null);
         self::assertNull($mock->foo());
     }
 
     public function testReturnsNullForMockedExistingClassIfNullIsReturnValue(): void
     {
         $mock = \mock(MockeryTest_Foo::class);
-        $mock->shouldReceive('foo')
-            ->andReturnNull();
+        $mock->should_receive('foo')
+            ->and_return_null();
         self::assertNull($mock->foo());
     }
 
     public function testReturnsNullIfNullIsReturnValue(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn(null);
+        $this->mock->should_receive('foo')
+            ->and_return(null);
         self::assertNull($this->mock->foo());
     }
 
     public function testReturnsNullWhenManyArgs(): void
     {
-        $this->mock->shouldReceive('foo');
+        $this->mock->should_receive('foo');
         self::assertNull($this->mock->foo('foo', [], new stdClass()));
     }
 
     public function testReturnsNullWhenNoArgs(): void
     {
-        $this->mock->shouldReceive('foo');
+        $this->mock->should_receive('foo');
         self::assertNull($this->mock->foo());
     }
 
     public function testReturnsNullWhenSingleArg(): void
     {
-        $this->mock->shouldReceive('foo');
+        $this->mock->should_receive('foo');
         self::assertNull($this->mock->foo(1));
     }
 
     public function testReturnsSameValueForAllIfNoArgsExpectationAndNoneGiven(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn(1);
+        $this->mock->should_receive('foo')
+            ->and_return(1);
         self::assertSame(1, $this->mock->foo());
     }
 
     public function testReturnsSameValueForAllIfNoArgsExpectationAndSomeGiven(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn(1);
+        $this->mock->should_receive('foo')
+            ->and_return(1);
         self::assertSame(1, $this->mock->foo('foo'));
     }
 
     public function testReturnsTrueIfTrueIsReturnValue(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturnTrue();
+        $this->mock->should_receive('foo')
+            ->and_return_true();
         self::assertTrue($this->mock->foo());
     }
 
     public function testReturnsUndefined(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturnUndefined();
+        $this->mock->should_receive('foo')
+            ->and_return_undefined();
         self::assertInstanceOf(Undefined::class, $this->mock->foo());
     }
 
     public function testReturnsValueFromSequenceSequentially(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn(1, 2, 3);
+        $this->mock->should_receive('foo')
+            ->and_return(1, 2, 3);
         $this->mock->foo('foo');
         self::assertSame(2, $this->mock->foo('foo'));
     }
 
     public function testReturnsValueFromSequenceSequentiallyAndRepeatedlyReturnsFinalValueOnExtraCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn(1, 2, 3);
+        $this->mock->should_receive('foo')
+            ->and_return(1, 2, 3);
         $this->mock->foo('foo');
         $this->mock->foo('foo');
         self::assertSame(3, $this->mock->foo('foo'));
@@ -2395,9 +2395,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testReturnsValueFromSequenceSequentiallyAndRepeatedlyReturnsFinalValueOnExtraCallsWithManyAndReturnCalls(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturn(1)
-            ->andReturn(2, 3);
+        $this->mock->should_receive('foo')
+            ->and_return(1)
+            ->and_return(2, 3);
         $this->mock->foo('foo');
         $this->mock->foo('foo');
         self::assertSame(3, $this->mock->foo('foo'));
@@ -2408,17 +2408,17 @@ final class ExpectationTest extends Mockery_Test_Case
     {
         $args = [1, 2, 3, 4, 5];
         $index = 2;
-        $this->mock->shouldReceive('foo')
-            ->withArgs($args)
-            ->andReturnArg($index);
+        $this->mock->should_receive('foo')
+            ->with_args($args)
+            ->and_return_arg($index);
         self::assertSame($args[$index], $this->mock->foo(...$args));
     }
 
     public function testReturnsValueOfClosure(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(5)
-            ->andReturnUsing(function ($v) {
+            ->and_return_using(function ($v) {
                 return $v + 1;
             });
         self::assertSame(6, $this->mock->foo(5));
@@ -2426,8 +2426,8 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testReturnsValuesSetAsArray(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andReturnValues([1, 2, 3]);
+        $this->mock->should_receive('foo')
+            ->and_return_values([1, 2, 3]);
         self::assertSame(1, $this->mock->foo());
         self::assertSame(2, $this->mock->foo());
         self::assertSame(3, $this->mock->foo());
@@ -2435,16 +2435,16 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testScalarConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('scalar'))->once();
         $this->mock->foo(2);
     }
 
     public function testScalarConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('scalar'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -2453,9 +2453,9 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testScalarConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('scalar'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo([]);
         Mockery::close();
     }
@@ -2465,11 +2465,11 @@ final class ExpectationTest extends Mockery_Test_Case
         $mockInstanceOne = \mock(MockeryTest_Foo::class);
         $mockInstanceTwo = \mock(MockeryTest_Foo::class);
 
-        $mockInstanceOne->shouldReceive('foo')
-            ->andSet('bar', 'baz');
+        $mockInstanceOne->should_receive('foo')
+            ->and_set('bar', 'baz');
 
-        $mockInstanceTwo->shouldReceive('foo')
-            ->andSet('bar', 'bazz');
+        $mockInstanceTwo->should_receive('foo')
+            ->and_set('bar', 'bazz');
 
         $mockInstanceOne->foo();
         $mockInstanceTwo->foo();
@@ -2481,8 +2481,8 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertiesWhenRequested(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
-            ->andSet('bar', 'baz', 'bazz', 'bazzz');
+        $this->mock->should_receive('foo')
+            ->and_set('bar', 'baz', 'bazz', 'bazzz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
         self::assertSame('baz', $this->mock->bar);
@@ -2495,8 +2495,8 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValues(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
-            ->andSet('bar', 'baz', 'bazz');
+        $this->mock->should_receive('foo')
+            ->and_set('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
         self::assertSame('baz', $this->mock->bar);
@@ -2509,8 +2509,8 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesUsingAlias(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
-            ->andSet('bar', 'baz', 'bazz');
+        $this->mock->should_receive('foo')
+            ->and_set('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
         self::assertSame('baz', $this->mock->bar);
@@ -2523,8 +2523,8 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesWithDirectSet(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
-            ->andSet('bar', 'baz', 'bazz');
+        $this->mock->should_receive('foo')
+            ->and_set('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
         self::assertSame('baz', $this->mock->bar);
@@ -2538,7 +2538,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesWithDirectSetUsingAlias(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->set('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
@@ -2553,7 +2553,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertiesWhenRequestedUsingAlias(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->set('bar', 'baz', 'bazz', 'bazzz');
         self::assertEmpty($this->mock->bar);
         $this->mock->foo();
@@ -2567,8 +2567,8 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertyWhenRequested(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
-            ->andSet('bar', 'baz');
+        $this->mock->should_receive('foo')
+            ->and_set('bar', 'baz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
         self::assertSame('baz', $this->mock->bar);
@@ -2577,7 +2577,7 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testSetsPublicPropertyWhenRequestedUsingAlias(): void
     {
         $this->mock->bar = null;
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->set('bar', 'baz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
@@ -2586,20 +2586,20 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testShouldIgnoreMissingAsDefinedProxiesToUndefinedAllowingToString(): void
     {
-        $this->mock->shouldIgnoreMissing()
-            ->asUndefined();
+        $this->mock->should_ignore_missing()
+            ->as_undefined();
         self::assertIsString("{$this->mock->g()}");
         self::assertIsString("{$this->mock}");
     }
 
     public function testShouldIgnoreMissingAsUndefinedFluentInterface(): void
     {
-        self::assertInstanceOf(Mock_Interface::class, $this->mock->shouldIgnoreMissing()->asUndefined());
+        self::assertInstanceOf(Mock_Interface::class, $this->mock->should_ignore_missing()->as_undefined());
     }
 
     public function testShouldIgnoreMissingDefaultReturnValue(): void
     {
-        $this->mock->shouldIgnoreMissing(1);
+        $this->mock->should_ignore_missing(1);
         self::assertSame(1, $this->mock->a());
     }
 
@@ -2608,14 +2608,14 @@ final class ExpectationTest extends Mockery_Test_Case
      */
     public function testShouldIgnoreMissingDefaultSelfAndReturnsSelf(): void
     {
-        $this->mock->shouldIgnoreMissing(Mockery::self());
+        $this->mock->should_ignore_missing(Mockery::self());
         self::assertSame($this->mock, $this->mock->a()->b());
     }
 
     public function testShouldIgnoreMissingExpectationBasedOnArgs(): void
     {
-        $mock = \mock(MyService2::class)->shouldIgnoreMissing();
-        $mock->shouldReceive('hasBookmarksTagged')
+        $mock = \mock(MyService2::class)->should_ignore_missing();
+        $mock->should_receive('hasBookmarksTagged')
             ->with('dave')
             ->once();
         $mock->hasBookmarksTagged('dave');
@@ -2624,53 +2624,53 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testShouldIgnoreMissingFluentInterface(): void
     {
-        self::assertInstanceOf(Mock_Interface::class, $this->mock->shouldIgnoreMissing());
+        self::assertInstanceOf(Mock_Interface::class, $this->mock->should_ignore_missing());
     }
 
     public function testShouldNotReceive(): void
     {
-        $this->mock->shouldNotReceive('foo');
+        $this->mock->should_not_receive('foo');
     }
 
     public function testShouldNotReceiveCanBeAddedToCompositeExpectation(): void
     {
         $mock = \mock('Foo');
-        $mock->shouldReceive('a')
+        $mock->should_receive('a')
             ->once()
-            ->andReturn('Spam!')
-            ->shouldNotReceive('b');
+            ->and_return('Spam!')
+            ->should_not_receive('b');
         $mock->a();
     }
 
     public function testShouldNotReceiveThrowsExceptionIfMethodCalled(): void
     {
-        $this->mock->shouldNotReceive('foo');
-        $this->expectException(InvalidCountException::class);
+        $this->mock->should_not_receive('foo');
+        $this->expectException(Invalid_Count_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
 
     public function testShouldNotReceiveWithArgumentThrowsExceptionIfMethodCalled(): void
     {
-        $this->mock->shouldNotReceive('foo')
+        $this->mock->should_not_receive('foo')
             ->with(2);
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         $this->mock->foo(2);
         Mockery::close();
     }
 
     public function testStringConstraintMatchesArgument(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('string'))->once();
         $this->mock->foo('2');
     }
 
     public function testStringConstraintNonMatchingCase(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1, Mockery::type('string'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
@@ -2679,17 +2679,17 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testStringConstraintThrowsExceptionWhenConstraintUnmatched(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(Mockery::type('string'));
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(1);
         Mockery::close();
     }
 
     public function testThrowsException(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andThrow(new OutOfBoundsException());
+        $this->mock->should_receive('foo')
+            ->and_throw(new OutOfBoundsException());
         $this->expectException(OutOfBoundsException::class);
         $this->mock->foo();
         Mockery::close();
@@ -2697,8 +2697,8 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testThrowsExceptionBasedOnArgs(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andThrow('OutOfBoundsException');
+        $this->mock->should_receive('foo')
+            ->and_throw('OutOfBoundsException');
         $this->expectException(OutOfBoundsException::class);
         $this->mock->foo();
         Mockery::close();
@@ -2706,8 +2706,8 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testThrowsExceptionBasedOnArgsWithMessage(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andThrow('OutOfBoundsException', 'foo');
+        $this->mock->should_receive('foo')
+            ->and_throw('OutOfBoundsException', 'foo');
         try {
             $this->mock->foo();
         } catch (OutOfBoundsException $e) {
@@ -2717,22 +2717,22 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testThrowsExceptionOnNoArgumentMatch(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1);
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $this->mock->foo(2);
         Mockery::close();
     }
 
     public function testThrowsExceptionSequentially(): void
     {
-        $this->mock->shouldReceive('foo')
-            ->andThrow(new Exception())
-            ->andThrow(new OutOfBoundsException());
+        $this->mock->should_receive('foo')
+            ->and_throw(new \Exception())
+            ->and_throw(new OutOfBoundsException());
 
         try {
             $this->mock->foo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $this->expectException(OutOfBoundsException::class);
@@ -2742,27 +2742,27 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testTimesCountCallThrowsExceptionOnTooFewCalls(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(2);
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         Mockery::close();
     }
 
     public function testTimesCountCallThrowsExceptionOnTooManyCalls(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(2);
         $this->mock->foo();
         $this->mock->foo();
-        $this->expectException(CountValidatorException::class);
+        $this->expectException(Count_Validator_Exception::class);
         $this->mock->foo();
         Mockery::close();
     }
 
     public function testTimesCountCalls(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(4);
         $this->mock->foo();
         $this->mock->foo();
@@ -2773,28 +2773,28 @@ final class ExpectationTest extends Mockery_Test_Case
     public function testTimesExpectationForbidsFloatNumbers(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->times(1.3);
         Mockery::close();
     }
 
     public function testToStringMagicMethodCanBeMocked(): void
     {
-        $this->mock->shouldReceive('__toString')
-            ->andReturn('dave');
+        $this->mock->should_receive('__toString')
+            ->and_return('dave');
         self::assertSame("{$this->mock}", 'dave');
     }
 
     public function testUnorderedCallsIgnoredForOrdering(): void
     {
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(1)
             ->ordered()
             ->once();
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(2)
             ->times(3);
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(3)
             ->ordered()
             ->once();
@@ -2807,13 +2807,13 @@ final class ExpectationTest extends Mockery_Test_Case
 
     public function testWetherMockWithInterfaceOnlyCanNotImplementNonExistingMethods(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(false);
         $waterMock = Mockery::mock(IWater::class);
-        $this->expectException(Exception::class);
+        $this->expectException(\Mockery\Exception::class);
         $waterMock
-            ->shouldReceive('nonExistentMethod')
+            ->should_receive('nonExistentMethod')
             ->once()
-            ->andReturnNull();
+            ->and_return_null();
         Mockery::close();
     }
 }

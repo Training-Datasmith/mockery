@@ -46,7 +46,7 @@ use Throwable;
 use function trigger_error;
 class Expectation implements Expectation_Interface
 {
-    public const ERROR_ZERO_INVOCATION = 'shouldNotReceive(), never(), times(0) chaining additional invocation count methods has been deprecated and will throw an exception in a future version of Mockery';
+    public const ERROR_ZERO_INVOCATION = 'should_not_receive(), never(), times(0) chaining additional invocation count methods has been deprecated and will throw an exception in a future version of Mockery';
     /**
      * Actual count of calls to this expectation
      *
@@ -175,16 +175,6 @@ class Expectation implements Expectation_Interface
         }
         $this->_count_validators = $new_validators;
     }
-    public function __call(string $method, array $args)
-    {
-        $snake = mockery_camel_to_snake_method($method);
-        if ($snake !== $method && method_exists($this, $snake)) {
-            return $this->{$snake}(...$args);
-        }
-
-        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
-    }
-
     /**
      * Return a string with the method name and arguments formatted
      */
@@ -332,7 +322,7 @@ class Expectation implements Expectation_Interface
         $this->_throw = true;
         foreach ($exceptions as $exception) {
             if (!is_object($exception)) {
-                throw new Exception('You must pass an array of exception objects to andThrowExceptions');
+                throw new Exception('You must pass an array of exception objects to and_throw_exceptions');
             }
         }
         return $this->and_return_values($exceptions);
@@ -534,7 +524,7 @@ class Expectation implements Expectation_Interface
     }
     /**
      * Alias to andSet(). Allows the natural English construct
-     * - set('foo', 'bar')->andReturn('bar')
+     * - set('foo', 'bar')->and_return('bar')
      *
      * @param string $name
      * @param mixed  $value

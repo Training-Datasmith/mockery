@@ -22,7 +22,7 @@ class Instance_Mock_Pass implements Pass
         public function __construct()
         {
             \$this->_mockery_ignoreVerification = false;
-            \$associatedRealObject = \\Mockery::fetchMock(__CLASS__);
+            \$associatedRealObject = \\Mockery::fetch_mock(__CLASS__);
     
             foreach (get_object_vars(\$this) as \$attr => \$val) {
                 if (\$attr !== "_mockery_ignoreVerification" && \$attr !== "_mockery_expectations") {
@@ -51,7 +51,7 @@ class Instance_Mock_Pass implements Pass
             }
             \\Mockery::get_container()->remember_mock(\$this);
     
-            \$this->_mockery_constructorCalled(func_get_args());
+            \$this->_mockery_constructor_called(func_get_args());
         }
     MOCK;
     /**

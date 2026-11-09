@@ -12,7 +12,7 @@ use PHP73\TestWithNonFinalWakeup;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithFinalWakeupTest extends Mockery_Test_Case
+final class Mock_Class_With_Final_Wakeup_Test extends Mockery_Test_Case
 {
     protected $container;
 

@@ -11,7 +11,7 @@ use PHP73\MethodWithParametersWithDefaultValues;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingMethodsWithNullableParametersTest extends Mockery_Test_Case
+final class Mocking_Methods_With_Nullable_Parameters_Test extends Mockery_Test_Case
 {
     public function testItCanHandleDefaultParameters(): void
     {

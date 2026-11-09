@@ -12,7 +12,7 @@ use stdClass;
  * @requires PHP 8.4.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php84LanguageFeaturesTest extends Mockery_Test_Case
+final class Php84Language_Features_Test extends Mockery_Test_Case
 {
     public function testExample(): void
     {

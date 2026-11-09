@@ -83,4 +83,4 @@ rm -f "${AUDIT_OUT}"
 
 php scripts/check-cluster-pins.php
 
-vendor/bin/phpunit --do-not-cache-result --colors=never 2>&1 | tee /app/.system-test/phpunit.out
+vendor/bin/phpunit --do-not-cache-result --colors=never --no-coverage 2>&1 | tee /app/.system-test/phpunit.out

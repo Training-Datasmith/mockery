@@ -11,7 +11,7 @@ use PHP73\OldStyleConstructor;
 /**
  * @coversDefaultClass \Mockery
  */
-class MockingOldStyleConstructorTest extends Mockery_Test_Case
+class Mocking_Old_Style_Constructor_Test extends Mockery_Test_Case
 {
     public function testMockClassWithOldStyleConstructorAndArguments(): void
     {

@@ -1,6 +1,6 @@
 # One PHPUnit skip id per line (Class::method). Lines starting with # are ignored.
-Tests\Unit\Mockery\ContainerTest::testCanOverrideExpectedParametersOfExtensionPHPClassesToPreserveRefs
-Tests\Unit\Mockery\ContainerTest::testThrowsExceptionIfSettingExpectationForNonMockedMethodOfPartialMock
-Tests\Unit\Mockery\Generator\MockConfigurationBuilderTest::testReservedWordsAreBlackListedByDefault
-Tests\Unit\Mockery\Adapter\Phpunit\PhpUnitConstraintExpectationTest::testConstraintExceptionMessage
-Tests\Unit\Mockery\DemeterChainTest::testDemeterChainsOnInterfaceSubjects
+Tests\Unit\Mockery\Container_Test::testCanOverrideExpectedParametersOfExtensionPHPClassesToPreserveRefs
+Tests\Unit\Mockery\Container_Test::testThrowsExceptionIfSettingExpectationForNonMockedMethodOfPartialMock
+Tests\Unit\Mockery\Generator\Mock_Configuration_Builder_Test::testReservedWordsAreBlackListedByDefault
+Tests\Unit\Mockery\Adapter\Phpunit\Php_Unit_Constraint_Expectation_Test::testConstraintExceptionMessage
+Tests\Unit\Mockery\Demeter_Chain_Test::testDemeterChainsOnInterfaceSubjects

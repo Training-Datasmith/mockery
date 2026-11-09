@@ -15,7 +15,7 @@ use PHP73\CustomValueObjectMatcher;
 /**
  * @coversDefaultClass \Mockery
  */
-final class DefaultMatchersTest extends Mockery_Test_Case
+final class Default_Matchers_Test extends Mockery_Test_Case
 {
     protected $mock;
 
@@ -26,13 +26,13 @@ final class DefaultMatchersTest extends Mockery_Test_Case
 
     public function mockery_test_tear_down(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(true);
     }
 
     public function testDefaultMatcherClass(): void
     {
-        Mockery::getConfiguration()->setDefaultMatcher(CustomValueObject::class, CustomValueObjectMatcher::class);
-        $this->mock->shouldReceive('foo')
+        Mockery::get_configuration()->set_default_matcher(CustomValueObject::class, CustomValueObjectMatcher::class);
+        $this->mock->should_receive('foo')
             ->with(new CustomValueObject('expected'))
             ->once();
         $this->mock->foo(new CustomValueObject('expected'));
@@ -43,8 +43,8 @@ final class DefaultMatchersTest extends Mockery_Test_Case
      */
     public function testDefaultMatcherHamcrest(): void
     {
-        Mockery::getConfiguration()->setDefaultMatcher(DateTime::class, IsEqual::class);
-        $this->mock->shouldReceive('foo')
+        Mockery::get_configuration()->set_default_matcher(DateTime::class, IsEqual::class);
+        $this->mock->should_receive('foo')
             ->with(new DateTime('2000-01-01'))
             ->once();
         $this->mock->foo(new DateTime('2000-01-01'));
@@ -52,11 +52,11 @@ final class DefaultMatchersTest extends Mockery_Test_Case
 
     public function testDefaultMatcherInterface(): void
     {
-        Mockery::getConfiguration()->setDefaultMatcher(
+        Mockery::get_configuration()->set_default_matcher(
             CustomValueObjectInterface::class,
             CustomValueObjectMatcher::class
         );
-        $this->mock->shouldReceive('foo')
+        $this->mock->should_receive('foo')
             ->with(new CustomValueObject('expected2'))
             ->once();
         $this->mock->foo(new CustomValueObject('expected2'));

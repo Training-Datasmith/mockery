@@ -12,7 +12,7 @@ namespace Mockery\Exception;
 
 use Mockery\Exception;
 use Mockery\Legacy_Mock_Interface;
-class NoMatchingExpectationException extends Exception
+class No_Matching_Expectation_Exception extends Exception
 {
     /**
      * @var array<mixed>

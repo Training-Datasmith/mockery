@@ -10,6 +10,6 @@ declare (strict_types=1);
  */
 namespace Mockery\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException implements Mockery_Exception_Interface
+class Invalid_Argument_Exception extends \InvalidArgumentException implements Mockery_Exception_Interface
 {
 }

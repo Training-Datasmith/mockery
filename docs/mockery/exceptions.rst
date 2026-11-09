@@ -6,16 +6,16 @@ Mockery Exceptions
 
 Mockery throws three types of exceptions when it cannot verify a mock object.
 
-#. ``\Mockery\Exception\InvalidCountException``
-#. ``\Mockery\Exception\InvalidOrderException``
-#. ``\Mockery\Exception\NoMatchingExpectationException``
+#. ``\Mockery\Exception\Invalid_Count_Exception``
+#. ``\Mockery\Exception\Invalid_Order_Exception``
+#. ``\Mockery\Exception\No_Matching_Expectation_Exception``
 
 You can capture any of these exceptions in a try...catch block to query them
 for specific information which is also passed along in the exception message
 but is provided separately from getters should they be useful when logging or
 reformatting output.
 
-\Mockery\Exception\InvalidCountException
+\Mockery\Exception\Invalid_Count_Exception
 ----------------------------------------
 
 The exception class is used when a method is called too many (or too few)
@@ -31,7 +31,7 @@ times and offers the following methods:
 * ``getActualCount()`` - return actual calls made with given argument
   constraints
 
-\Mockery\Exception\InvalidOrderException
+\Mockery\Exception\Invalid_Order_Exception
 ----------------------------------------
 
 The exception class is used when a method is called outside the expected order
@@ -47,7 +47,7 @@ offers the following methods:
 * ``getActualOrder()`` - return the actual index at which this method call
   occurred.
 
-\Mockery\Exception\NoMatchingExpectationException
+\Mockery\Exception\No_Matching_Expectation_Exception
 -------------------------------------------------
 
 The exception class is used when a method call does not match any known

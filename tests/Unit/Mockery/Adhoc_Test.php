@@ -7,7 +7,7 @@ namespace Tests\Unit\Mockery;
 use Mockery;
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 use Mockery\Container;
-use Mockery\Exception\RuntimeException;
+use Mockery\Exception\Runtime_Exception;
 use Mockery\Mock_Interface;
 use PHP73\NameOfAbstract;
 use PHP73\NameOfExistingClass;
@@ -19,13 +19,13 @@ use SplFileInfo;
  * Ad-hoc unit tests for various scenarios reported by users
  * @coversDefaultClass \Mockery
  */
-final class AdhocTest extends Mockery_Test_Case
+final class Adhoc_Test extends Mockery_Test_Case
 {
     protected $container;
 
     protected function mockery_test_set_up(): void
     {
-        $this->container = new Container(Mockery::getDefaultGenerator(), Mockery::getDefaultLoader());
+        $this->container = new Container(Mockery::get_default_generator(), Mockery::get_default_loader());
     }
 
     public function mockery_test_tear_down(): void
@@ -35,9 +35,9 @@ final class AdhocTest extends Mockery_Test_Case
 
     public function testInvalidCountExceptionThrowsRuntimeExceptionOnIllegalComparativeSymbol(): void
     {
-        $this->expectException(RuntimeException::class);
-        $e = new \Mockery\Exception\InvalidCountException();
-        $e->setExpectedCountComparative('X');
+        $this->expectException(Runtime_Exception::class);
+        $e = new \Mockery\Exception\Invalid_Count_Exception();
+        $e->set_expected_count_comparative('X');
     }
 
     public function testMockeryConstructAndDestructIsCalled(): void

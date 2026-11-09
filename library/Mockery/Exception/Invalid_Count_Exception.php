@@ -11,9 +11,10 @@ declare (strict_types=1);
 namespace Mockery\Exception;
 
 use function in_array;
-use Mockery\Count_Validator\Exception;
+use Mockery\Count_Validator\Exception as Count_Validator_Exception;
 use Mockery\Legacy_Mock_Interface;
-class InvalidCountException extends Exception
+use Mockery\Exception\Runtime_Exception;
+class Invalid_Count_Exception extends Count_Validator_Exception
 {
     /**
      * @var int|null
@@ -71,7 +72,7 @@ class InvalidCountException extends Exception
         return $this->mock_object;
     }
     /**
-     * @throws RuntimeException
+     * @throws Runtime_Exception
      * @return string|null
      */
     public function get_mock_name()
@@ -104,16 +105,12 @@ class InvalidCountException extends Exception
     public function set_expected_count_comparative($comp): self
     {
         if (!in_array($comp, ['=', '>', '<', '>=', '<='], true)) {
-            throw new RuntimeException('Illegal comparative for expected call counts set: ' . $comp);
+            throw new Runtime_Exception('Illegal comparative for expected call counts set: ' . $comp);
         }
         $this->expected_comparative = $comp;
         return $this;
     }
 
-    public function setExpectedCountComparative($comp): self
-    {
-        return $this->set_expected_count_comparative($comp);
-    }
     /**
      * @param  string $name
      */

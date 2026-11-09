@@ -14,7 +14,7 @@ use function array_pop;
 use function array_unshift;
 use function end;
 use Mockery;
-use Mockery\Exception\NoMatchingExpectationException;
+use Mockery\Exception\No_Matching_Expectation_Exception;
 use const PHP_EOL;
 class Expectation_Director
 {
@@ -76,7 +76,7 @@ class Expectation_Director
         if ($expectation !== null) {
             return $expectation->verify_call($args);
         }
-        $exception = new NoMatchingExpectationException('No matching handler found for ' . $this->_mock->mockery_get_name() . '::' . Mockery::format_args($this->_name, $args) . '. Either the method was unexpected or its arguments matched' . ' no expected argument list for this method' . PHP_EOL . PHP_EOL . Mockery::format_objects($args));
+        $exception = new No_Matching_Expectation_Exception('No matching handler found for ' . $this->_mock->mockery_get_name() . '::' . Mockery::format_args($this->_name, $args) . '. Either the method was unexpected or its arguments matched' . ' no expected argument list for this method' . PHP_EOL . PHP_EOL . Mockery::format_objects($args));
         $exception->set_mock($this->_mock)->set_method_name($this->_name)->set_actual_arguments($args);
         throw $exception;
     }

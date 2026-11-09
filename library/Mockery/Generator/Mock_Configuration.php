@@ -108,7 +108,7 @@ class Mock_Configuration
     /**
      * A number of traits we'd like to mock, keyed by name to attempt to keep unique
      *
-     * @var array<string,DefinedTargetClass>
+     * @var array<string,Defined_Target_Class>
      */
     protected $target_traits = [];
     /**
@@ -122,7 +122,7 @@ class Mock_Configuration
      * @param array<string>                      $blackListedMethods
      * @param array<string>                      $whiteListedMethods
      * @param string|null                        $name
-     * @param bool                               $instanceMock
+     * @param bool                               $instance_mock
      * @param array<string,mixed>                $parameterOverrides
      * @param bool                               $mockOriginalDestructor
      * @param array<string,array<scalar>|scalar> $constantsMap
@@ -182,7 +182,7 @@ class Mock_Configuration
      */
     public function get_hash(): string
     {
-        $vars = ['targetClassName' => $this->target_class_name, 'targetInterfaceNames' => $this->target_interface_names, 'targetTraitNames' => $this->target_trait_names, 'name' => $this->name, 'blackListedMethods' => $this->black_listed_methods, 'whiteListedMethod' => $this->white_listed_methods, 'instanceMock' => $this->instance_mock, 'parameterOverrides' => $this->parameter_overrides, 'mockOriginalDestructor' => $this->mock_original_destructor];
+        $vars = ['targetClassName' => $this->target_class_name, 'targetInterfaceNames' => $this->target_interface_names, 'targetTraitNames' => $this->target_trait_names, 'name' => $this->name, 'blackListedMethods' => $this->black_listed_methods, 'whiteListedMethod' => $this->white_listed_methods, 'instance_mock' => $this->instance_mock, 'parameterOverrides' => $this->parameter_overrides, 'mockOriginalDestructor' => $this->mock_original_destructor];
         return md5(serialize($vars));
     }
     /**

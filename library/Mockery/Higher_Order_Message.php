@@ -12,7 +12,7 @@ namespace Mockery;
 
 use Closure;
 /**
- * @method Expectation withArgs(array|Closure $args)
+ * @method Expectation with_args(array|Closure $args)
  */
 class Higher_Order_Message
 {
@@ -35,7 +35,7 @@ class Higher_Order_Message
      */
     public function __call(string $method, array $args)
     {
-        if ($this->method === 'shouldNotHaveReceived') {
+        if ($this->method === 'should_not_have_received') {
             return $this->mock->{$this->method}($method, $args);
         }
         $expectation = $this->mock->{$this->method}($method);

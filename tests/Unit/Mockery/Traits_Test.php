@@ -11,7 +11,7 @@ use PHP73\TraitWithAbstractMethod;
 /**
  * @coversDefaultClass \Mockery
  */
-final class TraitsTest extends Mockery_Test_Case
+final class Traits_Test extends Mockery_Test_Case
 {
     public function testItCanCreateAnObjectForASimpleTrait(): void
     {

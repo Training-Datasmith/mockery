@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
-use Mockery\Exception\InvalidCountException;
+use Mockery\Exception\Invalid_Count_Exception;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class CallableSpyTest extends Mockery_Test_Case
+final class Callable_Spy_Test extends Mockery_Test_Case
 {
     public function testItActsAsPartial(): void
     {
@@ -19,7 +19,7 @@ final class CallableSpyTest extends Mockery_Test_Case
         });
 
         self::assertSame(124, $spy(123));
-        $spy->shouldHaveBeenCalled();
+        $spy->should_have_been_called();
     }
 
     public function testItCanVerifyItWasCalledANumberOfTimes(): void
@@ -30,7 +30,7 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy();
         $spy();
 
-        $spy->shouldHaveBeenCalled()
+        $spy->should_have_been_called()
             ->twice();
     }
 
@@ -42,7 +42,7 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy(123);
         $spy(123);
 
-        $spy->shouldHaveBeenCalled()
+        $spy->should_have_been_called()
             ->with(123)
             ->twice();
     }
@@ -54,8 +54,8 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy();
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called()
             ->twice();
     }
 
@@ -67,8 +67,8 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy();
         $spy(123);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called()
             ->with(123)
             ->twice();
     }
@@ -82,8 +82,8 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy();
         $spy();
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called()
             ->twice();
     }
 
@@ -96,8 +96,8 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy(123);
         $spy(123);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called()
             ->with(123)
             ->twice();
     }
@@ -109,8 +109,8 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy();
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldNotHaveBeenCalled();
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_not_have_been_called();
     }
 
     public function testItThrowsIfItWasCalledWithTheArgsWeWereNotExpecting(): void
@@ -120,8 +120,8 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy(123);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldNotHaveBeenCalled([123]);
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_not_have_been_called([123]);
     }
 
     public function testItThrowsIfTheArgumentsDoNotMatch(): void
@@ -131,8 +131,8 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy(123);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called()
             ->with(123, 546);
     }
 
@@ -141,8 +141,8 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy = \spy(function (): void {
         });
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled();
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called();
     }
 
     public function testItThrowsIfThereWereNoArgumentsButWeExpectedSome(): void
@@ -152,8 +152,8 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy();
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveBeenCalled()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_been_called()
             ->with(123, 546);
     }
 
@@ -164,7 +164,7 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy(456);
 
-        $spy->shouldNotHaveBeenCalled([123]);
+        $spy->should_not_have_been_called([123]);
     }
 
     public function testItVerifiesItWasNotCalledWithSomeParticularArgumentsWhenCalledWithNoArgs(): void
@@ -174,7 +174,7 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy();
 
-        $spy->shouldNotHaveBeenCalled([123]);
+        $spy->should_not_have_been_called([123]);
     }
 
     public function testItVerifiesTheClosureWasCalled(): void
@@ -184,7 +184,7 @@ final class CallableSpyTest extends Mockery_Test_Case
 
         $spy();
 
-        $spy->shouldHaveBeenCalled();
+        $spy->should_have_been_called();
     }
 
     public function testItVerifiesTheClosureWasNotCalled(): void
@@ -192,6 +192,6 @@ final class CallableSpyTest extends Mockery_Test_Case
         $spy = \spy(function (): void {
         });
 
-        $spy->shouldNotHaveBeenCalled();
+        $spy->should_not_have_been_called();
     }
 }

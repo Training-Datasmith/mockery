@@ -54,16 +54,6 @@ done <<< "${CONTAINER_OUT}"
 
 GATE_ALLOWLIST="${ALLOWLIST}"
 EXPECTED_SKIPS=5
-if [[ "${PHPREDIS_BUILT}" -ne 1 ]]; then
-  log "phpredis not available: ${PHPREDIS_REASON:-unknown}"
-  EXPECTED_SKIPS=7
-  GATE_ALLOWLIST="$(mktemp)"
-  cat "${ALLOWLIST}" > "${GATE_ALLOWLIST}"
-  cat >> "${GATE_ALLOWLIST}" <<'EOF'
-Tests\Unit\Mockery\ContainerTest::testCanMockClassWithReservedWordMethod
-Tests\Unit\Mockery\ContainerTest::testMockingPhpredisExtensionClassWorks
-EOF
-fi
 
 if [[ ! -f "${OUTPUT_LOG}" ]]; then
   log "Missing ${OUTPUT_LOG}"
@@ -77,7 +67,8 @@ fi
 log "Strict PHPUnit summary: $(grep -E '^Tests: ' "${OUTPUT_LOG}" | tail -n 1)"
 log "phpredis built: ${PHPREDIS_BUILT}"
 if [[ "${PHPREDIS_BUILT}" -ne 1 ]]; then
-  log "phpredis kept on allowlist because: ${PHPREDIS_REASON}"
+  log "phpredis missing (allowlist still 5): ${PHPREDIS_REASON:-unknown}"
+  exit 1
 fi
 
 log "system-test passed."

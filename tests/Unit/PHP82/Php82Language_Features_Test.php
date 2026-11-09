@@ -27,7 +27,7 @@ use ReflectionType;
  * @requires PHP 8.2.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php82LanguageFeaturesTest extends Mockery_Test_Case
+final class Php82Language_Features_Test extends Mockery_Test_Case
 {
     public static function provideMockParameterDisjunctiveNormalFormTypesCases(): iterable
     {
@@ -104,7 +104,7 @@ final class Php82LanguageFeaturesTest extends Mockery_Test_Case
         $mock = \mock($fullyQualifiedClassName);
 
         $reflectionClass = new ReflectionClass($mock);
-        $type = $reflectionClass->getMethod($expectedMethod->getName())
+        $type = $reflectionClass->getMethod($expectedMethod->get_name())
             ->getParameters()[0]
             ->getType();
 
@@ -127,7 +127,7 @@ final class Php82LanguageFeaturesTest extends Mockery_Test_Case
 
         $reflectionClass = new ReflectionClass($mock);
 
-        $type = $reflectionClass->getMethod($expectedMethod->getName())
+        $type = $reflectionClass->getMethod($expectedMethod->get_name())
             ->getReturnType();
 
         self::assertInstanceOf(ReflectionType::class, $type);

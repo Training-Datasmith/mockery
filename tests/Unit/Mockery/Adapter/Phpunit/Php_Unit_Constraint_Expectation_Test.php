@@ -12,13 +12,13 @@ use PHPUnit\Framework\Constraint\IsIdentical;
 /**
  * @coversDefaultClass \Mockery
  */
-final class PhpUnitConstraintExpectationTest extends Mockery_Test_Case
+final class Php_Unit_Constraint_Expectation_Test extends Mockery_Test_Case
 {
     public function testAnythingConstraintMatchesArgument(): void
     {
         $mock = \mock('foo');
 
-        $mock->shouldReceive('foo')
+        $mock->should_receive('foo')
             ->with(new IsIdentical(2))
             ->once();
 
@@ -37,7 +37,7 @@ final class PhpUnitConstraintExpectationTest extends Mockery_Test_Case
         $greaterThan = new GreaterThan(1);
 
         $mock = \mock('foo');
-        $mock->shouldReceive('foo')
+        $mock->should_receive('foo')
             ->with($greaterThan);
 
         $this->expectException(Exception::class);
@@ -50,7 +50,7 @@ final class PhpUnitConstraintExpectationTest extends Mockery_Test_Case
     {
         $mock = \mock('foo');
 
-        $mock->shouldReceive('foo')
+        $mock->should_receive('foo')
             ->with(new GreaterThan(1))
             ->once();
 
@@ -62,7 +62,7 @@ final class PhpUnitConstraintExpectationTest extends Mockery_Test_Case
         $greaterThan = new GreaterThan(1);
 
         $mock = \mock('foo');
-        $mock->shouldReceive('foo')
+        $mock->should_receive('foo')
             ->with($greaterThan);
 
         $this->expectException(Exception::class);

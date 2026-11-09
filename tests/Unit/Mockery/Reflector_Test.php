@@ -17,7 +17,7 @@ use ReflectionClass;
 /**
  * @coversDefaultClass \Mockery\Reflector
  */
-final class ReflectorTest extends Mockery_Test_Case
+final class Reflector_Test extends Mockery_Test_Case
 {
     public static function provideGetTypeHintCases(): iterable
     {

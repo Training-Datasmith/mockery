@@ -31,16 +31,6 @@ class Quick_Definitions_Configuration
      * When parameter $newValue is specified it sets the configuration with the
      * given value.
      */
-    public function __call(string $method, array $args)
-    {
-        $snake = mockery_camel_to_snake_method($method);
-        if ($snake !== $method && method_exists($this, $snake)) {
-            return $this->{$snake}(...$args);
-        }
-
-        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
-    }
-
     public function should_be_called_at_least_once(?bool $new_value = null): bool
     {
         if ($new_value !== null) {

@@ -35,7 +35,7 @@
         <ignoreFiles>
             <directory name="tests/Fixture"/>
             <directory name="vendor"/>
-            <file name="tests/Unit/Mockery/ContainerTest.php"/>
+            <file name="tests/Unit/Mockery/Container_Test.php"/>
         </ignoreFiles>
     </projectFiles>
     <extraFiles>

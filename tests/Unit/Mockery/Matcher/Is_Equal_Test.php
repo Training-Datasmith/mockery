@@ -10,7 +10,7 @@ use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 /**
  * @coversDefaultClass \Mockery
  */
-final class IsEqualTest extends Mockery_Test_Case
+final class Is_Equal_Test extends Mockery_Test_Case
 {
     use MatcherDataProviderTrait;
 
@@ -19,6 +19,6 @@ final class IsEqualTest extends Mockery_Test_Case
      */
     public function testItWorks($expected, $actual): void
     {
-        self::assertTrue(Mockery::isEqual($expected)->match($actual));
+        self::assertTrue(Mockery::is_equal($expected)->match($actual));
     }
 }

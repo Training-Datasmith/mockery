@@ -11,18 +11,18 @@ use PHP73\ClassWithAllLowerCaseMethod;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingAllLowerCasedMethodsTest extends Mockery_Test_Case
+final class Mocking_All_Lower_Cased_Methods_Test extends Mockery_Test_Case
 {
     public function testItShouldAllowToCallAllLowerCasedMethodAsCamelCased(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+        Mockery::get_configuration()->allow_mocking_non_existent_methods(true);
 
         $expected = 'mocked';
 
         $mock = \mock(ClassWithAllLowerCaseMethod::class);
 
-        $mock->shouldReceive('userExpectsCamelCaseMethod')
-            ->andReturn($expected);
+        $mock->should_receive('userExpectsCamelCaseMethod')
+            ->and_return($expected);
 
         self::assertSame($expected, $mock->userExpectsCamelCaseMethod());
     }

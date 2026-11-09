@@ -23,8 +23,8 @@ validate_mockery_phpunit_output() {
     return 1
   fi
 
-  if ! grep -Fxq 'OK, but incomplete, skipped, or useless tests!' "${stripped}"; then
-    printf '%s\n' 'PHPUnit output missing: OK, but incomplete, skipped, or useless tests!'
+  if ! grep -E '^OK, but incomplete, skipped, or (useless|risky) tests!$' "${stripped}" >/dev/null; then
+    printf '%s\n' 'PHPUnit output missing: OK, but incomplete, skipped, or useless/risky tests!'
     rm -f "${stripped}"
     return 1
   fi

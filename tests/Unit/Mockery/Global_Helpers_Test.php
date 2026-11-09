@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
-use Mockery\Matcher\AndAnyOtherArgs;
-use Mockery\Matcher\AnyArgs;
+use Mockery\Matcher\And_Any_Other_Args;
+use Mockery\Matcher\Any_Args;
 use Mockery\Mock_Interface;
 use Throwable;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class GlobalHelpersTest extends Mockery_Test_Case
+final class Global_Helpers_Test extends Mockery_Test_Case
 {
     /**
      * @throws Throwable
      */
     public function testAndAnyOtherArgs(): void
     {
-        self::assertInstanceOf(AndAnyOtherArgs::class, \andAnyOtherArgs());
+        self::assertInstanceOf(And_Any_Other_Args::class, \and_any_other_args());
     }
 
     /**
@@ -28,7 +28,7 @@ final class GlobalHelpersTest extends Mockery_Test_Case
      */
     public function testAndAnyOthers(): void
     {
-        self::assertInstanceOf(AndAnyOtherArgs::class, \andAnyOthers());
+        self::assertInstanceOf(And_Any_Other_Args::class, \and_any_others());
     }
 
     /**
@@ -36,7 +36,7 @@ final class GlobalHelpersTest extends Mockery_Test_Case
      */
     public function testAnyArgs(): void
     {
-        self::assertInstanceOf(AnyArgs::class, \anyArgs());
+        self::assertInstanceOf(Any_Args::class, \any_args());
     }
 
     public function testMockCreatesAMock(): void
@@ -54,7 +54,7 @@ final class GlobalHelpersTest extends Mockery_Test_Case
     {
         $className = \uniqid('Class');
 
-        $double = \namedMock($className);
+        $double = \named_mock($className);
 
         self::assertInstanceOf(Mock_Interface::class, $double);
         self::assertInstanceOf($className, $double);

@@ -10,13 +10,13 @@ use PHP80\MethodWithStaticReturnType;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingMethodsWithStaticReturnTypeTest extends Mockery_Test_Case
+final class Mocking_Methods_With_Static_Return_Type_Test extends Mockery_Test_Case
 {
     public function testMockingStaticReturnType(): void
     {
         $mock = \mock(MethodWithStaticReturnType::class);
 
-        $mock->shouldReceive('returnType');
+        $mock->should_receive('returnType');
 
         self::assertSame($mock, $mock->returnType());
     }

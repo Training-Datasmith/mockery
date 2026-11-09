@@ -10,14 +10,14 @@ use PHP73\TestWithVariadicArguments;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingVariadicArgumentsTest extends Mockery_Test_Case
+final class Mocking_Variadic_Arguments_Test extends Mockery_Test_Case
 {
     public function testShouldAllowMockingVariadicArguments(): void
     {
         $mock = \mock(TestWithVariadicArguments::class);
 
-        $mock->shouldReceive('foo')
-            ->andReturn('notbar');
+        $mock->should_receive('foo')
+            ->and_return('notbar');
         self::assertSame('notbar', $mock->foo());
     }
 }

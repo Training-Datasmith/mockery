@@ -8,10 +8,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // Create a mock of a non-existent interface/class inline
 $mailer = Mockery::mock('MailerInterface');
 
-$mailer->shouldReceive('send')
+$mailer->should_receive('send')
     ->once()
     ->with('user@example.com', 'Welcome!', Mockery::type('string'))
-    ->andReturn(true);
+    ->and_return(true);
 
 $result = $mailer->send('user@example.com', 'Welcome!', 'Hello, welcome aboard!');
 echo "Send result: " . ($result ? 'true' : 'false') . "\n\n";
@@ -22,9 +22,9 @@ Mockery::close();
 // --- Example 2: Stub returning different values on successive calls ---
 $repository = Mockery::mock('UserRepository');
 
-$repository->shouldReceive('findById')
+$repository->should_receive('findById')
     ->times(3)
-    ->andReturn(
+    ->and_return(
         ['id' => 1, 'name' => 'Alice'],
         ['id' => 2, 'name' => 'Bob'],
         null
@@ -42,8 +42,8 @@ $cache = Mockery::spy('CacheInterface');
 $cache->set('key', 'value', 3600);
 $cache->get('key');
 
-$cache->shouldHaveReceived('set')->once()->with('key', 'value', 3600);
-$cache->shouldHaveReceived('get')->once()->with('key');
+$cache->should_have_received('set')->once()->with('key', 'value', 3600);
+$cache->should_have_received('get')->once()->with('key');
 
 Mockery::close();
 echo "All spy assertions passed.\n\n";
@@ -51,7 +51,7 @@ echo "All spy assertions passed.\n\n";
 // --- Example 4: Argument matchers ---
 $logger = Mockery::mock('Psr\Log\LoggerInterface');
 
-$logger->shouldReceive('error')
+$logger->should_receive('error')
     ->once()
     ->with(Mockery::pattern('/Connection failed/'), Mockery::any());
 

@@ -30,14 +30,14 @@ class Verification_Director
      */
     public function at_least()
     {
-        return $this->clone_without_count_validators_apply_and_verify('atLeast', []);
+        return $this->clone_without_count_validators_apply_and_verify('at_least', []);
     }
     /**
      * @return self
      */
     public function at_most()
     {
-        return $this->clone_without_count_validators_apply_and_verify('atMost', []);
+        return $this->clone_without_count_validators_apply_and_verify('at_most', []);
     }
     /**
      * @param int $minimum
@@ -92,7 +92,7 @@ class Verification_Director
      */
     public function with_any_args()
     {
-        return $this->clone_apply_and_verify('withAnyArgs', []);
+        return $this->clone_apply_and_verify('with_any_args', []);
     }
     /**
      * @template TArgs
@@ -103,14 +103,14 @@ class Verification_Director
      */
     public function with_args($args)
     {
-        return $this->clone_apply_and_verify('withArgs', [$args]);
+        return $this->clone_apply_and_verify('with_args', [$args]);
     }
     /**
      * @return self
      */
     public function with_no_args()
     {
-        return $this->clone_apply_and_verify('withNoArgs', []);
+        return $this->clone_apply_and_verify('with_no_args', []);
     }
     /**
      * @param string $method

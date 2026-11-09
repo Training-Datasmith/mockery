@@ -12,19 +12,19 @@ use Mockery\Legacy_Mock_Interface;
 use Mockery\Matcher\And_Any_Other_Args;
 use Mockery\Matcher\Any_Args;
 use Mockery\Mock_Interface;
-if (!\function_exists('andAnyOtherArgs')) {
+if (!\function_exists('and_any_other_args')) {
     function and_any_other_args(): And_Any_Other_Args
     {
         return new And_Any_Other_Args();
     }
 }
-if (!\function_exists('andAnyOthers')) {
+if (!\function_exists('and_any_others')) {
     function and_any_others(): And_Any_Other_Args
     {
         return new And_Any_Other_Args();
     }
 }
-if (!\function_exists('anyArgs')) {
+if (!\function_exists('any_args')) {
     function any_args(): Any_Args
     {
         return new Any_Args();
@@ -86,12 +86,6 @@ if (!\function_exists('get_debug_type')) {
         return $parent . '@anonymous';
     }
 }
-if (!\function_exists('mockery_camel_to_snake_method')) {
-    function mockery_camel_to_snake_method(string $method): string
-    {
-        return strtolower((string) preg_replace('/([a-z0-9])([A-Z])/', '$1_$2', $method));
-    }
-}
 if (!\function_exists('mock')) {
     /**
      * @template TMixed
@@ -107,7 +101,7 @@ if (!\function_exists('mock')) {
         return Mockery::mock(...$args);
     }
 }
-if (!\function_exists('namedMock')) {
+if (!\function_exists('named_mock')) {
     /**
      * @template TMixed
      *

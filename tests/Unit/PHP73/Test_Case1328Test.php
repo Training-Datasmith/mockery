@@ -7,7 +7,7 @@ namespace Tests\Unit\PHP73;
 use DateTime;
 use InvalidArgumentException;
 use Mockery;
-use Mockery\Exception\InvalidCountException;
+use Mockery\Exception\Invalid_Count_Exception;
 use Mockery\Expectation;
 use PHPUnit\Framework\TestCase;
 
@@ -20,11 +20,11 @@ final class TestCase1328Test extends TestCase
 {
     public function testShouldFailWithAnInvocationCountError(): void
     {
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
 
         $mock = Mockery::mock(DateTime::class);
 
-        $mock->shouldNotReceive('format');
+        $mock->should_not_receive('format');
 
         $mock->format('Y');
 
@@ -46,7 +46,7 @@ final class TestCase1328Test extends TestCase
 
         $mock = Mockery::mock(DateTime::class);
 
-        $mock->shouldNotReceive('format')
+        $mock->should_not_receive('format')
             ->times(0);
 
         $mock->format('Y');
@@ -69,7 +69,7 @@ final class TestCase1328Test extends TestCase
 
         $mock = Mockery::mock(DateTime::class);
 
-        $mock->shouldNotReceive('format')
+        $mock->should_not_receive('format')
             ->once();
 
         $mock->format('Y');

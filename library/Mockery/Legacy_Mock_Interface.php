@@ -15,7 +15,7 @@ use Throwable;
 interface Legacy_Mock_Interface
 {
     /**
-     * In the event shouldReceive() accepting an array of methods/returns
+     * In the event should_receive() accepting an array of methods/returns
      * this method will switch them from normal expectations to default
      * expectations
      *
@@ -167,7 +167,7 @@ interface Legacy_Mock_Interface
     /**
      * Set mock to defer unexpected methods to its parent if possible
      *
-     * @deprecated since 1.4.0. Please use makePartial() instead.
+     * @deprecated since 1.4.0. Please use make_partial() instead.
      *
      * @return self
      */

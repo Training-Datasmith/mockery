@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP73;
 
 use Mockery;
-use Mockery\Exception\NoMatchingExpectationException;
+use Mockery\Exception\No_Matching_Expectation_Exception;
 use PHP73\ClassWithGetter;
 use PHP73\ClassWithGetterWithParam;
 use PHP73\ClassWithPublicStaticGetter;
@@ -16,7 +16,7 @@ use stdClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class WithFormatterExpectationTest extends TestCase
+final class With_Formatter_Expectation_Test extends TestCase
 {
     public static function provideFormatObjectsCases(): iterable
     {
@@ -28,13 +28,13 @@ final class WithFormatterExpectationTest extends TestCase
      */
     public function testFormatObjects($args, $expected): void
     {
-        self::assertSame($expected, Mockery::formatObjects($args));
+        self::assertSame($expected, Mockery::format_objects($args));
     }
 
     public function testFormatObjectsExcludesStaticGetters(): void
     {
         $obj = new ClassWithPublicStaticGetter();
-        $string = Mockery::formatObjects([$obj]);
+        $string = Mockery::format_objects([$obj]);
 
         self::assertSame(\mb_strpos($string, 'getExcluded'), false);
     }
@@ -42,7 +42,7 @@ final class WithFormatterExpectationTest extends TestCase
     public function testFormatObjectsExcludesStaticProperties(): void
     {
         $obj = new ClassWithPublicStaticProperty();
-        $string = Mockery::formatObjects([$obj]);
+        $string = Mockery::format_objects([$obj]);
 
         self::assertSame(\mb_strpos($string, 'excludedProperty'), false);
     }
@@ -50,7 +50,7 @@ final class WithFormatterExpectationTest extends TestCase
     public function testFormatObjectsShouldNotCallGettersWithParams(): void
     {
         $obj = new ClassWithGetterWithParam();
-        $string = Mockery::formatObjects([$obj]);
+        $string = Mockery::format_objects([$obj]);
 
         self::assertSame(\mb_strpos($string, 'Missing argument 1 for'), false);
     }
@@ -62,10 +62,10 @@ final class WithFormatterExpectationTest extends TestCase
     public function testFormatObjectsWithMockCalledInGetterDoesNotLeadToRecursion(): void
     {
         $mock = Mockery::mock(stdClass::class);
-        $mock->shouldReceive('doBar')
+        $mock->should_receive('doBar')
             ->with('foo');
         $obj = new ClassWithGetter($mock);
-        $this->expectException(NoMatchingExpectationException::class);
+        $this->expectException(No_Matching_Expectation_Exception::class);
         $obj->getFoo();
     }
 }

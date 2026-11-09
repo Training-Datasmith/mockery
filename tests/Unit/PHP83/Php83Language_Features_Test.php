@@ -16,7 +16,7 @@ use PHP83\Traits;
  * @requires PHP 8.3.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php83LanguageFeaturesTest extends Mockery_Test_Case
+final class Php83Language_Features_Test extends Mockery_Test_Case
 {
     public function testCanMockClassTypedClassConstants(): void
     {

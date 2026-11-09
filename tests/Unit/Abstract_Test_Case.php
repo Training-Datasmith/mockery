@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
 
-abstract class AbstractTestCase extends Mockery_Test_Case
+abstract class Abstract_Test_Case extends Mockery_Test_Case
 {
     public function assertInvalidMock(string $class, string $exception, string $message): void
     {

@@ -219,7 +219,7 @@ return ECSConfig::configure()
                         __DIR__ . '/library/Mockery/Matcher/IsEqual.php',
                         __DIR__ . '/library/Mockery/Matcher/MustBe.php',
                         __DIR__ . '/library/Mockery/Matcher/Subset.php',
-                        __DIR__ . '/library/Mockery/Generator/StringManipulation',
+                        __DIR__ . '/library/Mockery/Generator/String_Manipulation',
                     ],
                     // Enable later
                     FinalClassFixer::class,

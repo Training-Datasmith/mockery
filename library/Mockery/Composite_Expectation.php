@@ -95,7 +95,7 @@ class Composite_Expectation implements Expectation_Interface
         return $first->get_order_number();
     }
     /**
-     * Mockery API alias to getMock
+     * Mockery API alias to get_mock
      *
      * @return LegacyMockInterface&MockInterface
      */

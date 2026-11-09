@@ -448,7 +448,7 @@ class Mockery
         return new ClosureMatcher($closure);
     }
     /**
-     * Utility function to parse shouldReceive() arguments and generate
+     * Utility function to parse should_receive() arguments and generate
      * expectations from such as needed.
      *
      * @template TReturnArgs
@@ -575,7 +575,7 @@ class Mockery
     }
     /**
      * Sets up expectations on the members of the CompositeExpectation and
-     * builds up any demeter chain that was passed to shouldReceive.
+     * builds up any demeter chain that was passed to should_receive.
      *
      * @param string  $arg
      * @param Closure $add
@@ -589,7 +589,7 @@ class Mockery
         $container = $mock->mockery_get_container();
         $method_names = \explode('->', $arg);
         if (!$mock->mockery_is_anonymous() && !self::get_configuration()->mocking_non_existent_methods_allowed() && !\in_array(\current($method_names), $mock->mockery_get_mockable_methods(), true)) {
-            throw new Mockery_Exception("Mockery's configuration currently forbids mocking the method " . \current($method_names) . ' as it does not exist on the class or object ' . 'being mocked');
+            throw new MockeryException("Mockery's configuration currently forbids mocking the method " . \current($method_names) . ' as it does not exist on the class or object ' . 'being mocked');
         }
         $next_expectation = static function (string $method) use ($add): Expectation_Interface {
             return $add($method);
@@ -705,12 +705,12 @@ class Mockery
         $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
         $cleaned_properties = [];
         foreach ($properties as $public_property) {
-            if (!$public_property->is_static()) {
+            if (!$public_property->isStatic()) {
                 $name = $public_property->getName();
                 try {
                     $cleaned_properties[$name] = self::cleanup_nesting($object->{$name}, $nesting);
                 } catch (Throwable $throwable) {
-                    $cleaned_properties[$name] = $throwable->get_message();
+                    $cleaned_properties[$name] = $throwable->getMessage();
                 }
             }
         }
@@ -834,13 +834,4 @@ class Mockery
         return \array_merge($array, $formatter($object, $nesting));
     }
 
-    public static function __callStatic(string $method, array $args)
-    {
-        $snake = mockery_camel_to_snake_method($method);
-        if ($snake !== $method && method_exists(self::class, $snake)) {
-            return self::$snake(...$args);
-        }
-
-        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', self::class, $method));
-    }
 }

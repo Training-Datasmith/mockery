@@ -6,27 +6,27 @@ namespace Tests\Unit\Mockery;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\Mockery_Test_Case;
-use Mockery\Exception\InvalidCountException;
+use Mockery\Exception\Invalid_Count_Exception;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class SpyTest extends Mockery_Test_Case
+final class Spy_Test extends Mockery_Test_Case
 {
     public function testAnyArgsCanBeUsedWithAlternativeSyntax(): void
     {
         $spy = Mockery::spy();
         $spy->foo(123, 456);
 
-        $spy->shouldHaveReceived()
-            ->foo(\anyArgs());
+        $spy->should_have_received()
+            ->foo(\any_args());
     }
 
     public function testItIncrementsExpectationCountWhenShouldHaveReceivedIsUsed(): void
     {
         $spy = Mockery::spy();
         $spy->myMethod('param1', 'param2');
-        $spy->shouldHaveReceived('myMethod')
+        $spy->should_have_received('myMethod')
             ->with('param1', 'param2');
         self::assertSame(1, $spy->mockery_get_expectation_count());
     }
@@ -34,7 +34,7 @@ final class SpyTest extends Mockery_Test_Case
     public function testItIncrementsExpectationCountWhenShouldNotHaveReceivedIsUsed(): void
     {
         $spy = Mockery::spy();
-        $spy->shouldNotHaveReceived('method');
+        $spy->should_not_have_received('method');
         self::assertSame(1, $spy->mockery_get_expectation_count());
     }
 
@@ -42,10 +42,10 @@ final class SpyTest extends Mockery_Test_Case
     {
         $spy = Mockery::spy();
         $spy->myMethod();
-        $spy->shouldHaveReceived('myMethod');
+        $spy->should_have_received('myMethod');
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveReceived('someMethodThatWasNotCalled');
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_received('someMethodThatWasNotCalled');
     }
 
     public function testItVerifiesAMethodWasCalledASpecificNumberOfTimes(): void
@@ -53,12 +53,12 @@ final class SpyTest extends Mockery_Test_Case
         $spy = Mockery::spy();
         $spy->myMethod();
         $spy->myMethod();
-        $spy->shouldHaveReceived('myMethod')
+        $spy->should_have_received('myMethod')
             ->twice();
 
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         $spy->myMethod();
-        $spy->shouldHaveReceived('myMethod')
+        $spy->should_have_received('myMethod')
             ->twice();
     }
 
@@ -66,23 +66,23 @@ final class SpyTest extends Mockery_Test_Case
     {
         $spy = Mockery::spy();
         $spy->myMethod(123, 'a string');
-        $spy->shouldHaveReceived('myMethod')
+        $spy->should_have_received('myMethod')
             ->with(123, 'a string');
-        $spy->shouldHaveReceived('myMethod', [123, 'a string']);
+        $spy->should_have_received('myMethod', [123, 'a string']);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveReceived('myMethod')
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_received('myMethod')
             ->with(123);
     }
 
     public function testItVerifiesAMethodWasNotCalled(): void
     {
         $spy = Mockery::spy();
-        $spy->shouldNotHaveReceived('myMethod');
+        $spy->should_not_have_received('myMethod');
 
-        $this->expectException(InvalidCountException::class);
+        $this->expectException(Invalid_Count_Exception::class);
         $spy->myMethod();
-        $spy->shouldNotHaveReceived('myMethod');
+        $spy->should_not_have_received('myMethod');
     }
 
     public function testItVerifiesAMethodWasNotCalledWithParticularArguments(): void
@@ -90,10 +90,10 @@ final class SpyTest extends Mockery_Test_Case
         $spy = Mockery::spy();
         $spy->myMethod(123, 456);
 
-        $spy->shouldNotHaveReceived('myMethod', [789, 10]);
+        $spy->should_not_have_received('myMethod', [789, 10]);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldNotHaveReceived('myMethod', [123, 456]);
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_not_have_received('myMethod', [123, 456]);
     }
 
     public function testShouldHaveReceivedHigherOrderMessageCallAMethodWithCorrectArguments(): void
@@ -101,7 +101,7 @@ final class SpyTest extends Mockery_Test_Case
         $spy = Mockery::spy();
         $spy->foo(123);
 
-        $spy->shouldHaveReceived()
+        $spy->should_have_received()
             ->foo(123);
     }
 
@@ -110,8 +110,8 @@ final class SpyTest extends Mockery_Test_Case
         $spy = Mockery::spy();
         $spy->foo(123);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldHaveReceived()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_have_received()
             ->foo(456);
     }
 
@@ -120,8 +120,8 @@ final class SpyTest extends Mockery_Test_Case
         $spy = Mockery::spy();
         $spy->foo(123);
 
-        $this->expectException(InvalidCountException::class);
-        $spy->shouldNotHaveReceived()
+        $this->expectException(Invalid_Count_Exception::class);
+        $spy->should_not_have_received()
             ->foo(123);
     }
 
@@ -130,7 +130,7 @@ final class SpyTest extends Mockery_Test_Case
         $spy = Mockery::spy();
         $spy->foo(123);
 
-        $spy->shouldNotHaveReceived()
+        $spy->should_not_have_received()
             ->foo(456);
     }
 }

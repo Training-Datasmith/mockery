@@ -10,7 +10,7 @@ use PHP73\MethodWithIterableTypeHints;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingMethodsWithIterableTypeHintsTest extends Mockery_Test_Case
+final class Mocking_Methods_With_Iterable_Type_Hints_Test extends Mockery_Test_Case
 {
     public function testItShouldSuccessfullyBuildTheMock(): void
     {

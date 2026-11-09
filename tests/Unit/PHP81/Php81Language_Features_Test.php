@@ -32,7 +32,7 @@ use TypeError;
  * @requires PHP 8.1.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php81LanguageFeaturesTest extends Mockery_Test_Case
+final class Php81Language_Features_Test extends Mockery_Test_Case
 {
     public function testCanMockClassesThatImplementSerializable(): void
     {
@@ -43,9 +43,9 @@ final class Php81LanguageFeaturesTest extends Mockery_Test_Case
 
     public function testItCanMockAClassWithANeverReturningTypeHint(): void
     {
-        $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
+        $mock = Mockery::mock(NeverReturningTypehintClass::class)->make_partial();
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\Mockery\Exception\Runtime_Exception::class);
         $mock->throws();
     }
 
@@ -54,7 +54,7 @@ final class Php81LanguageFeaturesTest extends Mockery_Test_Case
      */
     public function testItCanMockAClassWithANeverReturningTypeHintWithExit(): void
     {
-        $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
+        $mock = Mockery::mock(NeverReturningTypehintClass::class)->make_partial();
 
         $pid = \pcntl_fork();
 
@@ -114,7 +114,7 @@ final class Php81LanguageFeaturesTest extends Mockery_Test_Case
 
         self::assertInstanceOf(PDO::class, $mock);
 
-        $mock->shouldReceive('exec')
+        $mock->should_receive('exec')
             ->once();
 
         try {
@@ -127,7 +127,7 @@ final class Php81LanguageFeaturesTest extends Mockery_Test_Case
     public function testItCanParseEnumAsDefaultValueCorrectly(): void
     {
         $mock = Mockery::mock(UsesEnums::class);
-        $mock->shouldReceive('set')
+        $mock->should_receive('set')
             ->once();
         $mock->set();
         self::assertSame(SimpleEnum::first, $mock->enum); // check that mock did not set internal variable
@@ -145,8 +145,8 @@ final class Php81LanguageFeaturesTest extends Mockery_Test_Case
         $class = \mock(MockClass::class)
             ->expects('test')
             ->with('test')
-            ->andReturn('it works')
-            ->getMock();
+            ->and_return('it works')
+            ->get_mock();
 
         self::assertSame('it works', (new HandlerClass())->doStuff($class));
     }

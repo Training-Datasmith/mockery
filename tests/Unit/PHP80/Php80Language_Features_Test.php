@@ -24,7 +24,7 @@ use Traversable;
  * @requires PHP 8.0.0-dev
  * @coversDefaultClass \Mockery
  */
-final class Php80LanguageFeaturesTest extends Mockery_Test_Case
+final class Php80Language_Features_Test extends Mockery_Test_Case
 {
     public function testItCanMockAClassWithAMixedArgumentTypeHint(): void
     {
@@ -115,21 +115,21 @@ final class Php80LanguageFeaturesTest extends Mockery_Test_Case
         $param = ['bar' => 2, 'dol' => '2'];
         $spy->foo(...$param);
 
-        $spy->shouldHaveReceived(method: 'foo', args: $param);
-        $spy->shouldHaveReceived(method: 'foo', args: ['bar' => 2, 'bee' => '', 'dol' => '2']);
-        $spy->shouldHaveReceived(method: 'foo', args: [2, '', '2']);
+        $spy->should_have_received(method: 'foo', args: $param);
+        $spy->should_have_received(method: 'foo', args: ['bar' => 2, 'bee' => '', 'dol' => '2']);
+        $spy->should_have_received(method: 'foo', args: [2, '', '2']);
 
         $param = ['bee' => '2'];
         $spy->foo(...$param);
 
-        $spy->shouldHaveReceived(method: 'foo', args: $param);
-        $spy->shouldHaveReceived(method: 'foo', args: ['bar' => 0, 'bee' => '2']);
-        $spy->shouldHaveReceived(method: 'foo', args: [0, '2']);
+        $spy->should_have_received(method: 'foo', args: $param);
+        $spy->should_have_received(method: 'foo', args: ['bar' => 0, 'bee' => '2']);
+        $spy->should_have_received(method: 'foo', args: [0, '2']);
 
         $param = ['bar' => 2];
         $spy->foo(...$param);
-        $spy->shouldHaveReceived(method: 'foo', args: $param);
-        $spy->shouldHaveReceived(method: 'foo', args: [2]);
+        $spy->should_have_received(method: 'foo', args: $param);
+        $spy->should_have_received(method: 'foo', args: [2]);
     }
 
     public function testItCanMockAClassWithAUnionArgumentTypeHintIncludingNull(): void

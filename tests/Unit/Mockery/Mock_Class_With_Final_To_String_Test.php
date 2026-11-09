@@ -13,7 +13,7 @@ use PHP73\TestWithNonFinalToString;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithFinalToStringTest extends Mockery_Test_Case
+final class Mock_Class_With_Final_To_String_Test extends Mockery_Test_Case
 {
     protected $container;
 

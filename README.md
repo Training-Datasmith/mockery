@@ -220,7 +220,7 @@ to them for verification afterwards by default:
 $double->baz(123);
 
 $double->shouldHaveReceived()->baz(123); // null
-$double->shouldHaveReceived()->baz(12345); // Uncaught Exception Mockery\Exception\InvalidCountException...
+$double->shouldHaveReceived()->baz(12345); // Uncaught Exception Mockery\Exception\Invalid_Count_Exception...
 ```
 
 Please refer to the [Spies](http://docs.mockery.io/en/latest/reference/spies.html) section

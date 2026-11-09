@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery\Loader;
 
-use Mockery\Loader\EvalLoader;
+use Mockery\Loader\Eval_Loader;
 use Mockery\Loader\Loader;
 
 /**
  * @coversDefaultClass \Mockery
  */
-final class EvalLoaderTest extends LoaderTestCase
+final class Eval_Loader_Test extends Loader_Test_Case
 {
     public function getLoader(): Loader
     {
-        return new EvalLoader();
+        return new Eval_Loader();
     }
 }

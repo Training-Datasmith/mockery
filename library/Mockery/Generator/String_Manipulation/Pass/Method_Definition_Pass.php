@@ -115,7 +115,7 @@ class Method_Definition_Pass implements Pass
     }
     private function render_method_body($method, \Mockery\Generator\Mock_Configuration $config): string
     {
-        $invoke = $method->is_static() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
+        $invoke = $method->is_static() ? 'static::_mockery_handle_static_method_call' : '$this->_mockery_handle_method_call';
         $body = <<<BODY
         {
         \$argc = func_num_args();

@@ -24,7 +24,7 @@ library/
     Matcher/
       Matcher_Abstract.php       — Base for argument matchers
       Any.php, AnyOf.php, ...    — Built-in matchers
-    CountValidator/
+    Count_Validator/
       Count_Validator_Abstract.php — Base for call-count validators
       At_Least.php, At_Most.php, Exact.php
     Loader/
@@ -37,7 +37,7 @@ library/
 ## Key Design Decisions
 
 - **Code generation**: Mocks are PHP classes generated at runtime by string manipulation; this allows mocking final-ish methods and bypassing constructor logic
-- **Multi-pass generator**: The `StringManipulationGenerator` runs a series of `Pass` objects over the generated source, each responsible for one concern (method definitions, type hints, interfaces, etc.)
+- **Multi-pass generator**: The `String_ManipulationGenerator` runs a series of `Pass` objects over the generated source, each responsible for one concern (method definitions, type hints, interfaces, etc.)
 - **Container lifecycle**: Each test owns a `Container`; `Mockery::close()` (called in `tearDown`) verifies all expectations were met and destroys mock instances
 - **Fluent expectations API**: `$mock->shouldReceive('method')->once()->with(42)->andReturn('ok')` builds `Expectation` objects that are checked when the test ends
 
@@ -52,8 +52,8 @@ library/
 ```
 Test calls Mockery::mock(TargetClass::class)
   → Container::mock()
-  → MockConfigurationBuilder → MockConfiguration
-  → CachingGenerator → StringManipulationGenerator
+  → Mock_Configuration_Builder → MockConfiguration
+  → CachingGenerator → String_ManipulationGenerator
       → [Pass1, Pass2, ...PassN] applied to template
   → EvalLoader or RequireLoader  (defines the class)
   → new GeneratedMockClass()     (returned to test)

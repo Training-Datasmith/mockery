@@ -11,7 +11,7 @@ use PHP73\UnmockableClass;
 /**
  * @coversDefaultClass \Mockery
  */
-final class ProxyMockingTest extends Mockery_Test_Case
+final class Proxy_Mocking_Test extends Mockery_Test_Case
 {
     public function testFinalClassCannotBeMocked(): void
     {

@@ -56,7 +56,7 @@ if ($dev) {
         \mkdir($mocksDirectory, 0777, true);
     }
 
-    Mockery::setLoader(new Mockery\Loader\RequireLoader($mocksDirectory));
+    Mockery::set_loader(new Mockery\Loader\Require_Loader($mocksDirectory));
 
     function vdd(): void
     {

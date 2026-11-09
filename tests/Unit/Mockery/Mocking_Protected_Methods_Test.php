@@ -14,45 +14,45 @@ use PHP73\TestWithProtectedMethods;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockingProtectedMethodsTest extends Mockery_Test_Case
+final class Mocking_Protected_Methods_Test extends Mockery_Test_Case
 {
     public function testShouldAllowMockingAbstractProtectedMethods(): void
     {
         $mock = \mock(TestWithProtectedMethods::class)
-            ->makePartial()
-            ->shouldAllowMockingProtectedMethods();
+            ->make_partial()
+            ->should_allow_mocking_protected_methods();
 
-        $mock->shouldReceive('abstractProtected')
-            ->andReturn('abstractProtected');
+        $mock->should_receive('abstractProtected')
+            ->and_return('abstractProtected');
         self::assertSame('abstractProtected', $mock->foo());
     }
 
     public function testShouldAllowMockingIncreasedVisabilityMethods(): void
     {
         $mock = \mock(TestIncreasedVisibilityChild::class);
-        $mock->shouldReceive('foobar')
-            ->andReturn('foobar');
+        $mock->should_receive('foobar')
+            ->and_return('foobar');
         self::assertSame('foobar', $mock->foobar());
     }
 
     public function testShouldAllowMockingProtectedMethodOnDefinitionTimePartial(): void
     {
         $mock = \mock(TestWithProtectedMethods::class . '[protectedBar]')
-            ->shouldAllowMockingProtectedMethods();
+            ->should_allow_mocking_protected_methods();
 
-        $mock->shouldReceive('protectedBar')
-            ->andReturn('notbar');
+        $mock->should_receive('protectedBar')
+            ->and_return('notbar');
         self::assertSame('notbar', $mock->bar());
     }
 
     public function testShouldAllowMockingProtectedMethods(): void
     {
         $mock = \mock(TestWithProtectedMethods::class)
-            ->makePartial()
-            ->shouldAllowMockingProtectedMethods();
+            ->make_partial()
+            ->should_allow_mocking_protected_methods();
 
-        $mock->shouldReceive('protectedBar')
-            ->andReturn('notbar');
+        $mock->should_receive('protectedBar')
+            ->and_return('notbar');
         self::assertSame('notbar', $mock->bar());
     }
 
@@ -73,13 +73,13 @@ final class MockingProtectedMethodsTest extends Mockery_Test_Case
      */
     public function testShouldAutomaticallyDeferCallsToProtectedMethodsForRuntimePartials(): void
     {
-        $mock = \mock(TestWithProtectedMethods::class)->makePartial();
+        $mock = \mock(TestWithProtectedMethods::class)->make_partial();
         self::assertSame('bar', $mock->bar());
     }
 
     public function testShouldAutomaticallyIgnoreAbstractProtectedMethods(): void
     {
-        $mock = \mock(TestWithProtectedMethods::class)->makePartial();
+        $mock = \mock(TestWithProtectedMethods::class)->make_partial();
         self::assertNull($mock->foo());
     }
 }

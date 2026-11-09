@@ -10,7 +10,7 @@ declare (strict_types=1);
  */
 namespace Mockery\Exception;
 
-class BadMethodCallException extends \BadMethodCallException implements Mockery_Exception_Interface
+class Bad_Method_Call_Exception extends \BadMethodCallException implements Mockery_Exception_Interface
 {
     /**
      * @var bool

@@ -10,7 +10,7 @@ use Mockery\Matcher\Subset;
 /**
  * @coversDefaultClass \Mockery
  */
-final class SubsetTest extends Mockery_Test_Case
+final class Subset_Test extends Mockery_Test_Case
 {
     public function testItCanRunALooseComparison(): void
     {

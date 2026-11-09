@@ -10,7 +10,7 @@ use PHP73\ReturnTypeIterableTypeHint;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockClassWithIterableReturnTypeTest extends Mockery_Test_Case
+final class Mock_Class_With_Iterable_Return_Type_Test extends Mockery_Test_Case
 {
     public function testMockingIterableReturnType(): void
     {

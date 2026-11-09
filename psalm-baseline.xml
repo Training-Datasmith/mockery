@@ -481,7 +481,7 @@
       <code><![CDATA[byDefault]]></code>
     </UndefinedMagicMethod>
   </file>
-  <file src="library/Mockery/CountValidator/AtLeast.php">
+  <file src="library/Mockery/Count_Validator/AtLeast.php">
     <ClassMustBeFinal>
       <code><![CDATA[AtLeast]]></code>
     </ClassMustBeFinal>
@@ -497,7 +497,7 @@
       <code><![CDATA[public function validate($n)]]></code>
     </MissingOverrideAttribute>
   </file>
-  <file src="library/Mockery/CountValidator/AtMost.php">
+  <file src="library/Mockery/Count_Validator/AtMost.php">
     <ClassMustBeFinal>
       <code><![CDATA[AtMost]]></code>
     </ClassMustBeFinal>
@@ -512,7 +512,7 @@
       <code><![CDATA[public function validate($n)]]></code>
     </MissingOverrideAttribute>
   </file>
-  <file src="library/Mockery/CountValidator/CountValidatorAbstract.php">
+  <file src="library/Mockery/Count_Validator/Count_Validator_Abstract.php">
     <MissingOverrideAttribute>
       <code><![CDATA[abstract public function validate($n);]]></code>
       <code><![CDATA[public function isEligible($n)]]></code>
@@ -525,13 +525,13 @@
       <code><![CDATA[__construct]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="library/Mockery/CountValidator/CountValidatorInterface.php">
+  <file src="library/Mockery/Count_Validator/Count_Validator_Interface.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[isEligible]]></code>
       <code><![CDATA[validate]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="library/Mockery/CountValidator/Exact.php">
+  <file src="library/Mockery/Count_Validator/Exact.php">
     <ClassMustBeFinal>
       <code><![CDATA[Exact]]></code>
     </ClassMustBeFinal>
@@ -883,9 +883,9 @@
       <code><![CDATA[$this->cache[$hash] = $this->generator->generate($config)]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="library/Mockery/Generator/DefinedTargetClass.php">
+  <file src="library/Mockery/Generator/Defined_Target_Class.php">
     <ClassMustBeFinal>
-      <code><![CDATA[DefinedTargetClass]]></code>
+      <code><![CDATA[Defined_Target_Class]]></code>
     </ClassMustBeFinal>
     <LessSpecificReturnStatement>
       <code><![CDATA[array_unique(
@@ -1031,9 +1031,9 @@
       <code><![CDATA[$methods]]></code>
     </PropertyTypeCoercion>
   </file>
-  <file src="library/Mockery/Generator/MockConfigurationBuilder.php">
+  <file src="library/Mockery/Generator/Mock_Configuration_Builder.php">
     <ClassMustBeFinal>
-      <code><![CDATA[MockConfigurationBuilder]]></code>
+      <code><![CDATA[Mock_Configuration_Builder]]></code>
     </ClassMustBeFinal>
     <MissingParamType>
       <code><![CDATA[$whiteListedMethod]]></code>
@@ -1106,7 +1106,7 @@
       <code><![CDATA[self::$parameterCounter++]]></code>
     </InvalidOperand>
     <InvalidReturnStatement>
-      <code><![CDATA[class_exists($typeHint) ? DefinedTargetClass::factory($typeHint, false) : null]]></code>
+      <code><![CDATA[class_exists($typeHint) ? Defined_Target_Class::factory($typeHint, false) : null]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[null|ReflectionClass]]></code>
@@ -1120,7 +1120,7 @@
       <code><![CDATA[getTypeHintAsString]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/AvoidMethodClashPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/AvoidMethodClashPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[AvoidMethodClashPass]]></code>
     </ClassMustBeFinal>
@@ -1131,44 +1131,44 @@
       <code><![CDATA[$code]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/CallTypeHintPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Call_Type_Hint_Pass.php">
     <ClassMustBeFinal>
-      <code><![CDATA[CallTypeHintPass]]></code>
+      <code><![CDATA[Call_Type_Hint_Pass]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
     </MissingOverrideAttribute>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/ClassAttributesPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Class_Attributes_Pass.php">
     <ClassMustBeFinal>
-      <code><![CDATA[ClassAttributesPass]]></code>
+      <code><![CDATA[Class_Attributes_Pass]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
     </MissingOverrideAttribute>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/ClassNamePass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Class_Name_Pass.php">
     <ClassMustBeFinal>
-      <code><![CDATA[ClassNamePass]]></code>
+      <code><![CDATA[Class_Name_Pass]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
     </MissingOverrideAttribute>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/ClassPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Class_Pass.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$className]]></code>
     </ArgumentTypeCoercion>
     <ClassMustBeFinal>
-      <code><![CDATA[ClassPass]]></code>
+      <code><![CDATA[Class_Pass]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
     </MissingOverrideAttribute>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/ConstantsPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Constants_Pass.php">
     <ClassMustBeFinal>
-      <code><![CDATA[ConstantsPass]]></code>
+      <code><![CDATA[Constants_Pass]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
@@ -1183,9 +1183,9 @@
       <code><![CDATA[$name]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/InstanceMockPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Instance_Mock_Pass.php">
     <ClassMustBeFinal>
-      <code><![CDATA[InstanceMockPass]]></code>
+      <code><![CDATA[Instance_Mock_Pass]]></code>
     </ClassMustBeFinal>
     <MissingClassConstType>
       <code><![CDATA[INSTANCE_MOCK_CODE = <<<MOCK
@@ -1195,7 +1195,7 @@
     public function __construct()
     {
         \$this->_mockery_ignoreVerification = false;
-        \$associatedRealObject = \Mockery::fetchMock(__CLASS__);
+        \$associatedRealObject = \Mockery::fetch_mock(__CLASS__);
 
         foreach (get_object_vars(\$this) as \$attr => \$val) {
             if (\$attr !== "_mockery_ignoreVerification" && \$attr !== "_mockery_expectations") {
@@ -1253,12 +1253,12 @@ MOCK]]></code>
       <code><![CDATA[$lastBrace]]></code>
     </PossiblyFalseArgument>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/InterfacePass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/Interface_Pass.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$name]]></code>
     </ArgumentTypeCoercion>
     <ClassMustBeFinal>
-      <code><![CDATA[InterfacePass]]></code>
+      <code><![CDATA[Interface_Pass]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
@@ -1273,7 +1273,7 @@ MOCK]]></code>
       <code><![CDATA[$code]]></code>
     </MixedOperand>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/MagicMethodTypeHintsPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/MagicMethodTypeHintsPass.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$this->getDeclarationRegex($method->getName())]]></code>
       <code><![CDATA[$this->getDeclarationRegex($method->getName())]]></code>
@@ -1323,7 +1323,7 @@ MOCK]]></code>
       <code><![CDATA[$matches[0]]]></code>
     </PossiblyUndefinedIntArrayOffset>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/MethodDefinitionPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[MethodDefinitionPass]]></code>
     </ClassMustBeFinal>
@@ -1414,7 +1414,7 @@ MOCK]]></code>
       <code><![CDATA[strpos($param, '&') !== false]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[RemoveBuiltinMethodsThatAreFinalPass]]></code>
     </ClassMustBeFinal>
@@ -1440,7 +1440,7 @@ MOCK]]></code>
       <code><![CDATA[$code]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/RemoveDestructorPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/RemoveDestructorPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[RemoveDestructorPass]]></code>
     </ClassMustBeFinal>
@@ -1454,7 +1454,7 @@ MOCK]]></code>
       <code><![CDATA[preg_replace('/public function __destruct\(\)\s+\{.*?\}/sm', '', $code)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/RemoveUnserializeForInternalSerializableClassesPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/RemoveUnserializeForInternalSerializableClassesPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[RemoveUnserializeForInternalSerializableClassesPass]]></code>
     </ClassMustBeFinal>
@@ -1489,7 +1489,7 @@ MOCK]]></code>
       <code><![CDATA[$lastBrace]]></code>
     </PossiblyFalseArgument>
   </file>
-  <file src="library/Mockery/Generator/StringManipulation/Pass/TraitPass.php">
+  <file src="library/Mockery/Generator/String_Manipulation/Pass/TraitPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[TraitPass]]></code>
     </ClassMustBeFinal>
@@ -1503,12 +1503,12 @@ MOCK]]></code>
       <code><![CDATA[preg_replace('/^{$/m', "{\n    " . implode("\n    ", $useStatements) . "\n", $code)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="library/Mockery/Generator/StringManipulationGenerator.php">
+  <file src="library/Mockery/Generator/String_ManipulationGenerator.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$className]]></code>
     </ArgumentTypeCoercion>
     <ClassMustBeFinal>
-      <code><![CDATA[StringManipulationGenerator]]></code>
+      <code><![CDATA[String_ManipulationGenerator]]></code>
     </ClassMustBeFinal>
     <MissingOverrideAttribute>
       <code><![CDATA[public function generate(MockConfiguration $config)]]></code>
@@ -1527,20 +1527,20 @@ MOCK]]></code>
     </RiskyTruthyFalsyComparison>
     <UnsafeInstantiation>
       <code><![CDATA[new static([
-            new CallTypeHintPass(),
+            new Call_Type_Hint_Pass(),
             new MagicMethodTypeHintsPass(),
-            new ClassPass(),
+            new Class_Pass(),
             new TraitPass(),
-            new ClassNamePass(),
-            new InstanceMockPass(),
-            new InterfacePass(),
+            new Class_Name_Pass(),
+            new Instance_Mock_Pass(),
+            new Interface_Pass(),
             new AvoidMethodClashPass(),
             new MethodDefinitionPass(),
             new RemoveUnserializeForInternalSerializableClassesPass(),
             new RemoveBuiltinMethodsThatAreFinalPass(),
             new RemoveDestructorPass(),
-            new ConstantsPass(),
-            new ClassAttributesPass(),
+            new Constants_Pass(),
+            new Class_Attributes_Pass(),
         ])]]></code>
     </UnsafeInstantiation>
   </file>
@@ -2468,7 +2468,7 @@ MOCK]]></code>
       <code><![CDATA[MockeryPHPUnitIntegrationTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Adapter/Phpunit/PhpUnitConstraintExpectationTest.php">
+  <file src="tests/Unit/Mockery/Adapter/Phpunit/Php_Unit_Constraint_Expectation_Test.php">
     <MissingThrowsDocblock>
       <code><![CDATA[self::markTestSkipped('TODO: Constraint exception message')]]></code>
       <code><![CDATA[self::markTestSkipped('TODO: Constraint exception message')]]></code>
@@ -2493,7 +2493,7 @@ MOCK]]></code>
       <code><![CDATA[$mock]]></code>
     </UndefinedClass>
     <UnusedClass>
-      <code><![CDATA[PhpUnitConstraintExpectationTest]]></code>
+      <code><![CDATA[Php_Unit_Constraint_Expectation_Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/Adapter/Phpunit/TestListenerTest.php">
@@ -2789,7 +2789,7 @@ MOCK]]></code>
       <code><![CDATA[DefaultMatchersTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/DemeterChainTest.php">
+  <file src="tests/Unit/Mockery/Demeter_Chain_Test.php">
     <ArgumentTypeCoercion>
       <code><![CDATA['overload:mock1']]></code>
       <code><![CDATA['overload:mock2']]></code>
@@ -2951,7 +2951,7 @@ MOCK]]></code>
       <code><![CDATA[shouldReceive]]></code>
     </UndefinedMethod>
     <UnusedClass>
-      <code><![CDATA[DemeterChainTest]]></code>
+      <code><![CDATA[Demeter_Chain_Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/ExpectationTest.php">
@@ -4665,7 +4665,7 @@ MOCK]]></code>
       <code><![CDATA[$argument]]></code>
     </UnusedClosureParam>
   </file>
-  <file src="tests/Unit/Mockery/Generator/DefinedTargetClassTest.php">
+  <file src="tests/Unit/Mockery/Generator/Defined_Target_Class_Test.php">
     <InvalidArgument>
       <code><![CDATA[new ReflectionClass(ArrayObject::class)]]></code>
       <code><![CDATA[new ReflectionClass(MockeryTest_ClassThatExtendsArrayObject::class)]]></code>
@@ -4680,10 +4680,10 @@ MOCK]]></code>
       <code><![CDATA[self::assertTrue($target->hasInternalAncestor())]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
-      <code><![CDATA[DefinedTargetClassTest]]></code>
+      <code><![CDATA[Defined_Target_Class_Test]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/MockConfigurationBuilderTest.php">
+  <file src="tests/Unit/Mockery/Generator/Mock_Configuration_BuilderTest.php">
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertContains('__halt_compiler', $builder->getMockConfiguration()->getBlackListedMethods())]]></code>
       <code><![CDATA[self::assertContains('__halt_compiler', $builder->getMockConfiguration()->getBlackListedMethods())]]></code>
@@ -4706,10 +4706,10 @@ MOCK]]></code>
       <code><![CDATA[$methods[0]]]></code>
     </PossiblyUndefinedIntArrayOffset>
     <UnusedClass>
-      <code><![CDATA[MockConfigurationBuilderTest]]></code>
+      <code><![CDATA[Mock_Configuration_BuilderTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/CallTypeHintPassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Call_Type_Hint_PassTest.php">
     <InvalidArgument>
       <code><![CDATA[[
             'requiresCallStaticTypeHintRemoval' => true,
@@ -4737,12 +4737,12 @@ MOCK]]></code>
       <code><![CDATA[makePartial]]></code>
     </UndefinedMethod>
     <UnusedClass>
-      <code><![CDATA[CallTypeHintPassTest]]></code>
+      <code><![CDATA[Call_Type_Hint_PassTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/ClassAttributesPassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Class_Attributes_PassTest.php">
     <ClassMustBeFinal>
-      <code><![CDATA[ClassAttributesPassTest]]></code>
+      <code><![CDATA[Class_Attributes_PassTest]]></code>
     </ClassMustBeFinal>
     <MissingClassConstType>
       <code><![CDATA[CODE = 'namespace Mockery; class Mock {}']]></code>
@@ -4765,10 +4765,10 @@ MOCK]]></code>
       <code><![CDATA[expects]]></code>
     </UndefinedMethod>
     <UnusedClass>
-      <code><![CDATA[ClassAttributesPassTest]]></code>
+      <code><![CDATA[Class_Attributes_PassTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/ClassNamePassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Class_Name_PassTest.php">
     <MissingOverrideAttribute>
       <code><![CDATA[protected function mockeryTestSetUp(): void]]></code>
     </MissingOverrideAttribute>
@@ -4807,10 +4807,10 @@ MOCK]]></code>
       <code><![CDATA[apply]]></code>
     </MixedMethodCall>
     <UnusedClass>
-      <code><![CDATA[ClassNamePassTest]]></code>
+      <code><![CDATA[Class_Name_PassTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/ClassPassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Class_PassTest.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[['Testing\Test_Class']]]></code>
     </ArgumentTypeCoercion>
@@ -4837,19 +4837,19 @@ MOCK]]></code>
       <code><![CDATA[['Testing\Test_Class']]]></code>
     </UndefinedClass>
     <UnusedClass>
-      <code><![CDATA[ClassPassTest]]></code>
+      <code><![CDATA[Class_PassTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/ConstantsPassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Constants_PassTest.php">
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertNotFalse(\mb_strpos($code, "const FOO = 'test'"))]]></code>
       <code><![CDATA[self::assertNotFalse(\mb_strpos($code, "const FOO = 'test'"))]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
-      <code><![CDATA[ConstantsPassTest]]></code>
+      <code><![CDATA[Constants_PassTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/InstanceMockPassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Instance_Mock_PassTest.php">
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'protected $_mockery_ignoreVerification'))]]></code>
       <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'protected $_mockery_ignoreVerification'))]]></code>
@@ -4859,10 +4859,10 @@ MOCK]]></code>
       <code><![CDATA[self::assertNotFalse(\mb_strpos($code, 'this->_mockery_constructorCalled(func_get_args());'))]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
-      <code><![CDATA[InstanceMockPassTest]]></code>
+      <code><![CDATA[Instance_Mock_PassTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/InterfacePassTest.php">
+  <file src="tests/Unit/Mockery/Generator/String_Manipulation/Pass/Interface_PassTest.php">
     <InvalidArgument>
       <code><![CDATA[[
                     'getName' => '\Dave\Dave',
@@ -4891,7 +4891,7 @@ MOCK]]></code>
       <code><![CDATA[self::assertSame(self::CODE, $code)]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
-      <code><![CDATA[InterfacePassTest]]></code>
+      <code><![CDATA[Interface_PassTest]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/GlobalHelpersTest.php">
