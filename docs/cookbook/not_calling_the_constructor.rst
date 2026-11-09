@@ -43,8 +43,8 @@ A better approach is to use runtime partial doubles:
     }
 
     // This will not print anything
-    $mock = \Mockery::mock('MyClass')->makePartial();
-    $mock->shouldReceive('foo');
+    $mock = \Mockery::mock('MyClass')->make_partial();
+    $mock->should_receive('foo');
 
 This is one of the reason why we don't recommend using generated partial test
 doubles, but if possible, always use the runtime partials.

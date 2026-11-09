@@ -64,8 +64,8 @@ out:
 
     // Using alias: because fetch is called statically!
     \Mockery::mock('alias:Fetcher')
-        ->shouldReceive('fetch')
-        ->andReturn(0);
+        ->should_receive('fetch')
+        ->and_return(0);
 
     $myClass = new MyClass();
     $myClass->doFetching();
@@ -88,8 +88,8 @@ stub:
     }
 
     \Mockery::namedMock('Fetcher', 'FetcherStub')
-        ->shouldReceive('fetch')
-        ->andReturn(0);
+        ->should_receive('fetch')
+        ->and_return(0);
 
     $myClass = new MyClass();
     $myClass->doFetching();
@@ -139,8 +139,8 @@ And the test will have something like this:
     }
 
     $mock = \Mockery::mock('Fetcher', 'FetcherStub')
-    $mock->shouldReceive('fetch')
-        ->andReturn(0);
+    $mock->should_receive('fetch')
+        ->and_return(0);
 
     $myClass = new MyClass();
     $myClass->doFetching($mock);

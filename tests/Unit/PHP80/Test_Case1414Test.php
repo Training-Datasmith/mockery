@@ -13,7 +13,7 @@ use stdClass;
  * @requires PHP 8.0
  * @see https://github.com/mockery/mockery/issues/1414
  */
-final class TestCase1414Test extends TestCase
+final class Test_Case1414_Test extends TestCase
 {
     public function testMockAnonymousClass(): void
     {

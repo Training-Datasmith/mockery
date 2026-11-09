@@ -14,22 +14,8 @@ use function class_exists;
 use Mockery\Reflector;
 use ReflectionClass;
 use ReflectionParameter;
-/**
- * @mixin ReflectionParameter
- */
 class Parameter
 {
-    /**
-     * @var array<string, string>
-     */
-    private static $reflection_parameter_map = [
-        'get_default_value' => 'getDefaultValue',
-        'is_default_value_available' => 'isDefaultValueAvailable',
-        'is_default_value_constant' => 'isDefaultValueConstant',
-        'is_optional' => 'isOptional',
-        'is_passed_by_reference' => 'isPassedByReference',
-        'is_variadic' => 'isVariadic',
-    ];
     /**
      * @var int
      */
@@ -42,20 +28,25 @@ class Parameter
     {
         $this->rfp = $rfp;
     }
-    /**
-     * Proxy all method calls to the reflection parameter.
-     *
-     * @template TMixed
-     * @template TResult
-     *
-     * @param array<TMixed> $args
-     * @return TResult
-     */
-    public function __call(string $method, array $args)
+    public function get_default_value()
     {
-        $target = self::$reflection_parameter_map[$method] ?? $method;
-        /** @var TResult */
-        return $this->rfp->{$target}(...$args);
+        return $this->rfp->getDefaultValue();
+    }
+    public function is_default_value_available(): bool
+    {
+        return $this->rfp->isDefaultValueAvailable();
+    }
+    public function is_default_value_constant(): bool
+    {
+        return $this->rfp->isDefaultValueConstant();
+    }
+    public function is_optional(): bool
+    {
+        return $this->rfp->isOptional();
+    }
+    public function is_passed_by_reference(): bool
+    {
+        return $this->rfp->isPassedByReference();
     }
     /**
      * Get the reflection class for the parameter type, if it exists.

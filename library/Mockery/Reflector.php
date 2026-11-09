@@ -84,9 +84,9 @@ class Reflector
             return null;
         }
 
-        $typeHint = self::getTypeFromReflectionType($type, $method->getDeclaringClass());
+        $typeHint = self::get_type_from_reflection_type($type, $method->getDeclaringClass());
 
-        return (! $withoutNullable && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
+        return (! $withoutNullable && $type->allowsNull()) ? self::format_nullable_type($typeHint) : $typeHint;
     }
 
     /**
@@ -106,7 +106,7 @@ class Reflector
             return null;
         }
 
-        $typeInformation = self::getTypeInformation($type, $method->getDeclaringClass());
+        $typeInformation = self::get_type_information($type, $method->getDeclaringClass());
 
         // return the first primitive type hint
         foreach ($typeInformation as $info) {
@@ -138,9 +138,9 @@ class Reflector
 
         $type = $param->getType();
         $declaringClass = $param->getDeclaringClass();
-        $typeHint = self::getTypeFromReflectionType($type, $declaringClass);
+        $typeHint = self::get_type_from_reflection_type($type, $declaringClass);
 
-        return (! $withoutNullable && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
+        return (! $withoutNullable && $type->allowsNull()) ? self::format_nullable_type($typeHint) : $typeHint;
     }
 
     /**
@@ -166,7 +166,7 @@ class Reflector
     /**
      * Format the given type as a nullable type.
      */
-    private static function formatNullableType(string $typeHint): string
+    private static function format_nullable_type(string $typeHint): string
     {
         if ($typeHint === 'mixed') {
             return $typeHint;
@@ -183,7 +183,7 @@ class Reflector
         return sprintf('%s|null', $typeHint);
     }
 
-    private static function getTypeFromReflectionType(ReflectionType $type, ReflectionClass $declaringClass): string
+    private static function get_type_from_reflection_type(ReflectionType $type, ReflectionClass $declaringClass): string
     {
         if ($type instanceof ReflectionNamedType) {
             $typeHint = $type->getName();
@@ -213,7 +213,7 @@ class Reflector
         if ($type instanceof ReflectionIntersectionType) {
             $types = array_map(
                 static function (ReflectionType $type) use ($declaringClass): string {
-                    return self::getTypeFromReflectionType($type, $declaringClass);
+                    return self::get_type_from_reflection_type($type, $declaringClass);
                 },
                 $type->getTypes()
             );
@@ -224,7 +224,7 @@ class Reflector
         if ($type instanceof ReflectionUnionType) {
             $types = array_map(
                 static function (ReflectionType $type) use ($declaringClass): string {
-                    return self::getTypeFromReflectionType($type, $declaringClass);
+                    return self::get_type_from_reflection_type($type, $declaringClass);
                 },
                 $type->getTypes()
             );
@@ -253,14 +253,14 @@ class Reflector
      *
      * @return list<array{typeHint:string,isPrimitive:bool}>
      */
-    private static function getTypeInformation(ReflectionType $type, ReflectionClass $declaringClass): array
+    private static function get_type_information(ReflectionType $type, ReflectionClass $declaringClass): array
     {
         // PHP 8 union types and PHP 8.1 intersection types can be recursively processed
         if ($type instanceof ReflectionUnionType || $type instanceof ReflectionIntersectionType) {
             $types = [];
 
             foreach ($type->getTypes() as $innterType) {
-                foreach (self::getTypeInformation($innterType, $declaringClass) as $info) {
+                foreach (self::get_type_information($innterType, $declaringClass) as $info) {
                     if ($info['typeHint'] === 'null' && $info['isPrimitive']) {
                         continue;
                     }

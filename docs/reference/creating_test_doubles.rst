@@ -154,7 +154,7 @@ following example:
     $mock = \Mockery::mock('MyClass');
     $spy = \Mockery::spy('MyClass');
 
-    $mock->shouldReceive('foo')->andReturn(42);
+    $mock->should_receive('foo')->and_return(42);
 
     $mockResult = $mock->foo();
     $spyResult = $spy->foo();
@@ -199,7 +199,7 @@ allow or expect, will act as they would on a normal instance of the object.
         function bar() { return $this->foo(); }
     }
 
-    $foo = mock(Foo::class)->makePartial();
+    $foo = mock(Foo::class)->make_partial();
     $foo->foo(); // int(123);
 
 We can then tell the test double to allow or expect calls as with any other
@@ -207,7 +207,7 @@ Mockery double.
 
 .. code-block:: php
 
-    $foo->shouldReceive('foo')->andReturn(456);
+    $foo->should_receive('foo')->and_return(456);
     $foo->bar(); // int(456)
 
 See the cookbook entry on :doc:`../cookbook/big_parent_class` for an example
@@ -233,11 +233,11 @@ work.
 
     $foo->foo(); // error, no expectation set
 
-    $foo->shouldReceive('foo')->andReturn(456);
+    $foo->should_receive('foo')->and_return(456);
     $foo->foo(); // int(456)
 
     // setting an expectation for this has no effect
-    $foo->shouldReceive('bar')->andReturn(999);
+    $foo->should_receive('bar')->and_return(999);
     $foo->bar(); // int(456)
 
 It's also possible to specify explicitly which methods to run directly using
@@ -422,12 +422,12 @@ The returned object is nothing more than a placeholder so if, by some act of
 fate, it's erroneously used somewhere it shouldn't, it will likely not pass a
 logic check.
 
-We have encountered the ``makePartial()`` method before, as it is the method we
+We have encountered the ``make_partial()`` method before, as it is the method we
 use to create runtime partial test doubles:
 
 .. code-block:: php
 
-    \Mockery::mock('MyClass')->makePartial();
+    \Mockery::mock('MyClass')->make_partial();
 
 This form of mock object will defer all methods not subject to an expectation to
 the parent class of the mock, i.e. ``MyClass``. Whereas the previous

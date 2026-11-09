@@ -12,7 +12,7 @@ use Mockery\Adapter\Phpunit\Mockery_Test_Case;
  */
 final class Is_Equal_Test extends Mockery_Test_Case
 {
-    use MatcherDataProviderTrait;
+    use Matcher_Data_Provider_Trait;
 
     /**
      * @dataProvider isEqualDataProvider

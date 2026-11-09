@@ -38,7 +38,7 @@ The most common matcher is the ``with()`` matcher:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(1):
 
 It tells mockery that it should receive a call to the ``foo`` method with the
@@ -54,11 +54,11 @@ comparison, which means only the same ``$object`` will match:
 
     $object = new stdClass();
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with($object);
 
     // Hamcrest equivalent
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(identicalTo($object));
 
 A different instance of ``stdClass`` will **not** match.
@@ -72,7 +72,7 @@ If we need a loose comparison of objects, we can do that using Hamcrest's
 
 .. code-block:: php
 
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(equalTo(new stdClass));
 
 In cases when we don't care about the type, or the value of an argument, just
@@ -81,11 +81,11 @@ that any argument is present, we use ``any()``:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(\Mockery::any());
 
     // Hamcrest equivalent
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(anything())
 
 Anything and everything passed in this argument slot is passed unconstrained.
@@ -101,13 +101,13 @@ To match any PHP resource, we could do the following:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(\Mockery::type('resource'));
 
     // Hamcrest equivalents
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(resourceValue());
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(typeOf('resource'));
 
 It will return a ``true`` from an ``is_resource()`` call, if the provided
@@ -136,7 +136,7 @@ argument will be passed.
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(\Mockery::on(closure));
 
 If the closure evaluates to (i.e. returns) boolean ``true`` then the argument is
@@ -146,7 +146,7 @@ assumed to have matched the expectation.
 
     $mock = \Mockery::mock('MyClass');
 
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::on(function ($argument) {
             if ($argument % 2 == 0) {
                 return true;
@@ -169,7 +169,7 @@ arguments is assumed to have matched the expectation:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->withArgs(closure);
 
 The closure can also handle optional parameters, so if an optional parameter is
@@ -187,7 +187,7 @@ list of arguments doesn't match the expectation.
     };
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')->withArgs($closure);
+    $mock->should_receive('foo')->withArgs($closure);
 
     $mock->foo(1, 2); // It matches the expectation: the optional argument is not needed
     $mock->foo(1, 2, 3); // It also matches the expectation: the optional argument pass the validation
@@ -207,11 +207,11 @@ the ``\Mockery::pattern()``:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::pattern('/^foo/'));
 
     // Hamcrest equivalent
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(matchesPattern('/^foo/'));
 
 The ``ducktype()`` matcher is an alternative to matching by class type:
@@ -219,7 +219,7 @@ The ``ducktype()`` matcher is an alternative to matching by class type:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::ducktype('foo', 'bar'));
 
 It matches any argument which is an object containing the provided list of
@@ -239,7 +239,7 @@ It accepts a variable which the actual argument will be assigned.
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive("foo")
+    $mock->should_receive("foo")
         ->with(\Mockery::capture($bar));
 
 This will assign *any* argument passed to ``foo`` to the local ``$bar`` variable to
@@ -259,11 +259,11 @@ the matcher's parameter:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::not(2));
 
     // Hamcrest equivalent
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(not(2));
 
 ``anyOf()`` matches any argument which equals any one of the given parameters:
@@ -271,11 +271,11 @@ the matcher's parameter:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::anyOf(1, 2));
 
     // Hamcrest equivalent
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(anyOf(1,2));
 
 ``notAnyOf()`` matches any argument which is not equal or identical to any of
@@ -284,7 +284,7 @@ the given parameters:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::notAnyOf(1, 2));
 
 .. note::
@@ -297,7 +297,7 @@ subset:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::subset(array(0 => 'foo')));
 
 This enforces both key naming and values, i.e. both the key and value of each
@@ -314,7 +314,7 @@ values:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::contains(value1, value2));
 
 The naming of keys is ignored.
@@ -325,7 +325,7 @@ name:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::hasKey(key));
 
 ``hasValue()`` matches any argument which is an array containing the given
@@ -334,5 +334,5 @@ value:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->with(\Mockery::hasValue(value));

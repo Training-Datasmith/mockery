@@ -26,7 +26,7 @@ of a default state of being for a mocked object.
 
 .. code-block:: php
 
-    $mock = \Mockery::mock('MyClass')->makePartial();
+    $mock = \Mockery::mock('MyClass')->make_partial();
 
 With a runtime partial, we assume that all methods will simply defer to the
 parent class (``MyClass``) original methods unless a method call matches a

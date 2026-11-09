@@ -23,7 +23,11 @@ log() {
   printf '%s\n' "$*" >&2
 }
 
-chmod +x "${ROOT}/scripts/system-test-inner.sh"
+chmod +x "${ROOT}/scripts/system-test-inner.sh" "${ROOT}/scripts/check-rename-legacy-names.sh"
+
+if ! bash "${ROOT}/scripts/check-rename-legacy-names.sh"; then
+  exit 1
+fi
 
 set +e
 CONTAINER_OUT="$("${DOCKER[@]}" run --rm \

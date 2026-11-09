@@ -49,7 +49,7 @@ In a test we would mock the model and set some expectations on the call of the
     $postId = 42;
 
     $modelMock = \Mockery::mock('Model');
-    $modelMock->shouldReceive('save')
+    $modelMock->should_receive('save')
         ->once()
         ->with(\Mockery::on(function ($argument) use ($postId) {
             $postIdIsSet = isset($argument['post_id']) && $argument['post_id'] === $postId;

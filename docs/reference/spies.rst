@@ -27,7 +27,7 @@ that those expectations were met:
     $sut = new MyClass($mock);
 
     // expect
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->once()
         ->with('bar');
 
@@ -129,7 +129,7 @@ the number of calls:
         ->with('bar')
         ->twice();
 
-Alternative shouldReceive syntax
+Alternative should_receive syntax
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As of Mockery 1.0.0, we support calling methods as we would call any PHP method,

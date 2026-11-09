@@ -42,9 +42,9 @@ partial test double of the ``ChildClass`` itself and mock only the parent's
 
 .. code-block:: php
 
-    $childClass = \Mockery::mock('ChildClass')->makePartial();
-    $childClass->shouldReceive('doesEverything')
-        ->andReturn('some result from parent');
+    $childClass = \Mockery::mock('ChildClass')->make_partial();
+    $childClass->should_receive('doesEverything')
+        ->and_return('some result from parent');
 
     $childClass->doesOneThing(); // string("some result from parent");
 

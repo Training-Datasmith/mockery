@@ -23,24 +23,14 @@ validate_mockery_phpunit_output() {
     return 1
   fi
 
-  if ! grep -E '^OK, but incomplete, skipped, or (useless|risky) tests!$' "${stripped}" >/dev/null; then
-    printf '%s\n' 'PHPUnit output missing: OK, but incomplete, skipped, or useless/risky tests!'
+  if ! grep -Fxq 'OK, but incomplete, skipped, or risky tests!' "${stripped}"; then
+    printf '%s\n' 'PHPUnit output missing: OK, but incomplete, skipped, or risky tests!'
     rm -f "${stripped}"
     return 1
   fi
 
-  local summary_line
-  summary_line="$(grep -E '^Tests: [0-9]+, Assertions: [0-9]+, Skipped: [0-9]+\.$' "${stripped}" | tail -n 1 || true)"
-  if [[ -z "${summary_line}" ]]; then
-    printf '%s\n' 'PHPUnit output missing Tests summary line'
-    rm -f "${stripped}"
-    return 1
-  fi
-
-  local skip_count
-  skip_count="$(printf '%s\n' "${summary_line}" | sed -n 's/^Tests: [0-9]*, Assertions: [0-9]*, Skipped: \([0-9]*\)\.$/\1/p')"
-  if [[ "${skip_count}" != "${expected_skip_count}" ]]; then
-    printf '%s\n' "Expected Skipped: ${expected_skip_count}, got ${skip_count} (${summary_line})"
+  if ! grep -Fxq 'Tests: 656, Assertions: 1022, Skipped: 5.' "${stripped}"; then
+    printf '%s\n' 'PHPUnit output missing exact summary: Tests: 656, Assertions: 1022, Skipped: 5.'
     rm -f "${stripped}"
     return 1
   fi
@@ -108,6 +98,6 @@ validate_mockery_phpunit_output() {
   fi
 
   rm -f "${stripped}"
-  printf '%s\n' "${summary_line}"
+  printf '%s\n' 'Tests: 656, Assertions: 1022, Skipped: 5.'
   return 0
 }

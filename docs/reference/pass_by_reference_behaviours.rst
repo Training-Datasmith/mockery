@@ -64,7 +64,7 @@ preserved:
             array('&$data', '$options = array()')
         );
         $m = \Mockery::mock('MongoCollection');
-        $m->shouldReceive('insert')->with(
+        $m->should_receive('insert')->with(
             \Mockery::on(function(&$data) {
                 if (!is_array($data)) return false;
                 $data['_id'] = 123;
@@ -110,7 +110,7 @@ behavior for them, a different approach is required.
         {
             $mock = \Mockery::mock('Model[test]')->shouldAllowMockingProtectedMethods();
 
-            $mock->shouldReceive('test')
+            $mock->should_receive('test')
                 ->with(\Mockery::on(function(&$data) {
                     $data['something'] = 'wrong';
                     return true;

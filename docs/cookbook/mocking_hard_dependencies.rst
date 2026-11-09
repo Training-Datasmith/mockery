@@ -36,12 +36,12 @@ The way we can test this without doing any changes to the code itself is by crea
             $param = 'Testing';
 
             $externalMock = m::mock('overload:App\Service\External');
-            $externalMock->shouldReceive('sendSomething')
+            $externalMock->should_receive('sendSomething')
                 ->once()
                 ->with($param);
-            $externalMock->shouldReceive('getSomething')
+            $externalMock->should_receive('getSomething')
                 ->once()
-                ->andReturn('Tested!');
+                ->and_return('Tested!');
 
             $service = new \App\Service();
 
@@ -77,12 +77,12 @@ Our test example from above now becomes:
             $param = 'Testing';
 
             $externalMock = m::mock('overload:App\Service\External');
-            $externalMock->shouldReceive('sendSomething')
+            $externalMock->should_receive('sendSomething')
                 ->once()
                 ->with($param);
-            $externalMock->shouldReceive('getSomething')
+            $externalMock->should_receive('getSomething')
                 ->once()
-                ->andReturn('Tested!');
+                ->and_return('Tested!');
 
             $service = new \App\Service();
 
@@ -116,7 +116,7 @@ constructor.
         {
             $externalMock = m::mock('overload:App\Service\External');
             $externalMock->allows('sendSomething');
-            $externalMock->shouldReceive('__construct')
+            $externalMock->should_receive('__construct')
                 ->once()
                 ->with(5);
 

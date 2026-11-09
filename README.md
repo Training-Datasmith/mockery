@@ -89,20 +89,20 @@ the method is called. Stubs are used to provide indirect input to the system
 under test.
 
 ``` php
-$double->allows()->find(123)->andReturns(new Book());
+$double->allows()->find(123)->and_returns(new Book());
 
 $book = $double->find(123);
 ```
 
 If you have used Mockery before, you might see something new in the example
 above &mdash; we created a method stub using `allows`, instead of the "old"
-`shouldReceive` syntax. This is a new feature of Mockery v1, but fear not,
-the trusty ol' `shouldReceive` is still here.
+`should_receive` syntax. This is a new feature of Mockery v1, but fear not,
+the trusty ol' `should_receive` is still here.
 
 For new users of Mockery, the above example can also be written as:
 
 ``` php
-$double->shouldReceive('find')->with(123)->andReturn(new Book());
+$double->should_receive('find')->with(123)->and_return(new Book());
 $book = $double->find(123);
 ```
 
@@ -118,8 +118,8 @@ $double->allows([
 or
 
 ``` php
-$double->shouldReceive('findAll')
-    ->andReturn([new Book(), new Book()]);
+$double->should_receive('findAll')
+    ->and_return([new Book(), new Book()]);
 ```
 
 You can also use this shortcut, which creates a double and sets up some stubs in
@@ -169,16 +169,16 @@ $double->expects()->add($book)->twice();
 
 If you have used Mockery before, you might see something new in the example
 above &mdash; we created a method expectation using `expects`, instead of the "old"
-`shouldReceive` syntax. This is a new feature of Mockery v1, but same as with
+`should_receive` syntax. This is a new feature of Mockery v1, but same as with
 `allows` in the previous section, it can be written in the "old" style.
 
 For new users of Mockery, the above example can also be written as:
 
 ``` php
-$double->shouldReceive('find')
+$double->should_receive('find')
     ->with(123)
     ->once()
-    ->andReturn(new Book());
+    ->and_return(new Book());
 $book = $double->find(123);
 ```
 
@@ -190,14 +190,14 @@ section.
 
 It is worth mentioning that one way of setting up expectations is no better or worse
 than the other. Under the hood, `allows` and `expects` are doing the same thing as
-`shouldReceive`, at times in "less words", and as such it comes to a personal preference
+`should_receive`, at times in "less words", and as such it comes to a personal preference
 of the programmer which way to use.
 
 ## Test Spies 🕵️
 
 By default, all test doubles created with the `Mockery::mock` method will only
 accept calls that they have been configured to `allow` or `expect` (or in other words,
-calls that they `shouldReceive`). Sometimes we don't necessarily care about all of the
+calls that they `should_receive`). Sometimes we don't necessarily care about all of the
 calls that are going to be made to an object. To facilitate this, we can tell Mockery
 to ignore any calls it has not been told to expect or allow. To do so, we can tell a
 test double `shouldIgnoreMissing`, or we can create the double using the `Mocker::spy`
@@ -264,7 +264,7 @@ trait Foo {
 }
 
 $double = Mockery::mock(Foo::class);
-$double->allows()->doFoo()->andReturns(123);
+$double->allows()->doFoo()->and_returns(123);
 $double->foo(); // int(123)
 ```
 

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @requires PHP 7.3
  * @see https://github.com/mockery/mockery/issues/1328
  */
-final class TestCase1328Test extends TestCase
+final class Test_Case1328_Test extends TestCase
 {
     public function testShouldFailWithAnInvocationCountError(): void
     {

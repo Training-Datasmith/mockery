@@ -1,7 +1,7 @@
 .. index::
-    single: Alternative shouldReceive Syntax
+    single: Alternative should_receive Syntax
 
-Alternative shouldReceive Syntax
+Alternative should_receive Syntax
 ================================
 
 As of Mockery 1.0.0, we support calling methods as we would call any PHP method,
@@ -24,12 +24,12 @@ all, were they called.
         'name_of_method_2' => 'return value',
     ]);
 
-This is equivalent with the following ``shouldReceive`` syntax:
+This is equivalent with the following ``should_receive`` syntax:
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive([
+    $mock->should_receive([
         'name_of_method_1' => 'return value',
         'name_of_method_2' => 'return value',
     ]);
@@ -44,16 +44,16 @@ If we do care about the arguments, we would do it like so:
     $mock = \Mockery::mock('MyClass');
     $mock->allows()
         ->name_of_method_1($arg1)
-        ->andReturn('return value');
+        ->and_return('return value');
 
-This is equivalent with the following ``shouldReceive`` syntax:
+This is equivalent with the following ``should_receive`` syntax:
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('name_of_method_1')
+    $mock->should_receive('name_of_method_1')
         ->with($arg1)
-        ->andReturn('return value');
+        ->and_return('return value');
 
 Expects
 -------
@@ -65,17 +65,17 @@ We use ``expects()`` when we want to verify that a particular method was called:
     $mock = \Mockery::mock('MyClass');
     $mock->expects()
         ->name_of_method_1($arg1)
-        ->andReturn('return value');
+        ->and_return('return value');
 
-This is equivalent with the following ``shouldReceive`` syntax:
+This is equivalent with the following ``should_receive`` syntax:
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('name_of_method_1')
+    $mock->should_receive('name_of_method_1')
         ->once()
         ->with($arg1)
-        ->andReturn('return value');
+        ->and_return('return value');
 
 By default ``expects()`` sets up an expectation that the method should be called
 once and once only. If we expect more than one call to the method, we can change
@@ -87,5 +87,5 @@ that expectation:
     $mock->expects()
         ->name_of_method_1($arg1)
         ->twice()
-        ->andReturn('return value');
+        ->and_return('return value');
 

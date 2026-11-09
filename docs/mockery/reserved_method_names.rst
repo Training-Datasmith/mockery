@@ -5,13 +5,13 @@ Reserved Method Names
 =====================
 
 As you may have noticed, Mockery uses a number of methods called directly on
-all mock objects, for example ``shouldReceive()``. Such methods are necessary
+all mock objects, for example ``should_receive()``. Such methods are necessary
 in order to setup expectations on the given mock, and so they cannot be
 implemented on the classes or objects being mocked without creating a method
 name collision (reported as a PHP fatal error). The methods reserved by
 Mockery are:
 
-* ``shouldReceive()``
+* ``should_receive()``
 * ``shouldNotReceive()``
 * ``allows()``
 * ``expects()``
@@ -19,7 +19,7 @@ Mockery are:
 * ``shouldIgnoreMissing()``
 * ``asUndefined()``
 * ``shouldAllowMockingProtectedMethods()``
-* ``makePartial()``
+* ``make_partial()``
 * ``byDefault()``
 * ``shouldHaveReceived()``
 * ``shouldHaveBeenCalled()``

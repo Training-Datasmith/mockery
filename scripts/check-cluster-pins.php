@@ -10,9 +10,6 @@ $root = dirname(__DIR__);
 $installedPhpPath = $root . '/vendor/composer/installed.php';
 $installedJsonPath = $root . '/vendor/composer/installed.json';
 
-/** @var array<string, array{alias: string, reference: string}> $expected */
-$expected = [];
-
 $forbiddenReferences = [
     'phpunit/phpunit' => [
         'a37d66fabf01af0eedabffe271b70dbe71723001',
@@ -23,6 +20,9 @@ $forbiddenReferences = [
         'ccb6c31631175a7cdaa9dac93d7dd029eb2ef004',
     ],
 ];
+
+/** @var list<string> */
+$pinPackageNames = ['phpunit/phpunit', 'nikic/php-parser'];
 
 if (!is_readable($installedPhpPath)) {
     fwrite(STDERR, "check-cluster-pins: vendor/composer/installed.php not found; run composer update first.\n");
@@ -64,71 +64,120 @@ foreach ($jsonPackages as $package) {
 /**
  * @param array<string, array<string, mixed>> $versionsPhp
  * @param array<string, array{reference: string, url: string}> $versionsJson
- * @param array<string, array{alias: string, reference: string}> $expectedMap
+ * @param list<string> $names
+ *
+ * @return array<string, array{reference: string, alias?: string}>
  */
-function runPinChecks(array $versionsPhp, array $versionsJson, array $expectedMap): bool
+function buildLiveExpected(array $versionsPhp, array $versionsJson, array $names): array
+{
+    $expected = [];
+
+    foreach ($names as $name) {
+        if (!isset($versionsPhp[$name], $versionsJson[$name])) {
+            continue;
+        }
+
+        $refPhp = $versionsPhp[$name]['reference'] ?? null;
+        if (!is_string($refPhp) || strlen($refPhp) !== 40) {
+            continue;
+        }
+
+        $refPhp = strtolower($refPhp);
+        $refJson = $versionsJson[$name]['reference'];
+
+        if (!hash_equals($refPhp, $refJson)) {
+            fwrite(STDERR, sprintf(
+                "check-cluster-pins: live %s reference mismatch between installed.php (%s) and installed.json (%s).\n",
+                $name,
+                $refPhp,
+                $refJson
+            ));
+            exit(1);
+        }
+
+        $entry = ['reference' => $refPhp];
+        $aliases = $versionsPhp[$name]['aliases'] ?? [];
+        if (is_array($aliases) && $aliases !== []) {
+            $entry['alias'] = (string) $aliases[0];
+        }
+
+        $expected[$name] = $entry;
+    }
+
+    return $expected;
+}
+
+/**
+ * @param array<string, array<string, mixed>> $versionsPhp
+ * @param array<string, array{reference: string, url: string}> $versionsJson
+ * @param array<string, array{reference: string, alias?: string}> $expectedMap
+ * @param list<string>                    $messages
+ */
+function runPinChecks(array $versionsPhp, array $versionsJson, array $expectedMap, array &$messages = []): bool
 {
     $failed = false;
 
     foreach ($expectedMap as $name => $want) {
         if (!isset($versionsPhp[$name])) {
-            fwrite(STDERR, sprintf("check-cluster-pins: %s is not installed (installed.php).\n", $name));
+            $messages[] = sprintf('check-cluster-pins: %s is not installed (installed.php).', $name);
             $failed = true;
             continue;
         }
 
         if (!isset($versionsJson[$name])) {
-            fwrite(STDERR, sprintf("check-cluster-pins: %s is not installed (installed.json).\n", $name));
+            $messages[] = sprintf('check-cluster-pins: %s is not installed (installed.json).', $name);
             $failed = true;
             continue;
         }
 
-        $aliases = $versionsPhp[$name]['aliases'] ?? [];
-        if (!is_array($aliases) || !in_array($want['alias'], $aliases, true)) {
-            fwrite(STDERR, sprintf(
-                "check-cluster-pins: %s alias mismatch (expected %s in aliases %s).\n",
-                $name,
-                $want['alias'],
-                json_encode($aliases)
-            ));
-            $failed = true;
+        if (array_key_exists('alias', $want)) {
+            $aliases = $versionsPhp[$name]['aliases'] ?? [];
+            if (!is_array($aliases) || !in_array($want['alias'], $aliases, true)) {
+                $messages[] = sprintf(
+                    'check-cluster-pins: %s alias mismatch (expected %s in aliases %s).',
+                    $name,
+                    $want['alias'],
+                    json_encode($aliases)
+                );
+                $failed = true;
+            }
         }
 
         $refPhp = $versionsPhp[$name]['reference'] ?? null;
         if (!is_string($refPhp) || strlen($refPhp) !== 40) {
-            fwrite(STDERR, sprintf("check-cluster-pins: %s has no 40-char reference in installed.php.\n", $name));
+            $messages[] = sprintf('check-cluster-pins: %s has no 40-char reference in installed.php.', $name);
             $failed = true;
         } else {
             $refPhp = strtolower($refPhp);
             if (!hash_equals(strtolower($want['reference']), $refPhp)) {
-                fwrite(STDERR, sprintf(
-                    "check-cluster-pins: %s reference mismatch in installed.php (expected %s, got %s).\n",
+                $messages[] = sprintf(
+                    'check-cluster-pins: %s reference mismatch in installed.php (expected %s, got %s).',
                     $name,
                     $want['reference'],
                     $refPhp
-                ));
+                );
                 $failed = true;
             }
         }
 
         $refJson = $versionsJson[$name]['reference'];
         if (!hash_equals(strtolower($want['reference']), $refJson)) {
-            fwrite(STDERR, sprintf(
-                "check-cluster-pins: %s reference mismatch in installed.json (expected %s, got %s).\n",
+            $messages[] = sprintf(
+                'check-cluster-pins: %s reference mismatch in installed.json (expected %s, got %s).',
                 $name,
                 $want['reference'],
                 $refJson
-            ));
+            );
             $failed = true;
         }
 
         if (is_string($refPhp) && $refPhp !== $refJson) {
-            fwrite(STDERR, sprintf(
-                "check-cluster-pins: %s reference mismatch between installed.php (%s) and installed.json (%s).\n",
+            $messages[] = sprintf(
+                'check-cluster-pins: %s reference mismatch between installed.php (%s) and installed.json (%s).',
                 $name,
                 $refPhp,
                 $refJson
-            ));
+            );
             $failed = true;
         }
     }
@@ -223,7 +272,13 @@ function runGapGuards(array $versionsPhp, array $versionsJson, array $forbiddenR
     return !$failed;
 }
 
-if (!runPinChecks($versionsPhp, $versionsJson, $expected)) {
+$liveExpected = buildLiveExpected($versionsPhp, $versionsJson, $pinPackageNames);
+
+$liveMessages = [];
+if (!runPinChecks($versionsPhp, $versionsJson, $liveExpected, $liveMessages)) {
+    foreach ($liveMessages as $message) {
+        fwrite(STDERR, $message . "\n");
+    }
     exit(1);
 }
 
@@ -243,14 +298,27 @@ if (strlen($liveRef) !== 40 || $liveRef !== $versionsJson['phpunit/phpunit']['re
 }
 
 $wrongSha = '0000000000000000000000000000000000000000';
-$wrongAlias = '9.6.99';
+$phpunitExpected = [
+    'phpunit/phpunit' => $liveExpected['phpunit/phpunit'] ?? ['reference' => $liveRef],
+];
 
 $wrongPhp = $versionsPhp;
 $wrongPhp['phpunit/phpunit']['reference'] = $wrongSha;
-$wrongPhp['phpunit/phpunit']['aliases'] = [$wrongAlias];
 
-if (runPinChecks($wrongPhp, $versionsJson, ['phpunit/phpunit' => ['alias' => $wrongAlias, 'reference' => $wrongSha]])) {
+$phpDemoMessages = [];
+$phpDemoPassed = runPinChecks($wrongPhp, $versionsJson, $phpunitExpected, $phpDemoMessages);
+
+if ($phpDemoPassed) {
     fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.php demo did not fail as expected.\n");
+    exit(1);
+}
+$phpDemoBlob = implode("\n", $phpDemoMessages);
+if (strpos($phpDemoBlob, 'reference mismatch in installed.php') === false) {
+    fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.php demo did not fail on installed.php side.\n");
+    exit(1);
+}
+if (strpos($phpDemoBlob, 'reference mismatch in installed.json') !== false) {
+    fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.php demo unexpectedly failed on installed.json side.\n");
     exit(1);
 }
 fwrite(STDOUT, "check-cluster-pins: wrong-SHA installed.php demo failed as expected\n");
@@ -258,8 +326,20 @@ fwrite(STDOUT, "check-cluster-pins: wrong-SHA installed.php demo failed as expec
 $wrongJson = $versionsJson;
 $wrongJson['phpunit/phpunit']['reference'] = $wrongSha;
 
-if (runPinChecks($versionsPhp, $wrongJson, ['phpunit/phpunit' => ['alias' => $wrongAlias, 'reference' => $wrongSha]])) {
+$jsonDemoMessages = [];
+$jsonDemoPassed = runPinChecks($versionsPhp, $wrongJson, $phpunitExpected, $jsonDemoMessages);
+
+if ($jsonDemoPassed) {
     fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.json demo did not fail as expected.\n");
+    exit(1);
+}
+$jsonDemoBlob = implode("\n", $jsonDemoMessages);
+if (strpos($jsonDemoBlob, 'reference mismatch in installed.json') === false) {
+    fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.json demo did not fail on installed.json side.\n");
+    exit(1);
+}
+if (strpos($jsonDemoBlob, 'reference mismatch in installed.php') !== false) {
+    fwrite(STDERR, "check-cluster-pins: wrong-SHA installed.json demo unexpectedly failed on installed.php side.\n");
     exit(1);
 }
 fwrite(STDOUT, "check-cluster-pins: wrong-SHA installed.json demo failed as expected\n");

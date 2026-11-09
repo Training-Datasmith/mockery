@@ -13,7 +13,7 @@ use PHP74\Regression\Issue1402\Service;
  * @requires PHP 7.4
  * @see https://github.com/mockery/mockery/issues/1402
  */
-final class TestCase1402Test extends Mockery_Test_Case
+final class Test_Case1402_Test extends Mockery_Test_Case
 {
     public function testMethod(): void
     {

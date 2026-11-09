@@ -48,7 +48,7 @@ Expecting a method to be called on a test double:
 .. code-block:: php
 
     $testDouble = \Mockery::mock('MyClass');
-    $testDouble->shouldReceive('foo');
+    $testDouble->should_receive('foo');
 
 Expecting a method to **not** be called on a test double:
 
@@ -63,10 +63,10 @@ and to return a value:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
+    $mock->should_receive('foo')
         ->once()
         ->with($arg)
-        ->andReturn($returnValue);
+        ->and_return($returnValue);
 
 Expecting a method to be called on a test double and to return a different value
 for each successive call:
@@ -74,8 +74,8 @@ for each successive call:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->shouldReceive('foo')
-        ->andReturn(1, 2, 3);
+    $mock->should_receive('foo')
+        ->and_return(1, 2, 3);
 
     $mock->foo(); // int(1);
     $mock->foo(); // int(2);
@@ -86,7 +86,7 @@ Creating a runtime partial test double:
 
 .. code-block:: php
 
-    $mock = \Mockery::mock('MyClass')->makePartial();
+    $mock = \Mockery::mock('MyClass')->make_partial();
 
 Creating a spy:
 
@@ -136,7 +136,7 @@ method call:
         public function testUndefinedValues()
         {
             $mock = \Mockery::mock('mymock');
-            $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
+            $mock->should_receive('divideBy')->with(0)->and_return_undefined();
             $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
         }
     }
@@ -152,8 +152,8 @@ Creating a mock object with multiple query calls and a single update call:
         public function testDbAdapter()
         {
             $mock = \Mockery::mock('db');
-            $mock->shouldReceive('query')->andReturn(1, 2, 3);
-            $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
+            $mock->should_receive('query')->and_return(1, 2, 3);
+            $mock->should_receive('update')->with(5)->and_return(NULL)->once();
 
             // ... test code here using the mock
         }
@@ -170,8 +170,8 @@ Expecting all queries to be executed before any updates:
         public function testQueryAndUpdateOrder()
         {
             $mock = \Mockery::mock('db');
-            $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
-            $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
+            $mock->should_receive('query')->and_return(1, 2, 3)->ordered();
+            $mock->should_receive('update')->and_return(NULL)->once()->ordered();
 
             // ... test code here using the mock
         }
@@ -189,11 +189,11 @@ and where queries are expected with several different params:
         public function testOrderedQueries()
         {
             $db = \Mockery::mock('db');
-            $db->shouldReceive('startup')->once()->ordered();
-            $db->shouldReceive('query')->with('CPWR')->andReturn(12.3)->once()->ordered('queries');
-            $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
-            $db->shouldReceive('query')->with(\Mockery::pattern("/^....$/"))->andReturn(3.3)->atLeast()->once()->ordered('queries');
-            $db->shouldReceive('finish')->once()->ordered();
+            $db->should_receive('startup')->once()->ordered();
+            $db->should_receive('query')->with('CPWR')->and_return(12.3)->once()->ordered('queries');
+            $db->should_receive('query')->with('MSFT')->and_return(10.0)->once()->ordered('queries');
+            $db->should_receive('query')->with(\Mockery::pattern("/^....$/"))->and_return(3.3)->atLeast()->once()->ordered('queries');
+            $db->should_receive('finish')->once()->ordered();
 
             // ... test code here using the mock
         }

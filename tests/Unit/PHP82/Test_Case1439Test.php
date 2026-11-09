@@ -14,7 +14,7 @@ use Throwable;
  * @requires PHP 8.2
  * @see https://github.com/mockery/mockery/issues/1439
  */
-final class TestCase1439Test extends Mockery_Test_Case
+final class Test_Case1439_Test extends Mockery_Test_Case
 {
     /**
      * @throws Throwable

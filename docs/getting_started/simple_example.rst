@@ -50,9 +50,9 @@ mock object for the real service which allows us to test the behaviour of the
         public function testGetsAverageTemperatureFromThreeServiceReadings()
         {
             $service = Mockery::mock('service');
-            $service->shouldReceive('readTemp')
+            $service->should_receive('readTemp')
                 ->times(3)
-                ->andReturn(10, 12, 14);
+                ->and_return(10, 12, 14);
 
             $temperature = new Temperature($service);
 

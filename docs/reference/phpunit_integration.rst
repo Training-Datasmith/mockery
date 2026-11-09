@@ -30,7 +30,7 @@ use the Mockery namespace with a shorter alias. For example:
     {
         public function testSimpleMock() {
             $mock = m::mock('simplemock');
-            $mock->shouldReceive('foo')->with(5, m::any())->once()->andReturn(10);
+            $mock->should_receive('foo')->with(5, m::any())->once()->and_return(10);
 
             $this->assertEquals(10, $mock->foo(5));
         }

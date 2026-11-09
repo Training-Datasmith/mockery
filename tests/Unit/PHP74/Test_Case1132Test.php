@@ -14,7 +14,7 @@ use Tests\Unit\Abstract_Test_Case;
  * @requires PHP 7.4
  * @see https://github.com/mockery/mockery/issues/1132
  */
-final class TestCase1132Test extends Abstract_Test_Case
+final class Test_Case1132_Test extends Abstract_Test_Case
 {
     public function testCase(): void
     {

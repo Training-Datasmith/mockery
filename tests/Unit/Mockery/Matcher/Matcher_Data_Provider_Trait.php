@@ -6,7 +6,7 @@ namespace Tests\Unit\Mockery\Matcher;
 
 use stdClass;
 
-trait MatcherDataProviderTrait
+trait Matcher_Data_Provider_Trait
 {
     public static function isEqualDataProvider(): iterable
     {

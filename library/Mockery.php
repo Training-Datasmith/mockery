@@ -267,7 +267,7 @@ class Mockery
         return new Caching_Generator(String_Manipulation_Generator::with_default_passes());
     }
     /**
-     * Gets an EvalLoader to be used as default.
+     * Gets an Eval_Loader to be used as default.
      */
     public static function get_default_loader(): \Mockery\Loader\Eval_Loader
     {

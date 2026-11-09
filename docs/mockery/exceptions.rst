@@ -21,7 +21,7 @@ reformatting output.
 The exception class is used when a method is called too many (or too few)
 times and offers the following methods:
 
-* ``getMock()`` - return actual mock object
+* ``get_mock()`` - return actual mock object
 * ``getMockName()`` - return the name of the mock object
 * ``getMethodName()`` - return the name of the method the failing expectation
   is attached to
@@ -38,7 +38,7 @@ The exception class is used when a method is called outside the expected order
 set using the ``ordered()`` and ``globally()`` expectation modifiers. It
 offers the following methods:
 
-* ``getMock()`` - return actual mock object
+* ``get_mock()`` - return actual mock object
 * ``getMockName()`` - return the name of the mock object
 * ``getMethodName()`` - return the name of the method the failing expectation
   is attached to
@@ -57,7 +57,7 @@ and opt for returning NULL from all unexpected method calls by using the
 earlier mentioned shouldIgnoreMissing() behaviour modifier. This exception
 class offers the following methods:
 
-* ``getMock()`` - return actual mock object
+* ``get_mock()`` - return actual mock object
 * ``getMockName()`` - return the name of the mock object
 * ``getMethodName()`` - return the name of the method the failing expectation
   is attached to

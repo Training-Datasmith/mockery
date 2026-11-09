@@ -22,5 +22,5 @@ one class only:
 
     $mock = \Mockery::mock('MyClass')
         ->shouldAllowMockingProtectedMethods();
-    $mock->shouldReceive('foo');
+    $mock->should_receive('foo');
 

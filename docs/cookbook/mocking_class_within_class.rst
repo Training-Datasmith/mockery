@@ -61,10 +61,10 @@ You set the mocks for ``App\Point`` and ``App\Rectangle``:
         public function testCreate() {
             $point = Mockery::mock("App\Point");
             // check if our mock is called
-            $point->shouldReceive("setPoint")->andThrow(Exception::class);
+            $point->should_receive("setPoint")->andThrow(Exception::class);
 
-            $rect = Mockery::mock("App\Rectangle")->makePartial();
-            $rect->shouldReceive("draw");
+            $rect = Mockery::mock("App\Rectangle")->make_partial();
+            $rect->should_receive("draw");
 
             $rect->create(0, 0, 100, 100);  // does not throw exception
             Mockery::close();
@@ -126,14 +126,14 @@ so that it returns our mock:
         public function testCreate() {
             $point = Mockery::mock("App\Point");
             // check if our mock is called
-            $point->shouldReceive("setPoint")->andThrow(Exception::class);
+            $point->should_receive("setPoint")->andThrow(Exception::class);
 
-            $rect = Mockery::mock("App\Rectangle")->makePartial();
-            $rect->shouldReceive("draw");
+            $rect = Mockery::mock("App\Rectangle")->make_partial();
+            $rect->should_receive("draw");
 
             // pass the App\Point mock into App\Rectangle as an alternative
             // to using new App\Point() in-place.
-            $rect->shouldReceive("newPoint")->andReturn($point);
+            $rect->should_receive("newPoint")->and_return($point);
 
             $this->expectException(Exception::class);
             $rect->create(0, 0, 100, 100);

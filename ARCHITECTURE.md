@@ -39,7 +39,7 @@ library/
 - **Code generation**: Mocks are PHP classes generated at runtime by string manipulation; this allows mocking final-ish methods and bypassing constructor logic
 - **Multi-pass generator**: The `String_ManipulationGenerator` runs a series of `Pass` objects over the generated source, each responsible for one concern (method definitions, type hints, interfaces, etc.)
 - **Container lifecycle**: Each test owns a `Container`; `Mockery::close()` (called in `tearDown`) verifies all expectations were met and destroys mock instances
-- **Fluent expectations API**: `$mock->shouldReceive('method')->once()->with(42)->andReturn('ok')` builds `Expectation` objects that are checked when the test ends
+- **Fluent expectations API**: `$mock->should_receive('method')->once()->with(42)->and_return('ok')` builds `Expectation` objects that are checked when the test ends
 
 ## Extension Points
 
@@ -50,11 +50,11 @@ library/
 ## Dependency Flow
 
 ```
-Test calls Mockery::mock(TargetClass::class)
+Test calls Mockery::mock(Target_Class::class)
   → Container::mock()
-  → Mock_Configuration_Builder → MockConfiguration
-  → CachingGenerator → String_ManipulationGenerator
+  → Mock_Configuration_Builder → Mock_Configuration
+  → Caching_Generator → String_Manipulation_Generator
       → [Pass1, Pass2, ...PassN] applied to template
-  → EvalLoader or RequireLoader  (defines the class)
+  → Eval_Loader or Require_Loader  (defines the class)
   → new GeneratedMockClass()     (returned to test)
 ```

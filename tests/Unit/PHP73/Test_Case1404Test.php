@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @requires PHP 7.3
  * @see https://github.com/mockery/mockery/issues/1404
  */
-final class TestCase1404Test extends TestCase
+final class Test_Case1404_Test extends TestCase
 {
     /**
      * @return Generator<string,list<string>>

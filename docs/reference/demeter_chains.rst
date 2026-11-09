@@ -13,7 +13,7 @@ similar to:
 
 The long chain of method calls isn't necessarily a bad thing, assuming they
 each link back to a local object the calling class knows. As a fun example,
-Mockery's long chains (after the first ``shouldReceive()`` method) all call to
+Mockery's long chains (after the first ``should_receive()`` method) all call to
 the same instance of ``\Mockery\Expectation``. However, sometimes this is not
 the case and the chain is constantly crossing object boundaries.
 
@@ -26,7 +26,7 @@ assume ``selfDestruct()`` returns the string "Ten!" to $object (an instance of
 .. code-block:: php
 
     $mock = \Mockery::mock('CaptainsConsole');
-    $mock->shouldReceive('foo->bar->zebra->alpha->selfDestruct')->andReturn('Ten!');
+    $mock->should_receive('foo->bar->zebra->alpha->selfDestruct')->and_return('Ten!');
 
 The above expectation can follow any previously seen format or expectation,
 except that the method name is simply the string of all expected chain calls
