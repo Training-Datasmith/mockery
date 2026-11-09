@@ -5861,7 +5861,7 @@ MOCK]]></code>
       <code><![CDATA[MockingVoidMethodsTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP73/Test_Case1328Test.php">
+  <file src="tests/Unit/PHP73/Test_Case1328_Test.php">
     <LessSpecificReturnType>
       <code><![CDATA[void]]></code>
       <code><![CDATA[void]]></code>
@@ -5879,7 +5879,7 @@ MOCK]]></code>
       <code><![CDATA[Test_Case1328_Test]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP73/Test_Case1404Test.php">
+  <file src="tests/Unit/PHP73/Test_Case1404_Test.php">
     <InvalidReturnType>
       <code><![CDATA[Generator<string,list<string>>]]></code>
     </InvalidReturnType>
@@ -5997,7 +5997,7 @@ MOCK]]></code>
       <code><![CDATA[WithFormatterExpectationTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP74/Test_Case1132Test.php">
+  <file src="tests/Unit/PHP74/Test_Case1132_Test.php">
     <ArgumentTypeCoercion>
       <code><![CDATA['TestCase1132']]></code>
     </ArgumentTypeCoercion>
@@ -6012,7 +6012,7 @@ MOCK]]></code>
       <code><![CDATA[Test_Case1132_Test]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP74/Test_Case1402Test.php">
+  <file src="tests/Unit/PHP74/Test_Case1402_Test.php">
     <InvalidArgument>
       <code><![CDATA[[1]]]></code>
     </InvalidArgument>
@@ -6133,7 +6133,7 @@ MOCK]]></code>
       <code><![CDATA[Php80LanguageFeaturesTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP80/Test_Case1414Test.php">
+  <file src="tests/Unit/PHP80/Test_Case1414_Test.php">
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertInstanceOf($class::class, $mock)]]></code>
       <code><![CDATA[self::assertInstanceOf($class::class, $mock)]]></code>
@@ -6291,7 +6291,7 @@ MOCK]]></code>
       <code><![CDATA[Php82LanguageFeaturesTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP82/Test_Case1439Test.php">
+  <file src="tests/Unit/PHP82/Test_Case1439_Test.php">
     <MixedMethodCall>
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[withArgs]]></code>

@@ -23,9 +23,13 @@ log() {
   printf '%s\n' "$*" >&2
 }
 
-chmod +x "${ROOT}/scripts/system-test-inner.sh" "${ROOT}/scripts/check-rename-legacy-names.sh"
+chmod +x "${ROOT}/scripts/system-test-inner.sh" "${ROOT}/scripts/check-rename-legacy-names.sh" "${ROOT}/scripts/check-psr4-class-file-names.sh"
 
 if ! bash "${ROOT}/scripts/check-rename-legacy-names.sh"; then
+  exit 1
+fi
+
+if ! bash "${ROOT}/scripts/check-psr4-class-file-names.sh"; then
   exit 1
 fi
 
